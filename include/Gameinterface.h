@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 class GameInterface
 {
@@ -14,11 +15,11 @@ class GameInterface
 	private:
 
 	void render();
-	void update(){};
+	void update(sf::Time deltaTime);
 	void EventInput();
 	void PlayerInput(sf::Keyboard::Key key, bool press);
 	sf::RenderWindow myWindow;
-	sf::CircleShape Player;
+	PlayerGuy Player;
 
 
 
