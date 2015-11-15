@@ -1,7 +1,9 @@
 #include "Gameinterface.h"
 
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
-{
+{	
+	sf::Clock clock;
+	//sf::Time shoot= clock.restart();
 	Player.Body.setRadius(10.f);
 	Player.Body.setPosition(100.f, 100.f);
 	Player.Body.setFillColor(sf::Color::Red);
@@ -16,10 +18,12 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 void GameInterface::Start()
 {
 	sf::Clock clock;
+	sf::Clock timer;
 	while(myWindow.isOpen()){
 		sf::Time deltaTime = clock.restart();
+		sf::Time watch = timer.getElapsedTime();
 		EventInput();
-		update(deltaTime);
+		update(deltaTime,watch);
 		render();
 
 	}
@@ -69,7 +73,7 @@ void GameInterface::EventInput()
 			PlayerInput(ev.key.code, false);
 			break;
 		case sf::Event::JoystickConnected:
-			std::cout<<"JoystickConnected!!";
+			std::cout<<"\nJoystickConnected!!\n";
 			break;
 		case sf::Event::Closed:
 			myWindow.close();
@@ -81,7 +85,7 @@ void GameInterface::EventInput()
 
 }
 
-void GameInterface::update(sf::Time deltaTime){
+void GameInterface::update(sf::Time deltaTime,sf::Time watch){
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (Player.ismovingUp)
@@ -97,10 +101,10 @@ void GameInterface::update(sf::Time deltaTime){
 		movement.x += 200.f;
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+	float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+	float z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
+	float r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
 
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 
@@ -113,18 +117,32 @@ void GameInterface::update(sf::Time deltaTime){
 
 	sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
 
-
-
-	Player.Body.move(movement * deltaTime.asSeconds());
-
-
-	
-	Player.snipe.move(movement * deltaTime.asSeconds());
-	if (z != 0 || r != 0)
+	if (z <-33 || z>33 || r >33 || r<-33)
 	{
+		
 		Player.snipe.setPosition(center);
 		
 		Player.snipe.move ( rot );
+
+
+
+		if(z<0){
+
+			Player.snipe.setRotation( 180 * tang/(3.14159)  );
+		}
+		else
+		{
+				Player.snipe.setRotation( ( (90 * tang/(3.14159/2) )  )  );
+		}
 	}
+
+	if (x <-33 || x>33 || y >33 || y<-33)
+	{
+		Player.Body.move(movement * deltaTime.asSeconds());
+
+		Player.snipe.move(movement * deltaTime.asSeconds());
+	}
+	
+
 	
 }	
