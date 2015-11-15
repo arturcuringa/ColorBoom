@@ -8,7 +8,9 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 	Player.snipe.setSize(sf::Vector2f(10.f,10.f));
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,5.f));
+	Player.snipe.setOrigin(0.f , 5.f);
 	Player.snipe.setFillColor(sf::Color::Blue);
+
 }
 
 void GameInterface::Start()
@@ -100,12 +102,29 @@ void GameInterface::update(sf::Time deltaTime){
 	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
 	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
 
+	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 
+	
+
+	double tang =  atan2(r/100,  z/100);
 
 	movement.x += 3*x;
 	movement.y += 3*y;
 
+	sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
+
+
 
 	Player.Body.move(movement * deltaTime.asSeconds());
+
+
+	
 	Player.snipe.move(movement * deltaTime.asSeconds());
-}
+	if (z != 0 || r != 0)
+	{
+		Player.snipe.setPosition(center);
+		
+		Player.snipe.move ( rot );
+	}
+	
+}	
