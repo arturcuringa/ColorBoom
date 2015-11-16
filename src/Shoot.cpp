@@ -7,6 +7,10 @@ ShootPaint::ShootPaint(){
 	S_head = new Shootnode;
 	S_tail = S_head->next;
 }
+ShootPaint::~ShootPaint(){
+	delete S_head;
+}
+
 
 void ShootPaint::ShootUpdate(){
 	if(S_head->next==nullptr){

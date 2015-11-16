@@ -18,7 +18,7 @@ class ShootPaint{
 		Shootnode * S_head;
 		Shootnode * S_tail;
 		ShootPaint();
-		//~ShootPaint();
+		~ShootPaint();
 		void ShootUpdate();
 		void ShootDraw(sf::RenderWindow &myWindow);
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
