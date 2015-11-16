@@ -9,17 +9,18 @@ class ShootPaint{
 		struct Shootnode
 		{	
 			double tang;
-			sf::Vector2f orig;
+			sf::Vector2f total;
 			sf::CircleShape ammo;
 			Shootnode *next;
 			
 		};
 
-		Shootnode * head;
-		Shootnode * tail;
+		Shootnode * S_head;
+		Shootnode * S_tail;
 		ShootPaint();
-		~ShootPaint();
+		//~ShootPaint();
 		void ShootUpdate();
+		void ShootDraw(sf::RenderWindow &myWindow);
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
 		void ShootRemove(Shootnode* prev,Shootnode* rem);
 
