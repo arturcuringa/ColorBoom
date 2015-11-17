@@ -4,7 +4,7 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	sf::Clock clock;
 	//sf::Time shoot= clock.restart();
-	Player.Body.setRadius(10.5f);
+	Player.Body.setRadius(10.f);
 	Player.Body.setPosition(380.f, 280.f);
 	Player.Body.setFillColor(sf::Color(255,255,255));
 	
