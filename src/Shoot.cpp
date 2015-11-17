@@ -12,7 +12,7 @@ ShootPaint::~ShootPaint(){
 }
 
 
-void ShootPaint::ShootUpdate(){
+void ShootPaint::ShootUpdate(sf::Time deltaTime){
 	if(S_head->next==nullptr){
 		return;
 	}
@@ -22,11 +22,11 @@ void ShootPaint::ShootUpdate(){
 
 		while(aux!=S_tail){
 			
-			aux->next->ammo.move(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) );
+			aux->next->ammo.move(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) *deltaTime.asSeconds() );
 			
-			aux->next->total =(sf::Vector2f(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) ) + aux->next->total );
+			aux->next->total =(sf::Vector2f(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) ) + aux->next->total  *deltaTime.asSeconds());
 			
-			if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400))
+			if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400) )
 			{	
 				if(aux->next==S_tail)
 				{

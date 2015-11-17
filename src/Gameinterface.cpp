@@ -102,41 +102,41 @@ void GameInterface::update(sf::Time deltaTime,sf::Time watch){
 		movement.x += 200.f;
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
-	float r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
-	bool r1 =sf::Joystick::isButtonPressed(1,5);
-	bool l1 =sf::Joystick::isButtonPressed(1,4);
-	bool r2 =sf::Joystick::isButtonPressed(1,7);
-	bool l2 =sf::Joystick::isButtonPressed(1,6);
+	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	bool r1 =sf::Joystick::isButtonPressed(0,5);
+	bool l1 =sf::Joystick::isButtonPressed(0,4);
+	bool r2 =sf::Joystick::isButtonPressed(0,7);
+	bool l2 =sf::Joystick::isButtonPressed(0,6);
 
 		sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
-		sf::Color cor(0,0,0);
+		
 
 		
 		if (l1)
 		{
-			cor = cor +sf::Color(255,0,0);
+			Player.cor = sf::Color(255,0,0);
 		}
 		if (l2)
 		{
-			cor = cor +sf::Color(0,255,0);
+			Player.cor = sf::Color(0,255,0);
 		}
 		if (r2)
 		{
-			cor = cor +sf::Color(0,0,255);
+			Player.cor = sf::Color(0,0,255);
 		}
-		if(cor!=sf::Color(0,0,0))
+		if(Player.cor!=sf::Color(0,0,0))
 		{
-			Player.Body.setFillColor(cor);
-			Player.snipe.setFillColor(cor);
+			Player.Body.setFillColor(Player.cor);
+			Player.snipe.setFillColor(Player.cor);
 		}
-		else
-		{
-			Player.Body.setFillColor(sf::Color(100,100,100));
-			Player.snipe.setFillColor(sf::Color(100,100,100));
-		}
+		//else
+		//{
+		//	Player.Body.setFillColor(sf::Color(100,100,100));
+		//	Player.snipe.setFillColor(sf::Color(100,100,100));
+		//}
 
 
 
@@ -156,9 +156,9 @@ void GameInterface::update(sf::Time deltaTime,sf::Time watch){
 		
 		Player.snipe.move ( rot );
 
-		if(cor!=sf::Color(0,0,0))
+		if(Player.cor!=sf::Color(0,0,0))
 		{
-			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() + sf::Vector2f(5.f, 5.f) ,  cor);
+			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() + sf::Vector2f(5.f, 5.f) ,  Player.cor);
 		}
 
 
@@ -178,7 +178,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Time watch){
 
 		Player.snipe.move(movement * deltaTime.asSeconds());
 	}
-	Player.gun.ShootUpdate();
+	Player.gun.ShootUpdate(deltaTime);
 
 	
 }	

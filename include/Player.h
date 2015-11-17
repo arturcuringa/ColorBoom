@@ -9,6 +9,7 @@ class PlayerGuy{
 	sf::RectangleShape snipe;
 	//sf::Time shoot;
 	ShootPaint gun;
+	sf::Color cor;
 	bool ismovingUp = false;
 	bool ismovingLeft = false;
 	bool ismovingRight = false;

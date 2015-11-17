@@ -19,7 +19,7 @@ class ShootPaint{
 		Shootnode * S_tail;
 		ShootPaint();
 		~ShootPaint();
-		void ShootUpdate();
+		void ShootUpdate(sf::Time deltaTime);
 		void ShootDraw(sf::RenderWindow &myWindow);
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
 		void ShootRemove(Shootnode* prev,Shootnode* rem);
