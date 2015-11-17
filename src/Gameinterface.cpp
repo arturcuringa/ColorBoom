@@ -102,14 +102,14 @@ void GameInterface::update(sf::Time deltaTime,sf::Time watch){
 		movement.x += 200.f;
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
-	bool r1 =sf::Joystick::isButtonPressed(0,5);
-	bool l1 =sf::Joystick::isButtonPressed(0,4);
-	bool r2 =sf::Joystick::isButtonPressed(0,7);
-	bool l2 =sf::Joystick::isButtonPressed(0,6);
+	float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+	float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+	float z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
+	float r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
+	bool r1 =sf::Joystick::isButtonPressed(1,5);
+	bool l1 =sf::Joystick::isButtonPressed(1,4);
+	bool r2 =sf::Joystick::isButtonPressed(1,7);
+	bool l2 =sf::Joystick::isButtonPressed(1,6);
 
 		sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 		

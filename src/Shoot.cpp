@@ -22,9 +22,9 @@ void ShootPaint::ShootUpdate(sf::Time deltaTime){
 
 		while(aux!=S_tail){
 			
-			aux->next->ammo.move(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) *deltaTime.asSeconds() );
+			aux->next->ammo.move(100.f * cos(aux->next->tang)*deltaTime.asSeconds(), 100.f * sin(aux->next->tang)*deltaTime.asSeconds());
 			
-			aux->next->total =(sf::Vector2f(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) ) + aux->next->total  *deltaTime.asSeconds());
+			aux->next->total =(sf::Vector2f(5.f * cos(aux->next->tang), 5.f * sin(aux->next->tang) ) + aux->next->total );
 			
 			if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400) )
 			{	
