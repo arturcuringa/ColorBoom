@@ -78,7 +78,7 @@ void GameInterface::PlayerInput()
 			Inp.l2 = false;
 		}else if (Inp.r2)
 		{
-			Player.cor = sf::Color(0,0,255);
+			Player.cor = sf::Color(50,50,255);
 			Inp.r2 = false;
 		}
 		if(Player.cor!=sf::Color(0,0,0))
@@ -91,10 +91,10 @@ void GameInterface::PlayerInput()
 
 void GameInterface::PlayerMove(){
 
-	Inp.x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-	Inp.y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-	Inp.z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
-	Inp.r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
+	Inp.x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	Inp.y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	Inp.z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+	Inp.r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
 }
 
 
@@ -116,19 +116,19 @@ void GameInterface::EventInput()
 				break;
 		}
 
-		if (sf::Joystick::isButtonPressed(1,5))
+		if (sf::Joystick::isButtonPressed(0,5))
 		{
 			Inp.r1 = true;
 		}
-		if (sf::Joystick::isButtonPressed(1,4))
+		if (sf::Joystick::isButtonPressed(0,4))
 		{
 			Inp.l1 = true;
 		}
-		if (sf::Joystick::isButtonPressed(1,7))
+		if (sf::Joystick::isButtonPressed(0,7))
 		{
 			Inp.r2 = true;
 		}
-		if (sf::Joystick::isButtonPressed(1,6))
+		if (sf::Joystick::isButtonPressed(0,6))
 		{
 			Inp.l2 = true;
 		}
@@ -141,7 +141,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	sf::Time watch = timer.getElapsedTime();
 	sf::Time hourglass = tiemu.getElapsedTime();
 
-	if(hourglass.asSeconds()>0.25)
+	if(hourglass.asSeconds()>0.015)
 	{
 		tiemu.restart();
 		Player.animateBody();

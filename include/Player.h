@@ -13,12 +13,10 @@ class PlayerGuy{
 	ShootPaint gun;
 	sf::Color cor;
 	int x =0;
-	int y = 0;
 	void animateBody(){
 
-		Body.setTextureRect(sf::IntRect(x,y,(x+21),y+21));
+		Body.setTextureRect(sf::IntRect(x,0,21,21));
 		x = (x + 21) % (13*21);
-		y = (y +21) % (21) ;
 	}
 };
 
