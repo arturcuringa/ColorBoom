@@ -4,9 +4,9 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	sf::Clock clock;
 	//sf::Time shoot= clock.restart();
-	Player.Body.setRadius(10.f);
+	Player.Body.setRadius(10.5f);
 	Player.Body.setPosition(380.f, 280.f);
-	Player.Body.setFillColor(sf::Color(100,100,100));
+	Player.Body.setFillColor(sf::Color(255,255,255));
 	
 	Player.btx.loadFromFile("LJ FINAL white.png");
 
@@ -91,10 +91,15 @@ void GameInterface::PlayerInput()
 
 void GameInterface::PlayerMove(){
 
-	Inp.x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	Inp.y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	Inp.z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	Inp.r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	Inp.x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+	Inp.y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+	Inp.z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
+	Inp.r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
+
+	Inp.x += sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	Inp.y += sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	Inp.z += sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+	Inp.r += sf::Joystick::getAxisPosition(0, sf::Joystick::R);
 }
 
 
@@ -116,7 +121,23 @@ void GameInterface::EventInput()
 				break;
 		}
 
-		if (sf::Joystick::isButtonPressed(0,5))
+		if (sf::Joystick::isButtonPressed(1,5))
+		{
+			Inp.r1 = true;
+		}
+		if (sf::Joystick::isButtonPressed(1,4))
+		{
+			Inp.l1 = true;
+		}
+		if (sf::Joystick::isButtonPressed(1,7))
+		{
+			Inp.r2 = true;
+		}
+		if (sf::Joystick::isButtonPressed(1,6))
+		{
+			Inp.l2 = true;
+		}
+			if (sf::Joystick::isButtonPressed(0,5))
 		{
 			Inp.r1 = true;
 		}
