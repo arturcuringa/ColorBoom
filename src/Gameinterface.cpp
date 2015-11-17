@@ -7,6 +7,11 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.Body.setRadius(10.f);
 	Player.Body.setPosition(380.f, 280.f);
 	Player.Body.setFillColor(sf::Color(100,100,100));
+	
+	Player.btx.loadFromFile("LJ FINAL white.png");
+
+	Player.Body.setTexture(&Player.btx, false);
+	Player.Body.setTextureRect(sf::IntRect(0,0,22,22));
 
 
 	Player.tx.loadFromFile("ARROWS.png");
@@ -134,6 +139,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 
 	sf::Time watch = timer.getElapsedTime();
 
+	Player.animateBody();
 
 	sf::Vector2f movement(0.f, 0.f);
 

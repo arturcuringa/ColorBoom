@@ -8,10 +8,18 @@ class PlayerGuy{
 	sf::CircleShape Body;
 	sf::RectangleShape snipe;
 	sf::Texture tx;
+	sf::Texture btx;
 	//sf::Time shoot;
 	ShootPaint gun;
 	sf::Color cor;
-	
+	int x =0;
+	int y = 0;
+	void animateBody(){
+
+		Body.setTextureRect(sf::IntRect(x,y,(x+21),y+21));
+		x = (x + 21) % (13*21);
+		y = (y +21) % (13*21) ;
+	}
 };
 
 class PlayerIn

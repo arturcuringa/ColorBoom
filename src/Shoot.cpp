@@ -80,7 +80,7 @@ void ShootPaint::ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor){
 	{
 		S_head->next= new Shootnode;
 		S_tail=S_head->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(20.f * cos(tangente), 20.f * sin(tangente) ) );
+		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente),15.f * sin(tangente) ) );
 		S_head->next->ammo.setRadius(4);
 		S_head->next->ammo.setFillColor(cor);
 		S_head->next->total = sf::Vector2f(0.f,0.f);
@@ -91,7 +91,7 @@ void ShootPaint::ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor){
 	{
 		S_tail->next= new Shootnode;
 		S_tail=S_tail->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(20.f * cos(tangente), 20.f * sin(tangente) ) );
+		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente), 15.f * sin(tangente) ) );
 		S_tail->ammo.setRadius(4);
 		S_tail->ammo.setFillColor(cor);
 		S_tail->total = sf::Vector2f(0.f,0.f);
