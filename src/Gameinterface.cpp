@@ -12,18 +12,16 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
 	Player.snipe.setOrigin(0.f , 5.f);
 	Player.snipe.setFillColor(sf::Color(100,100,100));
-
 }
 
 void GameInterface::Start()
 {
 	sf::Clock clock;
 	sf::Clock timer;
-	sf::Clock PlayerTimer;
 	while(myWindow.isOpen()){
 		sf::Time deltaTime = clock.restart();
 		EventInput();
-		update(deltaTime,timer, PlayerTimer);
+		update(deltaTime,timer);
 		render();
 
 	}
@@ -46,16 +44,19 @@ void GameInterface::PlayerInput()
 			Player.cor = sf::Color(255,255,0);
 			Inp.l1 = false;
 			Inp.l2 = false;
+			Inp.dual = true;
 		}else if (Inp.l1 && Inp.r2)
 		{
 			Player.cor = sf::Color(255,0,255);
 			Inp.l1 = false;
 			Inp.r2 = false;
+			Inp.dual = true;
 		}else if (Inp.l2 && Inp.r2)
 		{
 			Player.cor = sf::Color(0,255,255);
 			Inp.l2 = false;
 			Inp.r2 = false;
+			Inp.dual = true;
 		}else if (Inp.l1)
 		{
 			Player.cor = sf::Color(255,0,0);
@@ -124,11 +125,10 @@ void GameInterface::EventInput()
 
 }
 
-void GameInterface::update(sf::Time deltaTime,sf::Clock &timer, sf::Clock &PlayerTimer){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 
 	sf::Time watch = timer.getElapsedTime();
 
-	sf::Time watcher = PlayerTimer.getElapsedTime();
 
 	sf::Vector2f movement(0.f, 0.f);
 
@@ -137,11 +137,8 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer, sf::Clock &Playe
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 	
-	if (watcher.asSeconds() > 0.2)
-	{
-		PlayerInput();
-		PlayerTimer.restart();
-	}
+	PlayerInput();
+	
 	
 	PlayerMove();
 

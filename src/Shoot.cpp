@@ -55,7 +55,7 @@ void ShootPaint::ShootDraw(sf::RenderWindow &myWindow){
 	else{
 		Shootnode *aux;
 		aux=S_head;
-		sf::Vector2f total;
+
 		while(aux!=S_tail){
 			
 			myWindow.draw(aux->next->ammo);

@@ -20,6 +20,7 @@ class PlayerIn
 	bool l2 = false;
 	bool r1 = false;
 	bool r2 = false;
+	bool dual = false;
 
 	float x;
 	float y;
