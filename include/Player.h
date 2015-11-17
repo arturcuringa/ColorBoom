@@ -18,7 +18,7 @@ class PlayerGuy{
 
 		Body.setTextureRect(sf::IntRect(x,y,(x+21),y+21));
 		x = (x + 21) % (13*21);
-		y = (y +21) % (13*21) ;
+		y = (y +21) % (21) ;
 	}
 };
 

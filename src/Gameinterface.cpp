@@ -28,10 +28,11 @@ void GameInterface::Start()
 {
 	sf::Clock clock;
 	sf::Clock timer;
+	sf::Clock tiemu;
 	while(myWindow.isOpen()){
 		sf::Time deltaTime = clock.restart();
 		EventInput();
-		update(deltaTime,timer);
+		update(deltaTime,timer,tiemu);
 		render();
 
 	}
@@ -90,10 +91,10 @@ void GameInterface::PlayerInput()
 
 void GameInterface::PlayerMove(){
 
-	Inp.x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	Inp.y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	Inp.z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	Inp.r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	Inp.x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+	Inp.y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+	Inp.z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
+	Inp.r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
 }
 
 
@@ -115,19 +116,19 @@ void GameInterface::EventInput()
 				break;
 		}
 
-		if (sf::Joystick::isButtonPressed(0,5))
+		if (sf::Joystick::isButtonPressed(1,5))
 		{
 			Inp.r1 = true;
 		}
-		if (sf::Joystick::isButtonPressed(0,4))
+		if (sf::Joystick::isButtonPressed(1,4))
 		{
 			Inp.l1 = true;
 		}
-		if (sf::Joystick::isButtonPressed(0,7))
+		if (sf::Joystick::isButtonPressed(1,7))
 		{
 			Inp.r2 = true;
 		}
-		if (sf::Joystick::isButtonPressed(0,6))
+		if (sf::Joystick::isButtonPressed(1,6))
 		{
 			Inp.l2 = true;
 		}
@@ -135,11 +136,16 @@ void GameInterface::EventInput()
 
 }
 
-void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu){
 
 	sf::Time watch = timer.getElapsedTime();
+	sf::Time hourglass = tiemu.getElapsedTime();
 
-	Player.animateBody();
+	if(hourglass.asSeconds()>0.25)
+	{
+		tiemu.restart();
+		Player.animateBody();
+	}
 
 	sf::Vector2f movement(0.f, 0.f);
 
