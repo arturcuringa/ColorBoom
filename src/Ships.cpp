@@ -1,13 +1,20 @@
 
+#include "Ships.h"
 
-#include "Shoot.h"
 
+ShipsPaint::ShipsPaint(){
+	S_head = new Shipsnode;
+	S_tail = new Shipsnode;	
+	
 
-ShootPaint::ShootPaint(){
-	S_head = new Shootnode;
-	S_tail = S_head->next;
+	S_head->next = S_tail;
+	S_head->prev = nullptr;
+
+	S_tail->prev = S_head;
+	S_tail->next = nullptr;
+	
 }
-ShootPaint::~ShootPaint(){
+ShipsPaint::~ShipsPaint(){
 	if(S_head->next==nullptr){
 			delete S_head;
 		}
@@ -22,10 +29,10 @@ ShootPaint::~ShootPaint(){
 			delete S_head;
 			delete S_tail;
 
-	}
+		}
 }
 
-void ShootPaint::ShootUpdate(sf::Time& deltaTime){
+void ShipsPaint::ShootUpdate(sf::Time& deltaTime){
 		
 
 	if(S_head->next==nullptr){
@@ -61,7 +68,7 @@ void ShootPaint::ShootUpdate(sf::Time& deltaTime){
 	//deltaTime
 }
 
-void ShootPaint::ShootDraw(sf::RenderWindow &myWindow){
+void ShipsPaint::ShootDraw(sf::RenderWindow &myWindow){
 		if(S_head->next==nullptr){
 		return;
 	}
@@ -79,7 +86,7 @@ void ShootPaint::ShootDraw(sf::RenderWindow &myWindow){
 	}
 }
 
-void ShootPaint::ShootRemove(Shootnode *prev,Shootnode* rem){
+void ShipsPaint::ShootRemove(Shootnode *prev,Shootnode* rem){
 
 	prev->next=rem->next;
 	delete rem;
@@ -87,7 +94,7 @@ void ShootPaint::ShootRemove(Shootnode *prev,Shootnode* rem){
 
 }
 
-void ShootPaint::ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor){
+void ShipsPaint::ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor){
 
 	if(S_head->next==nullptr)
 	{

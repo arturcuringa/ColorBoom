@@ -146,7 +146,7 @@ void GameInterface::EventInput()
 		{
 			Inp.l2 = true;
 		}
-			if (sf::Joystick::isButtonPressed(0,5))
+		if (sf::Joystick::isButtonPressed(0,5))
 		{
 			Inp.r1 = true;
 		}
@@ -162,6 +162,12 @@ void GameInterface::EventInput()
 		{
 			Inp.l2 = true;
 		}
+
+		PlayerInput();
+	
+	
+		PlayerMove();
+
 	}
 
 }
@@ -184,10 +190,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 	
-	PlayerInput();
 	
-	
-	PlayerMove();
 
 	double tang =  atan2(Inp.r/100,  Inp.z/100);
 
