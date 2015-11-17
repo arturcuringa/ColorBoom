@@ -10,10 +10,22 @@ class PlayerGuy{
 	//sf::Time shoot;
 	ShootPaint gun;
 	sf::Color cor;
-	bool ismovingUp = false;
-	bool ismovingLeft = false;
-	bool ismovingRight = false;
-	bool ismovingDown = false;
+	
+};
+
+class PlayerIn
+{
+	public:
+	bool l1 = false;
+	bool l2 = false;
+	bool r1 = false;
+	bool r2 = false;
+
+	float x;
+	float y;
+	float z;
+	float r;
+
 };
 
 

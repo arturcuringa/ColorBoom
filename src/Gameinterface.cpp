@@ -19,10 +19,11 @@ void GameInterface::Start()
 {
 	sf::Clock clock;
 	sf::Clock timer;
+	sf::Clock PlayerTimer;
 	while(myWindow.isOpen()){
 		sf::Time deltaTime = clock.restart();
 		EventInput();
-		update(deltaTime,timer);
+		update(deltaTime,timer, PlayerTimer);
 		render();
 
 	}
@@ -38,26 +39,52 @@ void GameInterface::render()
 	myWindow.display();
 }
 
-void GameInterface::PlayerInput(sf::Keyboard::Key key, bool press)
+void GameInterface::PlayerInput()
 {
-	if (key == sf::Keyboard::W )
-	{
-		Player.ismovingUp = press;
-		
-	}else if (key == sf::Keyboard::A )
-	{
-		Player.ismovingLeft = press;
-	}else if (key == sf::Keyboard::S )
-	{
-		Player.ismovingDown = press;
-	}else if (key == sf::Keyboard::D )
-	{
-		Player.ismovingRight = press;
-	}
+		if (Inp.l1 && Inp.l2)
+		{
+			Player.cor = sf::Color(255,255,0);
+			Inp.l1 = false;
+			Inp.l2 = false;
+		}else if (Inp.l1 && Inp.r2)
+		{
+			Player.cor = sf::Color(255,0,255);
+			Inp.l1 = false;
+			Inp.r2 = false;
+		}else if (Inp.l2 && Inp.r2)
+		{
+			Player.cor = sf::Color(0,255,255);
+			Inp.l2 = false;
+			Inp.r2 = false;
+		}else if (Inp.l1)
+		{
+			Player.cor = sf::Color(255,0,0);
+			Inp.l1 = false;
+		}else if (Inp.l2)
+		{
+			Player.cor = sf::Color(0,255,0);
+			Inp.l2 = false;
+		}else if (Inp.r2)
+		{
+			Player.cor = sf::Color(0,0,255);
+			Inp.r2 = false;
+		}
+		if(Player.cor!=sf::Color(0,0,0))
+		{
+			Player.Body.setFillColor(Player.cor);
+			Player.snipe.setFillColor(Player.cor);
+		}
 	
-
-
 }
+
+void GameInterface::PlayerMove(){
+
+	Inp.x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	Inp.y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	Inp.z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+	Inp.r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+}
+
 
 void GameInterface::EventInput()
 {
@@ -66,12 +93,7 @@ void GameInterface::EventInput()
 
 	while(myWindow.pollEvent(ev)){
 		switch(ev.type){
-		case sf::Event::KeyPressed:
-			PlayerInput(ev.key.code, true);
-			break;
-		case sf::Event::KeyReleased:
-			PlayerInput(ev.key.code, false);
-			break;
+		
 		case sf::Event::JoystickConnected:
 			std::cout<<"\nJoystickConnected!!\n";
 			break;
@@ -81,82 +103,55 @@ void GameInterface::EventInput()
 		default:
 				break;
 		}
+
+		if (sf::Joystick::isButtonPressed(0,5))
+		{
+			Inp.r1 = true;
+		}
+		if (sf::Joystick::isButtonPressed(0,4))
+		{
+			Inp.l1 = true;
+		}
+		if (sf::Joystick::isButtonPressed(0,7))
+		{
+			Inp.r2 = true;
+		}
+		if (sf::Joystick::isButtonPressed(0,6))
+		{
+			Inp.l2 = true;
+		}
 	}
 
 }
 
-void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer, sf::Clock &PlayerTimer){
 
 	sf::Time watch = timer.getElapsedTime();
 
-	sf::Vector2f movement(0.f, 0.f);
-	if (Player.ismovingUp)
-		movement.y -= 200.f;
+	sf::Time watcher = PlayerTimer.getElapsedTime();
 
-	if (Player.ismovingLeft)
-		movement.x -= 200.f;
-	
-	if (Player.ismovingDown)
-		movement.y += 200.f;
-	
-	if (Player.ismovingRight)
-		movement.x += 200.f;
+	sf::Vector2f movement(0.f, 0.f);
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
-	bool r1 =sf::Joystick::isButtonPressed(0,5);
-	bool l1 =sf::Joystick::isButtonPressed(0,4);
-	bool r2 =sf::Joystick::isButtonPressed(0,7);
-	bool l2 =sf::Joystick::isButtonPressed(0,6);
-
-		sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
-		
-
-		
-		if (l1 && l2)
-		{
-			Player.cor = sf::Color(255,255,0);
-		}else if (l1 && r2)
-		{
-			Player.cor = sf::Color(255,0,255);
-		}else if (l2 && r2)
-		{
-			Player.cor = sf::Color(0,255,255);
-		}else 	if (l1)
-		{
-			Player.cor = sf::Color(255,0,0);
-		}else if (l2)
-		{
-			Player.cor = sf::Color(0,255,0);
-		}else if (r2)
-		{
-			Player.cor = sf::Color(0,0,255);
-		}
-		if(Player.cor!=sf::Color(0,0,0))
-		{
-			Player.Body.setFillColor(Player.cor);
-			Player.snipe.setFillColor(Player.cor);
-		}
-		//else
-		//{
-		//	Player.Body.setFillColor(sf::Color(100,100,100));
-		//	Player.snipe.setFillColor(sf::Color(100,100,100));
-		//}
-
-
-
 	
+	
+	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
+	
+	if (watcher.asSeconds() > 0.2)
+	{
+		PlayerInput();
+		PlayerTimer.restart();
+	}
+	
+	PlayerMove();
 
-	double tang =  atan2(r/100,  z/100);
+	double tang =  atan2(Inp.r/100,  Inp.z/100);
 
-	movement.x += 3*x;
-	movement.y += 3*y;
+	movement.x += 3* Inp.x;
+	movement.y += 3* Inp.y;
 
 
-	if (z <-50 || z>50 || r >50 || r<-50)
+	if (Inp.z <-50 || Inp.z>50 || Inp.r >50 || Inp.r<-50)
 	{
 		sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
 
@@ -171,7 +166,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 		}
 
 
-		if(z<0){
+		if(Inp.z<0){
 
 			Player.snipe.setRotation( 180 * tang/(3.14159)  );
 		}
@@ -181,7 +176,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 		}
 	}
 
-	if (x <-50 || x>50 || y >50 || y<-50)
+	if (Inp.x <-50 || Inp.x>50 || Inp.y >50 || Inp.y<-50)
 	{
 		Player.Body.move(movement * deltaTime.asSeconds());
 

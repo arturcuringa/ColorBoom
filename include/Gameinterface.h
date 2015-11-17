@@ -17,12 +17,13 @@ class GameInterface
 	private:
 
 	void render();
-	void update(sf::Time deltaTime,sf::Clock &timer);
+	void update(sf::Time deltaTime,sf::Clock &timer, sf::Clock &PlayerTimer );
 	void EventInput();
-	void PlayerInput(sf::Keyboard::Key key, bool press);
+	void PlayerInput();
+	void PlayerMove();
 	sf::RenderWindow myWindow;
 	PlayerGuy Player;
-
+	PlayerIn Inp;
 
 
 };
