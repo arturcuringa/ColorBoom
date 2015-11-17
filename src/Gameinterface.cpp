@@ -21,9 +21,8 @@ void GameInterface::Start()
 	sf::Clock timer;
 	while(myWindow.isOpen()){
 		sf::Time deltaTime = clock.restart();
-		sf::Time watch = timer.getElapsedTime();
 		EventInput();
-		update(deltaTime,watch);
+		update(deltaTime,timer);
 		render();
 
 	}
@@ -86,7 +85,9 @@ void GameInterface::EventInput()
 
 }
 
-void GameInterface::update(sf::Time deltaTime,sf::Time& watch){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
+
+	sf::Time watch = timer.getElapsedTime();
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (Player.ismovingUp)
@@ -102,14 +103,14 @@ void GameInterface::update(sf::Time deltaTime,sf::Time& watch){
 		movement.x += 200.f;
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
-	bool r1 =sf::Joystick::isButtonPressed(0,5);
-	bool l1 =sf::Joystick::isButtonPressed(0,4);
-	bool r2 =sf::Joystick::isButtonPressed(0,7);
-	bool l2 =sf::Joystick::isButtonPressed(0,6);
+	float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+	float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+	float z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
+	float r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
+	bool r1 =sf::Joystick::isButtonPressed(1,5);
+	bool l1 =sf::Joystick::isButtonPressed(1,4);
+	bool r2 =sf::Joystick::isButtonPressed(1,7);
+	bool l2 =sf::Joystick::isButtonPressed(1,6);
 
 		sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 		
@@ -156,8 +157,9 @@ void GameInterface::update(sf::Time deltaTime,sf::Time& watch){
 		
 		Player.snipe.move ( rot );
 
-		if(Player.cor!=sf::Color(0,0,0))
+		if(Player.cor!=sf::Color(0,0,0)&& watch.asSeconds()>0.2)
 		{
+			timer.restart();
 			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() + sf::Vector2f(5.f, 5.f) ,  Player.cor);
 		}
 
@@ -178,7 +180,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Time& watch){
 
 		Player.snipe.move(movement * deltaTime.asSeconds());
 	}
-	Player.gun.ShootUpdate(watch);
+	Player.gun.ShootUpdate(deltaTime);
 
 	
 }	

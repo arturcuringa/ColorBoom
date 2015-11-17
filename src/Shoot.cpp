@@ -14,42 +14,38 @@ ShootPaint::~ShootPaint(){
 
 void ShootPaint::ShootUpdate(sf::Time& deltaTime){
 		
-	if (deltaTime.asSeconds() < 0.2f)
-	{
-		/* code */
-	
-		if(S_head->next==nullptr){
-			return;
-		}
-		else{
-			Shootnode *aux;
-			aux=S_head;
 
-			while(aux!=S_tail){
-				
-				aux->next->ammo.move(10.f * cos(aux->next->tang), 10.f * sin(aux->next->tang));
-				
-				aux->next->total =(sf::Vector2f(100.f * cos(aux->next->tang), 100.f * sin(aux->next->tang)) + aux->next->total );
-				
-				if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400) )
-				{	
-					if(aux->next==S_tail)
-					{
-						S_tail=aux;
-					}
-					ShootRemove(aux, aux->next);
-				}
-				else
+	if(S_head->next==nullptr){
+		return;
+	}
+	else{
+		Shootnode *aux;
+		aux=S_head;
+
+		while(aux!=S_tail){
+			
+			aux->next->ammo.move(100.f * cos(aux->next->tang)*deltaTime.asSeconds(), 100.f * sin(aux->next->tang)*deltaTime.asSeconds());
+			
+			aux->next->total =(sf::Vector2f(100.f * cos(aux->next->tang)*deltaTime.asSeconds(), 100.f * sin(aux->next->tang)*deltaTime.asSeconds()) + aux->next->total );
+			
+			if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400) )
+			{	
+				if(aux->next==S_tail)
 				{
-					aux=aux->next;
+					S_tail=aux;
 				}
-
-
+				ShootRemove(aux, aux->next);
+			}
+			else
+			{
+				aux=aux->next;
 			}
 
+
 		}
-		//deltaTime
+
 	}
+	//deltaTime
 }
 
 void ShootPaint::ShootDraw(sf::RenderWindow &myWindow){
