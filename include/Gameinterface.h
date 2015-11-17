@@ -24,7 +24,8 @@ class GameInterface
 	sf::RenderWindow myWindow;
 	PlayerGuy Player;
 	PlayerIn Inp;
-
+	sf::View Camera;
+	sf::RectangleShape Map;
 
 };
 

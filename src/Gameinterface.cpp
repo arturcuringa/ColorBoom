@@ -21,7 +21,14 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
 	Player.snipe.setOrigin(0.f , 5.f);
 
+	Map.setSize(sf::Vector2f(1024.f, 768.f));
+	Map.setPosition(sf::Vector2f(-112.f, -134));
+	Map.setFillColor(sf::Color::Transparent);
+	Map.setOutlineThickness(10.f);
+	Map.setOutlineColor(sf::Color::White);
 	//Player.snipe.setFillColor(sf::Color(100,100,100));
+
+	Camera.setSize(sf::Vector2f(800,600));
 }
 
 void GameInterface::Start()
@@ -42,6 +49,8 @@ void GameInterface::Start()
 void GameInterface::render()
 {
 	myWindow.clear();
+	myWindow.draw(Map);
+	myWindow.setView(Camera);
 	Player.gun.ShootDraw(myWindow);
 	myWindow.draw(Player.Body);
 	myWindow.draw(Player.snipe);
@@ -219,5 +228,5 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	}
 	Player.gun.ShootUpdate(deltaTime);
 
-	
+	Camera.setCenter(Player.Body.getPosition());
 }	

@@ -8,9 +8,22 @@ ShootPaint::ShootPaint(){
 	S_tail = S_head->next;
 }
 ShootPaint::~ShootPaint(){
-	delete S_head;
-}
+	if(S_head->next==nullptr){
+			delete S_head;
+		}
+		else{
+			Shootnode *aux,*aux2;
+			aux=S_head;
+			while(aux!=S_tail){
+				aux2=aux->next;
+				delete aux;
+				aux=aux2;
+			}
+			delete S_head;
+			delete S_tail;
 
+		}
+}
 
 void ShootPaint::ShootUpdate(sf::Time& deltaTime){
 		
