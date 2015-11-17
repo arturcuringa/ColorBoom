@@ -103,28 +103,35 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 		movement.x += 200.f;
 
 	sf::Joystick::update();
-	float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-	float z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
-	float r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
-	bool r1 =sf::Joystick::isButtonPressed(1,5);
-	bool l1 =sf::Joystick::isButtonPressed(1,4);
-	bool r2 =sf::Joystick::isButtonPressed(1,7);
-	bool l2 =sf::Joystick::isButtonPressed(1,6);
+	float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+	float r = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	bool r1 =sf::Joystick::isButtonPressed(0,5);
+	bool l1 =sf::Joystick::isButtonPressed(0,4);
+	bool r2 =sf::Joystick::isButtonPressed(0,7);
+	bool l2 =sf::Joystick::isButtonPressed(0,6);
 
 		sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 		
 
 		
-		if (l1)
+		if (l1 && l2)
+		{
+			Player.cor = sf::Color(255,255,0);
+		}else if (l1 && r2)
+		{
+			Player.cor = sf::Color(255,0,255);
+		}else if (l2 && r2)
+		{
+			Player.cor = sf::Color(0,255,255);
+		}else 	if (l1)
 		{
 			Player.cor = sf::Color(255,0,0);
-		}
-		if (l2)
+		}else if (l2)
 		{
 			Player.cor = sf::Color(0,255,0);
-		}
-		if (r2)
+		}else if (r2)
 		{
 			Player.cor = sf::Color(0,0,255);
 		}
