@@ -7,6 +7,7 @@ class PlayerGuy{
 	public:
 	sf::CircleShape Body;
 	sf::RectangleShape snipe;
+	sf::Texture tx;
 	//sf::Time shoot;
 	ShootPaint gun;
 	sf::Color cor;

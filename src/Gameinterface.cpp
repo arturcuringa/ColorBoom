@@ -8,10 +8,15 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.Body.setPosition(380.f, 280.f);
 	Player.Body.setFillColor(sf::Color(100,100,100));
 
+
+	Player.tx.loadFromFile("ARROWS.png");
+	Player.snipe.setTexture(&Player.tx, false);
+	Player.snipe.setTextureRect(sf::IntRect(0,0,11,11));
 	Player.snipe.setSize(sf::Vector2f(10.f,10.f));
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
 	Player.snipe.setOrigin(0.f , 5.f);
-	Player.snipe.setFillColor(sf::Color(100,100,100));
+
+	//Player.snipe.setFillColor(sf::Color(100,100,100));
 }
 
 void GameInterface::Start()
