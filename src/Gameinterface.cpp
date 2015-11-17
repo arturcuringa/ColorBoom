@@ -157,7 +157,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer){
 		
 		Player.snipe.move ( rot );
 
-		if(Player.cor!=sf::Color(0,0,0)&& watch.asSeconds()>0.2)
+		if(Player.cor!=sf::Color(0,0,0)&& watch.asSeconds()>0.1)
 		{
 			timer.restart();
 			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() + sf::Vector2f(5.f, 5.f) ,  Player.cor);
