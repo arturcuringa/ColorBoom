@@ -2,7 +2,7 @@
 
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
-	sf::Clock clock;
+	
 	//sf::Time shoot= clock.restart();
 	Player.Body.setRadius(10.f);
 	Player.Body.setPosition(380.f, 280.f);
@@ -21,16 +21,7 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
 	Player.snipe.setOrigin(0.f , 5.f);
 
-	sky.loadFromFile("Sky.png");
-	Map.setTexture(&sky, false);
-	blink = 0;
-	grow = true;
 
-	Map.setSize(sf::Vector2f(1280.f, 720.f));
-	Map.setPosition(sf::Vector2f(-112.f, -134));
-	Map.setFillColor(sf::Color(0,0,0));
-	Map.setOutlineThickness(10.f);
-	Map.setOutlineColor(sf::Color::White);
 	//Player.snipe.setFillColor(sf::Color(100,100,100));
 
 	Camera.setSize(sf::Vector2f(800,600));
@@ -54,7 +45,7 @@ void GameInterface::Start()
 void GameInterface::render()
 {
 	myWindow.clear();
-	myWindow.draw(Map);
+	myWindow.draw(Map.Body);
 	myWindow.setView(Camera);
 	Player.gun.ShootDraw(myWindow);
 	myWindow.draw(Player.Body);
@@ -182,34 +173,18 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	sf::Time watch = timer.getElapsedTime();
 	sf::Time hourglass = tiemu.getElapsedTime();
 
-	if(hourglass.asSeconds()>0.015)
+	if (hourglass.asSeconds()>0.015)
 	{
-		tiemu.restart();
 		Player.animateBody();
-		
-		if(blink == 255)
-		{
-			grow = false;
-		}
-		if(blink == 0)
-		{
-			grow = true;
-		}
-		if(grow==true)
-		{
-			blink = blink + 5;
-		}
-		else
-		{
-			blink = blink - 5;
-		}
-		Map.setFillColor(sf::Color(blink,blink,blink));
-
 	}
+
+	Map.update(tiemu);
 
 	sf::Vector2f movement(0.f, 0.f);
 
 	sf::Joystick::update();
+	
+	
 	
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
@@ -218,8 +193,8 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	double tang =  atan2(Inp.r/100,  Inp.z/100);
 
-	movement.x += 3* Inp.x;
-	movement.y += 3* Inp.y;
+	movement.x += 3* Inp.x/100;
+	movement.y += 3* Inp.y/100;
 
 
 	if (Inp.z <-50 || Inp.z>50 || Inp.r >50 || Inp.r<-50)
@@ -249,11 +224,18 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	if (Inp.x <-50 || Inp.x>50 || Inp.y >50 || Inp.y<-50)
 	{
-		Player.Body.move(movement * deltaTime.asSeconds());
+		if (!Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds()))
+		{	
+			movement.x += 3* Inp.x;
+			movement.y += 3* Inp.y;
+			Player.Body.move(movement * deltaTime.asSeconds());
 
-		Player.snipe.move(movement * deltaTime.asSeconds());
+			Player.snipe.move(movement * deltaTime.asSeconds());
+		}
+		
 	}
 	Player.gun.ShootUpdate(deltaTime);
 
 	Camera.setCenter(Player.Body.getPosition());
 }	
+

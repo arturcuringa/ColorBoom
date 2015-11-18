@@ -6,6 +6,7 @@
 #include "Shoot.h"
 #include "Player.h"
 #include <math.h>
+#include "map.h"
 
 class GameInterface
 {
@@ -25,10 +26,7 @@ class GameInterface
 	PlayerGuy Player;
 	PlayerIn Inp;
 	sf::View Camera;
-	sf::RectangleShape Map;
-	sf::Texture sky;
-	int blink;
-	bool grow;
+	MAP Map;
 
 };
 

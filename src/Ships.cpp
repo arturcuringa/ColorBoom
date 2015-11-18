@@ -44,28 +44,11 @@ void ShipsPaint::ShipUpdate(sf::Time& deltaTime){
 
 		while(aux!=S_tail){
 			
-			aux->next->ammo.move(500.f * cos(aux->next->tang)*deltaTime.asSeconds(), 500.f * sin(aux->next->tang)*deltaTime.asSeconds());
-			
-			aux->next->total =(sf::Vector2f(500.f * cos(aux->next->tang)*deltaTime.asSeconds(), 500.f * sin(aux->next->tang)*deltaTime.asSeconds()) + aux->next->total );
-			
-			if( (aux->next->total.x * aux->next->total.x + aux->next->total.y * aux->next->total.y >400*400) )
-			{	
-				if(aux->next==S_tail)
-				{
-					S_tail=aux;
-				}
-				ShootRemove(aux, aux->next);
-			}
-			else
-			{
-				aux=aux->next;
-			}
-
-
+			std::cout<<"Ship!";			
 		}
 
 	}
-	//deltaTime
+	
 }
 
 void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){

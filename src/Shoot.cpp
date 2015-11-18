@@ -20,8 +20,6 @@ ShootPaint::~ShootPaint(){
 				aux=aux2;
 			}
 			delete S_head;
-			delete S_tail;
-
 	}
 }
 
