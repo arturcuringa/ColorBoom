@@ -3,26 +3,6 @@
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	
-	//sf::Time shoot= clock.restart();
-	Player.Body.setRadius(10.f);
-	Player.Body.setPosition(380.f, 280.f);
-	Player.Body.setFillColor(sf::Color(255,255,255));
-	
-	Player.btx.loadFromFile("LJ FINAL white.png");
-
-	Player.Body.setTexture(&Player.btx, false);
-	Player.Body.setTextureRect(sf::IntRect(0,0,22,22));
-
-
-	Player.tx.loadFromFile("ARROWS.png");
-	Player.snipe.setTexture(&Player.tx, false);
-	Player.snipe.setTextureRect(sf::IntRect(0,0,11,11));
-	Player.snipe.setSize(sf::Vector2f(10.f,10.f));
-	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
-	Player.snipe.setOrigin(0.f , 5.f);
-
-
-	//Player.snipe.setFillColor(sf::Color(100,100,100));
 
 	Camera.setSize(sf::Vector2f(800,600));
 }
