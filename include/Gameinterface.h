@@ -26,6 +26,9 @@ class GameInterface
 	PlayerIn Inp;
 	sf::View Camera;
 	sf::RectangleShape Map;
+	sf::Texture sky;
+	int blink;
+	bool grow;
 
 };
 

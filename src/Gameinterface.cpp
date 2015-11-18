@@ -21,9 +21,14 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	Player.snipe.setPosition(Player.Body.getPosition() + sf::Vector2f(20.f,10.f));
 	Player.snipe.setOrigin(0.f , 5.f);
 
-	Map.setSize(sf::Vector2f(1024.f, 768.f));
+	sky.loadFromFile("Sky.png");
+	Map.setTexture(&sky, false);
+	blink = 0;
+	grow = true;
+
+	Map.setSize(sf::Vector2f(1280.f, 720.f));
 	Map.setPosition(sf::Vector2f(-112.f, -134));
-	Map.setFillColor(sf::Color::Transparent);
+	Map.setFillColor(sf::Color(0,0,0));
 	Map.setOutlineThickness(10.f);
 	Map.setOutlineColor(sf::Color::White);
 	//Player.snipe.setFillColor(sf::Color(100,100,100));
@@ -181,6 +186,25 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	{
 		tiemu.restart();
 		Player.animateBody();
+		
+		if(blink == 255)
+		{
+			grow = false;
+		}
+		if(blink == 0)
+		{
+			grow = true;
+		}
+		if(grow==true)
+		{
+			blink = blink + 5;
+		}
+		else
+		{
+			blink = blink - 5;
+		}
+		Map.setFillColor(sf::Color(blink,blink,blink));
+
 	}
 
 	sf::Vector2f movement(0.f, 0.f);

@@ -6,7 +6,7 @@
 
 class ShipsPaint{
 	public:
-		struct Shipsnode
+		struct Shipnode
 		{				
 			sf::RectangleShape body;
 			sf::Color;
@@ -16,11 +16,11 @@ class ShipsPaint{
 			
 		};
 
-		Shipsnode * S_head;
-		Shipsnode * S_tail;
+		Shipnode * S_head;
+		Shipnode * S_tail;
 		ShipsPaint();
 		~ShipsPaint();
-		void ShootUpdate(sf::Time& deltaTime);
+		void ShipUpdate(sf::Time& deltaTime);
 		void ShipDraw(sf::RenderWindow &myWindow);
 		void ShipAdd(sf::Vector2f Position,sf::Vector2f origin,sf::Color cor);
 		void ShipRemove(Shootnode* prev,Shootnode* rem);
