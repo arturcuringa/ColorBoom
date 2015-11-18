@@ -48,16 +48,16 @@ MAP::update(sf::Clock& hourglass){
 bool
 MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub){
 
-	if (!Body.getGlobalBounds().contains(Position))
+	if (!Body.getGlobalBounds().contains(Position  - sf::Vector2f(10.f,10.f) ))
 	{
 		return true;
 	}
 
-	if (!Body.getGlobalBounds().contains(Position.x + TestSub.width, Position.y))
+	if (!Body.getGlobalBounds().contains(sf::Vector2f(Position.x + TestSub.width + 10.f, Position.y) ) )
 	{
 		return true;
 	}
-	if (!Body.getGlobalBounds().contains(Position.x , Position.y + TestSub.height))
+	if (!Body.getGlobalBounds().contains(Position.x , Position.y + TestSub.height + 10.f))
 	{
 		return true;
 	}
