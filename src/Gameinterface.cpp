@@ -40,19 +40,19 @@ void GameInterface::PlayerInput()
 			Player.cor = sf::Color(255,255,0);
 			Inp.l1 = false;
 			Inp.l2 = false;
-			Inp.dual = true;
+			
 		}else if (Inp.l1 && Inp.r2)
 		{
 			Player.cor = sf::Color(255,0,255);
 			Inp.l1 = false;
 			Inp.r2 = false;
-			Inp.dual = true;
+			
 		}else if (Inp.l2 && Inp.r2)
 		{
 			Player.cor = sf::Color(0,255,255);
 			Inp.l2 = false;
 			Inp.r2 = false;
-			Inp.dual = true;
+			
 		}else if (Inp.l1)
 		{
 			Player.cor = sf::Color(255,0,0);
@@ -204,7 +204,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	if (Inp.x <-50 || Inp.x>50 || Inp.y >50 || Inp.y<-50)
 	{
-		if (!Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds()))
+		if (!Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds(), movement))
 		{	
 			movement.x += 3* Inp.x;
 			movement.y += 3* Inp.y;
@@ -212,7 +212,14 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 			Player.snipe.move(movement * deltaTime.asSeconds());
 		}
-		
+		else{
+
+			
+			
+			Player.Body.move(movement * deltaTime.asSeconds());
+
+			Player.snipe.move(movement * deltaTime.asSeconds());
+		}
 	}
 	Player.gun.ShootUpdate(deltaTime);
 

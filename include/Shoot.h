@@ -14,7 +14,7 @@ class ShootPaint{
 			Shootnode *next;
 			
 		};
-
+		unsigned int count = 0;
 		Shootnode * S_head;
 		Shootnode * S_tail;
 		ShootPaint();

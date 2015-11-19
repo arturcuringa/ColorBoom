@@ -46,21 +46,41 @@ MAP::update(sf::Clock& hourglass){
 }
 
 bool
-MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub){
-
-	if (!Body.getGlobalBounds().contains(Position  - sf::Vector2f(10.f,10.f) ))
+MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct){
+	bool test = false;
+	//Up Test
+	if (!Body.getGlobalBounds().contains(Position.x + TestSub.width/2 , Position.y ))
 	{
-		return true;
+		Correct.y = 0;
+		Correct.x *=150;
+		test = true;
 	}
 
-	if (!Body.getGlobalBounds().contains(sf::Vector2f(Position.x + TestSub.width + 10.f, Position.y) ) )
+	//Right Test
+	if (!Body.getGlobalBounds().contains(Position.x + TestSub.width , Position.y + TestSub.height/2))
 	{
-		return true;
-	}
-	if (!Body.getGlobalBounds().contains(Position.x , Position.y + TestSub.height + 10.f))
-	{
-		return true;
+		Correct.x = 0;
+		Correct.y *=150;
+		test = true;
 	}
 
-	return false;
+	//Left test
+	if (!Body.getGlobalBounds().contains(Position.x , Position.y + TestSub.height/2 ))
+	{
+		Correct.x = 0;
+		Correct.y *=150;
+		test =true;
+	}
+
+	//Down Test
+	if (!Body.getGlobalBounds().contains(Position.x + TestSub.width/2 , Position.y + TestSub.height ))
+	{
+		Correct.y = 0;
+		Correct.x *=150;
+		test = true;
+	}
+	
+	return test;
+	
+	
 }

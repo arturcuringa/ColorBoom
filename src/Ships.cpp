@@ -3,8 +3,8 @@
 
 
 ShipsPaint::ShipsPaint(){
-	S_head = new Shipsnode;
-	S_tail = new Shipsnode;	
+	S_head = new Shipnode;
+	S_tail = new Shipnode;	
 	
 
 	S_head->next = S_tail;
@@ -15,8 +15,9 @@ ShipsPaint::ShipsPaint(){
 	
 }
 ShipsPaint::~ShipsPaint(){
-	if(S_head->next==nullptr){
+	if(S_head->next==S_tail){
 			delete S_head;
+			delete S_tail;
 		}
 		else{
 			Shipnode *aux,*aux2;
@@ -35,7 +36,7 @@ ShipsPaint::~ShipsPaint(){
 void ShipsPaint::ShipUpdate(sf::Time& deltaTime){
 		
 
-	if(S_head->next==nullptr){
+	if(S_head->next==S_tail){
 		return;
 	}
 	else{
@@ -52,10 +53,11 @@ void ShipsPaint::ShipUpdate(sf::Time& deltaTime){
 }
 
 void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){
-		if(S_head->next==nullptr){
+		if(S_head->next==S_tail){
 		return;
 	}
 	else{
+
 		Shipnode *aux;
 		aux=S_head;
 
@@ -72,22 +74,26 @@ void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){
 void ShipsPaint::ShipRemove(Shipnode *prev,Shipnode* rem){
 
 	prev->next=rem->next;
+	rem->next->prev = rem->prev;
 	delete rem;
 	return;
 
 }
 
-void ShipsPaint::ShipAdd(double tangente,sf::Vector2f origin,sf::Color cor){
+void ShipsPaint::ShipAdd(sf::Vector2f origin,sf::Color cor){
 
 	if(S_head->next==nullptr)
 	{
-		S_head->next= new Shipnode;
-		S_tail=S_head->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente),15.f * sin(tangente) ) );
-		S_head->next->ammo.setRadius(4);
-		S_head->next->ammo.setFillColor(cor);
-		S_head->next->total = sf::Vector2f(0.f,0.f);
-		S_head->next->tang =tangente;
+		Shipnode* aux = new Shipnode;
+
+		S_head->next= aux;
+		S_tail->prev= aux;
+		
+		aux->next = S_tail;
+		aux->prev = S_head;
+
+		aux->body.setPosition(origin);
+	
 
 	}
 	else

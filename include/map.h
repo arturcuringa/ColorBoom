@@ -12,7 +12,7 @@ class MAP{
 	bool grow;
 	MAP();
 	void update(sf::Clock& hourglass);
-	bool outside(sf::Vector2f Position, sf::FloatRect TestSub);
+	bool outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct);
 };
 
 #endif
