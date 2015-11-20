@@ -3,6 +3,27 @@
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	
+	float x1, y1;
+	int i =0;
+
+	while(i<20){
+		x1 = rand() % 1280;
+		y1 = rand() % 720;	
+
+		if (Player.Body.getPosition().x - x1 < 10.f)
+		{
+			x1 += 10.f;
+		}
+		if (Player.Body.getPosition().y - y1 < 10.f)
+		{
+			y1 += 10.f;
+		}
+
+
+		ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,0));
+		i++;
+
+	}
 
 	Camera.setSize(sf::Vector2f(800,600));
 }
@@ -28,6 +49,7 @@ void GameInterface::render()
 	myWindow.draw(Map.Body);
 	myWindow.setView(Camera);
 	Player.gun.ShootDraw(myWindow);
+	ShipList.ShipsDraw(myWindow);
 	myWindow.draw(Player.Body);
 	myWindow.draw(Player.snipe);
 	myWindow.display();

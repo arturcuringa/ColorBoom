@@ -4,7 +4,7 @@
 MAP::MAP(){
 	
 	Body.setSize(sf::Vector2f(1280.f, 720.f));
-	Body.setPosition(sf::Vector2f(-112.f, -134));
+	Body.setPosition(sf::Vector2f(0, 0));
 	Body.setFillColor(sf::Color(0,0,0));
 	Body.setOutlineThickness(10.f);
 	Body.setOutlineColor(sf::Color::White);

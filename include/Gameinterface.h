@@ -2,11 +2,13 @@
 #define __COLORGAME__
 
 #include <iostream>
+#include <stdlib.h>
 #include <SFML/Graphics.hpp>
 #include "Shoot.h"
 #include "Player.h"
 #include <math.h>
 #include "map.h"
+#include "Ships.h"
 
 class GameInterface
 {
@@ -27,7 +29,7 @@ class GameInterface
 	PlayerIn Inp;
 	sf::View Camera;
 	MAP Map;
-
+	ShipsPaint ShipList;
 };
 
 

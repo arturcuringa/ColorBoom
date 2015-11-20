@@ -4,28 +4,39 @@
 #include <math.h>
 #include <SFML/Graphics.hpp>
 
-class ShipsPaint{
-	public:
-		struct Shipnode
-		{				
-			sf::RectangleShape body;
-			sf::Color;
-			sf::Texture sprite;
-			Shipsnode *next;
-			Shipsnode *prev;
-			
-		};
 
+class Shipnode{
+public:
+	Shipnode(){
+		body.setSize(sf::Vector2f(22.f,22.f));
+		sprite.loadFromFile("ENEMY SHIPS2.png");
+		body.setTexture(&sprite);
+		body.setTextureRect(sf::IntRect(0,0,22,22));
+	}
+	
+	sf::RectangleShape body;
+	sf::Texture sprite;
+	
+	Shipnode *next;
+	Shipnode *prev;
+};
+
+
+class ShipsPaint : public  Shipnode{
+	public:
+	
 		Shipnode * S_head;
 		Shipnode * S_tail;
 		ShipsPaint();
 		~ShipsPaint();
-		void ShipUpdate(sf::Time& deltaTime);
-		void ShipDraw(sf::RenderWindow &myWindow);
-		void ShipAdd(sf::Vector2f Position,sf::Vector2f origin,sf::Color cor);
-		void ShipRemove(Shootnode* prev,Shootnode* rem);
+		void ShipsUpdate(sf::Time& deltaTime);
+		void ShipsDraw(sf::RenderWindow &myWindow);
+		void ShipsAdd(sf::Vector2f origin,sf::Color cor);
+		void ShipsRemove(Shipnode* prev,Shipnode* rem);
 
 
 };
+
+
 
 #endif

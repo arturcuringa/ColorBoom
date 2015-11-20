@@ -22,18 +22,17 @@ ShipsPaint::~ShipsPaint(){
 		else{
 			Shipnode *aux,*aux2;
 			aux=S_head;
-			while(aux!=S_tail){
+			while(aux!=nullptr){
 				aux2=aux->next;
 				delete aux;
 				aux=aux2;
 			}
-			delete S_head;
-			delete S_tail;
+
 
 		}
 }
 
-void ShipsPaint::ShipUpdate(sf::Time& deltaTime){
+void ShipsPaint::ShipsUpdate(sf::Time& deltaTime){
 		
 
 	if(S_head->next==S_tail){
@@ -45,14 +44,14 @@ void ShipsPaint::ShipUpdate(sf::Time& deltaTime){
 
 		while(aux!=S_tail){
 			
-			std::cout<<"Ship!";			
+			//std::cout<<"Ship!";			
 		}
 
 	}
 	
 }
 
-void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){
+void ShipsPaint::ShipsDraw(sf::RenderWindow &myWindow){
 		if(S_head->next==S_tail){
 		return;
 	}
@@ -61,9 +60,9 @@ void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){
 		Shipnode *aux;
 		aux=S_head;
 
-		while(aux!=S_tail){
+		while(aux->next!=S_tail){
 			
-			myWindow.draw(aux->next->ammo);
+			myWindow.draw(aux->next->body);
 			aux=aux->next;
 
 		}
@@ -71,7 +70,7 @@ void ShipsPaint::ShipDraw(sf::RenderWindow &myWindow){
 	}
 }
 
-void ShipsPaint::ShipRemove(Shipnode *prev,Shipnode* rem){
+void ShipsPaint::ShipsRemove(Shipnode *prev,Shipnode* rem){
 
 	prev->next=rem->next;
 	rem->next->prev = rem->prev;
@@ -80,33 +79,22 @@ void ShipsPaint::ShipRemove(Shipnode *prev,Shipnode* rem){
 
 }
 
-void ShipsPaint::ShipAdd(sf::Vector2f origin,sf::Color cor){
+void ShipsPaint::ShipsAdd(sf::Vector2f origin,sf::Color cor){
 
-	if(S_head->next==nullptr)
-	{
-		Shipnode* aux = new Shipnode;
+	Shipnode* aux = new Shipnode;
 
-		S_head->next= aux;
-		S_tail->prev= aux;
-		
-		aux->next = S_tail;
-		aux->prev = S_head;
-
-		aux->body.setPosition(origin);
+	S_head->next->prev = aux;
+	aux->next = S_head->next;
 	
+	S_head->next= aux;
+	aux->prev = S_head;
 
-	}
-	else
-	{
-		S_tail->next= new Shipnode;
-		S_tail=S_tail->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente), 15.f * sin(tangente) ) );
-		S_tail->ammo.setRadius(4);
-		S_tail->ammo.setFillColor(cor);
-		S_tail->total = sf::Vector2f(0.f,0.f);
-		S_tail->tang =tangente;
+	aux->body.setPosition(origin);
+	aux->body.setOrigin(sf::Vector2f(11.f, 0));
+	aux->body.rotate( static_cast<int>(origin.x + origin.y) % 360 );
+	aux->body.setFillColor(cor);
 
-	}
+
 	return;
 
 }
