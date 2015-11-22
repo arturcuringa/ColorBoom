@@ -3,9 +3,19 @@
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	
+	if (!fonte.loadFromFile("ARCADE_N.TTF"))
+	{
+		std::cout<<"Deu ruim!";
+	}
+		
+	texto.setFont(fonte);
+	texto.setCharacterSize(20);
+	texto.setStyle(sf::Text::Bold);
+	texto.setColor(sf::Color::White);
+	texto.setPosition(sf::Vector2f(0,0));
+
 	float x1, y1;
 	int i =0;
-
 	while(i<20){
 		x1 = rand() % 1280;
 		y1 = rand() % 720;	
@@ -46,17 +56,21 @@ void GameInterface::Start()
 void GameInterface::render()
 {
 	myWindow.clear();
+
 	myWindow.draw(Map.Body);
 	myWindow.setView(Camera);
 	Player.gun.ShootDraw(myWindow);
 	ShipList.ShipsDraw(myWindow);
 	myWindow.draw(Player.Body);
 	myWindow.draw(Player.snipe);
+
+		myWindow.draw(texto);
 	myWindow.display();
 }
 
 void GameInterface::PlayerInput()
 {
+
 		if (Inp.l1 && Inp.l2)
 		{
 			Player.cor = sf::Color(255,255,0);
@@ -170,6 +184,14 @@ void GameInterface::EventInput()
 
 }
 
+void GameInterface::collision(){
+
+
+}
+
+
+
+
 void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu){
 
 	sf::Time watch = timer.getElapsedTime();
@@ -187,6 +209,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	sf::Joystick::update();
 	
 	
+	texto.setString( static_cast<std::stringstream*>( &(std::stringstream() << Player.Score) )->str() );
 	
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
@@ -231,7 +254,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 			movement.x += 3* Inp.x;
 			movement.y += 3* Inp.y;
 			Player.Body.move(movement * deltaTime.asSeconds());
-
+			texto.move(movement * deltaTime.asSeconds());
 			Player.snipe.move(movement * deltaTime.asSeconds());
 		}
 		else{
@@ -239,12 +262,17 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 			
 			
 			Player.Body.move(movement * deltaTime.asSeconds());
-
+			texto.move(movement * deltaTime.asSeconds());
 			Player.snipe.move(movement * deltaTime.asSeconds());
 		}
 	}
 	Player.gun.ShootUpdate(deltaTime);
 
 	Camera.setCenter(Player.Body.getPosition());
+
+
+
+
+
 }	
 

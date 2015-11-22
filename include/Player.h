@@ -13,6 +13,7 @@ class PlayerGuy{
 	ShootPaint gun;
 	sf::Color cor;
 	int x =0;
+	long unsigned int Score = 0;
 	void animateBody(){
 
 		Body.setTextureRect(sf::IntRect(x,0,21,21));
@@ -36,6 +37,11 @@ class PlayerGuy{
 		snipe.setSize(sf::Vector2f(10.f,10.f));
 		snipe.setPosition(Body.getPosition() + sf::Vector2f(20.f,10.f));
 		snipe.setOrigin(0.f , 5.f);
+
+	}
+	void updateScore(unsigned int points){
+
+		Score += points;
 
 	}
 };

@@ -9,6 +9,9 @@
 #include <math.h>
 #include "map.h"
 #include "Ships.h"
+#include "pilha.h"
+#include <sstream>
+#include <string>
 
 class GameInterface
 {
@@ -24,12 +27,15 @@ class GameInterface
 	void EventInput();
 	void PlayerInput();
 	void PlayerMove();
+	PilhaVetor<sf::RenderWindow> ScreenStack;
 	sf::RenderWindow myWindow;
 	PlayerGuy Player;
 	PlayerIn Inp;
 	sf::View Camera;
 	MAP Map;
 	ShipsPaint ShipList;
+	sf::Text texto;
+	sf::Font fonte;
 	void collision();
 };
 
