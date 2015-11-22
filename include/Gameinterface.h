@@ -30,6 +30,7 @@ class GameInterface
 	sf::View Camera;
 	MAP Map;
 	ShipsPaint ShipList;
+	void collision();
 };
 
 
