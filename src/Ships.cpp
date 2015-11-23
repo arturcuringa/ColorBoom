@@ -32,7 +32,7 @@ ShipsPaint::~ShipsPaint(){
 		}
 }
 
-void ShipsPaint::ShipsUpdate(sf::Time& deltaTime){
+void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::CircleShape target){
 		
 
 	if(S_head->next==S_tail){
@@ -40,11 +40,21 @@ void ShipsPaint::ShipsUpdate(sf::Time& deltaTime){
 	}
 	else{
 		Shipnode *aux;
-		aux=S_head;
+		aux=S_head->next;
 
 		while(aux!=S_tail){
 			
-			//std::cout<<"Ship!";			
+			if (sqrt(pow(target.getPosition().x - aux->body.getPosition().x, 2) + pow(target.getPosition().y - aux->body.getPosition().y, 2) ) < 200.f )
+			{
+				double tang =  atan2(target.getPosition().x ,  target.getPosition(). y);
+				
+				//sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
+
+				aux->body.setRotation(tang);
+			}
+
+
+			aux = aux->next;			
 		}
 
 	}

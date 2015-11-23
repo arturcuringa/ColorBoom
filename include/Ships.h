@@ -29,7 +29,7 @@ class ShipsPaint : public  Shipnode{
 		Shipnode * S_tail;
 		ShipsPaint();
 		~ShipsPaint();
-		void ShipsUpdate(sf::Time& deltaTime);
+		void ShipsUpdate(sf::Time& deltaTime, sf::CircleShape target);
 		void ShipsDraw(sf::RenderWindow &myWindow);
 		void ShipsAdd(sf::Vector2f origin,sf::Color cor);
 		void ShipsRemove(Shipnode* rem);

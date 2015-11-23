@@ -4,6 +4,7 @@
 #include <math.h>
 #include <SFML/Graphics.hpp>
 
+
 class ShootPaint{
 	public:
 		struct Shootnode

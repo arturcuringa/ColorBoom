@@ -269,6 +269,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	movement.x += 3* Inp.x/100;
 	movement.y += 3* Inp.y/100;
 
+	ShipList.ShipsUpdate(watch, Player.Body);
 
 	if (Inp.z <-50 || Inp.z>50 || Inp.r >50 || Inp.r<-50)
 	{
@@ -308,6 +309,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 
 	collision();
+
 
 
 }	
