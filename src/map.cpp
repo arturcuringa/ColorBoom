@@ -48,6 +48,42 @@ MAP::update(sf::Clock& hourglass){
 bool
 MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct){
 	bool test = false;
+
+	sf::FloatRect Result;
+
+	Body.getGlobalBounds().intersects(TestSub, Result);
+
+
+
+	if (Result != TestSub )
+	{
+		if (Result.width < TestSub.width)
+		{
+			test =true;
+			Correct.y *=150;
+
+			if (Position.x > 10)
+				Correct.x = -1;
+			else
+				Correct.x = 1;
+			
+		}
+		if (Result.height < TestSub.height)
+		{
+			test =true;
+			Correct.x *=150;
+
+			if (Position.y > 10)
+				Correct.y = -1;
+			else
+				Correct.y = 1;
+			
+		}
+		
+	}
+
+
+	/*
 	//Up Test
 	if (!Body.getGlobalBounds().contains(Position.x + TestSub.width/2 , Position.y ))
 	{
@@ -79,7 +115,7 @@ MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct
 		Correct.x *=150;
 		test = true;
 	}
-	
+		*/
 	return test;
 	
 	

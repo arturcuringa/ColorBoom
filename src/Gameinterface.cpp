@@ -208,7 +208,7 @@ void GameInterface::collision(){
 						{
 							Player.gun.S_tail = auShoot;
 						}
-						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
+						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot, auShoot->next);
 						ShipList.ShipsRemove(auShip->next);
 						Player.updateScore(100);
@@ -222,7 +222,7 @@ void GameInterface::collision(){
 			}
 			auShoot=Player.gun.S_head;
 			c++;
-			std::cout<<c<<std::endl;
+			//std::cout<<c<<std::endl;
 			auShip = auShip->next;
 
 		}

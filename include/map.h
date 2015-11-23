@@ -2,7 +2,7 @@
 #define __Map__
 
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
 class MAP{
 
 	public:
