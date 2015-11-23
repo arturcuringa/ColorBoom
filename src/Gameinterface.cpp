@@ -43,10 +43,20 @@ void GameInterface::Start()
 	sf::Clock clock;
 	sf::Clock timer;
 	sf::Clock tiemu;
+	sf::Time PerFrame = sf::seconds(1.f/60.f);
+	sf::Time SinceLastTry;
 	while(myWindow.isOpen()){
-		sf::Time deltaTime = clock.restart();
+		
 		EventInput();
-		update(deltaTime,timer,tiemu);
+		
+		SinceLastTry += clock.restart();
+		while(SinceLastTry > PerFrame)
+		{
+			SinceLastTry -= PerFrame;
+			EventInput();
+			update(PerFrame,timer,tiemu);
+			
+		}
 		render();
 
 	}
@@ -287,22 +297,10 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	if (Inp.x <-50 || Inp.x>50 || Inp.y >50 || Inp.y<-50)
 	{
-		if (!Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds(), movement))
-		{	
-			movement.x += 3* Inp.x;
-			movement.y += 3* Inp.y;
+			Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds(), movement);
 			Player.Body.move(movement * deltaTime.asSeconds());
 			texto.move(movement * deltaTime.asSeconds());
 			Player.snipe.move(movement * deltaTime.asSeconds());
-		}
-		else{
-
-			
-			
-			Player.Body.move(movement * deltaTime.asSeconds());
-			texto.move(movement * deltaTime.asSeconds());
-			Player.snipe.move(movement * deltaTime.asSeconds());
-		}
 	}
 	Player.gun.ShootUpdate(deltaTime);
 

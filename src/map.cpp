@@ -45,10 +45,8 @@ MAP::update(sf::Clock& hourglass){
 
 }
 
-bool
+void
 MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct){
-	bool test = false;
-
 	sf::FloatRect Result;
 
 	Body.getGlobalBounds().intersects(TestSub, Result);
@@ -59,29 +57,57 @@ MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct
 	{
 		if (Result.width < TestSub.width)
 		{
-			test =true;
-			Correct.y *=150;
+			if (Result.height == TestSub.height){
+				Correct.y *=100;
+			}
 
-			if (Position.x > 10)
-				Correct.x = -1;
-			else
-				Correct.x = 1;
+			if (Position.x > 10){
+				if(Correct.x>0){
+					Correct.x = 0;
+				}
+				else{
+					Correct.x *=100;
+				}
+			}
+			else{
+				if(Correct.x<0){
+					Correct.x = 0;
+				}
+				else{
+					Correct.x *=100;
+				}
+			}
 			
 		}
 		if (Result.height < TestSub.height)
 		{
-			test =true;
-			Correct.x *=150;
+			if (Result.width == TestSub.width){
+				Correct.x *=100;
+			}
 
-			if (Position.y > 10)
-				Correct.y = -1;
-			else
-				Correct.y = 1;
-			
+			if (Position.y > 10){
+				if(Correct.y>0){
+					Correct.y = 0;
+				}
+				else{
+					Correct.y *=100;
+				}
+			}
+			else{
+				if(Correct.y<0){
+					Correct.y = 0;
+				}
+				else{
+					Correct.y *=100;
+				}
+			}
 		}
 		
 	}
-
+	else{
+		Correct.y*=100;
+		Correct.x*=100;
+	}
 
 	/*
 	//Up Test
@@ -115,8 +141,8 @@ MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct
 		Correct.x *=150;
 		test = true;
 	}
-		*/
-	return test;
+		
+	return test;*/
 	
 	
 }
