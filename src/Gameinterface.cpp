@@ -308,7 +308,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	Camera.setCenter(Player.Body.getPosition());
 
 
-
+	collision();
 
 
 }	
