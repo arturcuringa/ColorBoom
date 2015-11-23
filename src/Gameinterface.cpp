@@ -186,11 +186,48 @@ void GameInterface::EventInput()
 
 void GameInterface::collision(){
 
+	if(ShipList.S_head->next == ShipList.S_tail){
+		return;
+	}
+	else{
+		int c=0;
 
+		ShootPaint::Shootnode *auShoot;
+		auShoot=Player.gun.S_head;
+
+		Shipnode * auShip;
+		auShip = ShipList.S_head;
+
+		while(auShip != ShipList.S_tail){
+			if(Player.gun.S_head->next!=nullptr){
+				while(auShoot != Player.gun.S_tail){
+					
+					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->next->body.getFillColor()){
+
+						if(auShoot->next == Player.gun.S_tail)
+						{
+							Player.gun.S_tail = auShoot;
+						}
+						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
+						Player.gun.ShootRemove(auShoot, auShoot->next);
+						ShipList.ShipsRemove(auShip->next);
+							break;
+					}
+
+					else{
+						auShoot = auShoot->next;
+					}
+				}
+			}
+			auShoot=Player.gun.S_head;
+			c++;
+			std::cout<<c<<std::endl;
+			auShip = auShip->next;
+
+		}
+
+	}
 }
-
-
-
 
 void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu){
 
