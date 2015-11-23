@@ -32,7 +32,7 @@ class ShipsPaint : public  Shipnode{
 		void ShipsUpdate(sf::Time& deltaTime);
 		void ShipsDraw(sf::RenderWindow &myWindow);
 		void ShipsAdd(sf::Vector2f origin,sf::Color cor);
-		void ShipsRemove(Shipnode* prev,Shipnode* rem);
+		void ShipsRemove(Shipnode* rem);
 
 
 };

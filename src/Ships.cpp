@@ -70,10 +70,10 @@ void ShipsPaint::ShipsDraw(sf::RenderWindow &myWindow){
 	}
 }
 
-void ShipsPaint::ShipsRemove(Shipnode *prev,Shipnode* rem){
+void ShipsPaint::ShipsRemove(Shipnode* rem){
 
-	prev->next=rem->next;
 	rem->next->prev = rem->prev;
+	rem->prev->next = rem->next;
 	delete rem;
 	return;
 

@@ -211,6 +211,7 @@ void GameInterface::collision(){
 						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot, auShoot->next);
 						ShipList.ShipsRemove(auShip->next);
+						Player.updateScore(100);
 							break;
 					}
 
