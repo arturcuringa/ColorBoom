@@ -44,15 +44,13 @@ void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::CircleShape target){
 
 		while(aux!=S_tail){
 			
-			if (sqrt(pow(target.getPosition().x - aux->body.getPosition().x, 2) + pow(target.getPosition().y - aux->body.getPosition().y, 2) ) <=	 200.f )
+			if (sqrt(pow(target.getPosition().x+10 - aux->body.getPosition().x, 2) + pow(target.getPosition().y+10 - aux->body.getPosition().y, 2) ) <=	 200.f )
 			{
-				double tang1 =  atan2(target.getPosition().y - aux->body.getPosition().y  ,  target.getPosition().x - aux->body.getPosition().x);
+				double tang1 =  atan2(target.getPosition().y+10 - aux->body.getPosition().y  ,  target.getPosition().x+10 - aux->body.getPosition().x);
 				//double tang2 = atan2(aux->body.getPosition().x, aux->body.getPosition().y );
-				if (aux->body.getRotation() > tang1/3.14 * 180)
-				{
 					aux->body.setOrigin(sf::Vector2f(11,0));
-					aux->body.rotate( ( tang1) * 180/3.14 );
-				}
+					aux->body.setRotation( ( tang1) * 180/3.14 - 90 );
+				
 				//sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
 
 				
