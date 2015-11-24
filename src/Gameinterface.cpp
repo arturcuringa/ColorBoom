@@ -258,7 +258,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	movement.x += 3* Inp.x/100;
 	movement.y += 3* Inp.y/100;
 
-	ShipList.ShipsUpdate(watch, Player.Body);
+	ShipList.ShipsUpdate(deltaTime, Player.Body);
 
 	if (Inp.z <-50 || Inp.z>50 || Inp.r >50 || Inp.r<-50)
 	{
@@ -305,7 +305,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 		float x1, y1;
 		int i =0;
 
-		while(i<20){
+		while(i<50){
 			x1 = rand() % 1280;
 			y1 = rand() % 720;	
 
@@ -321,7 +321,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 			int cor = static_cast<int>(x1) % 6;
 
 			switch(cor)
-			{	
+			{
 				case 0:
 					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,255,0));				
 					break;
@@ -345,6 +345,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 
 			}
+
 			i++;
 
 		}
