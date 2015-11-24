@@ -19,7 +19,7 @@ ShootPaint::~ShootPaint(){
 				delete aux;
 				aux=aux2;
 			}
-			delete S_head;
+			delete aux;
 	}
 }
 

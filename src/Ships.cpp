@@ -112,3 +112,12 @@ void ShipsPaint::ShipsAdd(sf::Vector2f origin,sf::Color cor){
 
 }
 
+bool ShipsPaint::empty()
+{
+
+	if (S_head->next == S_tail)
+	{
+		return true;
+	}
+	return false;
+}

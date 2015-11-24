@@ -13,11 +13,18 @@ class PlayerGuy{
 	ShootPaint gun;
 	sf::Color cor;
 	int x =0;
+	unsigned int Life = 1;
 	long unsigned int Score = 0;
 	void animateBody(){
 
 		Body.setTextureRect(sf::IntRect(x,0,21,21));
 		x = (x + 21) % (13*21);
+	}
+	void Die(){
+		sf::Color cor = Body.getFillColor();
+		cor.a = 0;
+		Body.setFillColor(cor);
+		snipe.setFillColor(cor);
 	}
 	PlayerGuy()
 	{

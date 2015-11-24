@@ -14,26 +14,6 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 	texto.setColor(sf::Color::White);
 	texto.setPosition(sf::Vector2f(0,0));
 
-	float x1, y1;
-	int i =0;
-	while(i<20){
-		x1 = rand() % 1280;
-		y1 = rand() % 720;	
-
-		if (Player.Body.getPosition().x - x1 < 10.f)
-		{
-			x1 += 10.f;
-		}
-		if (Player.Body.getPosition().y - y1 < 10.f)
-		{
-			y1 += 10.f;
-		}
-
-
-		ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,0));
-		i++;
-
-	}
 
 	Camera.setSize(sf::Vector2f(800,600));
 }
@@ -131,6 +111,8 @@ void GameInterface::PlayerMove(){
 	Inp.y += sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 	Inp.z += sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
 	Inp.r += sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+	Inp.z += sf::Joystick::getAxisPosition(0, sf::Joystick::U);
+	Inp.r += sf::Joystick::getAxisPosition(0, sf::Joystick::V);
 }
 
 
@@ -209,6 +191,12 @@ void GameInterface::collision(){
 		auShip = ShipList.S_head;
 
 		while(auShip != ShipList.S_tail){
+
+			if( Player.Body.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds())){
+				ShipList.ShipsRemove(auShip->next);
+				Player.Die();
+			}
+
 			if(Player.gun.S_head->next!=nullptr){
 				while(auShoot != Player.gun.S_tail){
 					
@@ -222,7 +210,7 @@ void GameInterface::collision(){
 						Player.gun.ShootRemove(auShoot, auShoot->next);
 						ShipList.ShipsRemove(auShip->next);
 						Player.updateScore(100);
-							break;
+						break;
 					}
 
 					else{
@@ -234,6 +222,7 @@ void GameInterface::collision(){
 			c++;
 			//std::cout<<c<<std::endl;
 			auShip = auShip->next;
+
 
 		}
 
@@ -310,6 +299,56 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	collision();
 
+	if (ShipList.empty())
+	{
+		
+		float x1, y1;
+		int i =0;
+
+		while(i<20){
+			x1 = rand() % 1280;
+			y1 = rand() % 720;	
+
+			if (Player.Body.getPosition().x - x1 < 10.f)
+			{
+				x1 += 10.f;
+			}
+			if (Player.Body.getPosition().y - y1 < 10.f)
+			{
+				y1 += 10.f;
+			}
+
+			int cor = static_cast<int>(x1) % 6;
+
+			switch(cor)
+			{	
+				case 0:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,255,0));				
+					break;
+				case 1:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,255));				
+					break;
+				case 2:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,255));				
+					break;
+				case 3:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,0));				
+					break;
+				case 4:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,0));				
+					break;
+				case 5:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(50,50,255));				
+					break;
+				
+
+
+
+			}
+			i++;
+
+		}
+	}	
 
 
 }	
