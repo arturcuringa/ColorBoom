@@ -28,7 +28,7 @@ ShipsPaint::~ShipsPaint(){
 				aux=aux2;
 			}
 
-
+			
 		}
 }
 
@@ -57,11 +57,11 @@ void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::CircleShape target){
 				}
 					aux->body.setOrigin(sf::Vector2f(11,0));
 					aux->body.setRotation( ( tang1) * 180/3.14 - 90 );
-
+					
 					aux->body.move(rot*deltaTime.asSeconds());
 				
 				//sf::Vector2f rot(10.f * cos(tang), 10.f * sin(tang) );
-
+				
 				
 			}
 

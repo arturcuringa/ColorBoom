@@ -27,7 +27,6 @@ class GameInterface
 	void EventInput();
 	void PlayerInput();
 	void PlayerMove();
-	PilhaVetor<sf::RenderWindow> ScreenStack;
 	sf::RenderWindow myWindow;
 	PlayerGuy Player;
 	PlayerIn Inp;
@@ -37,6 +36,7 @@ class GameInterface
 	sf::Text texto;
 	sf::Font fonte;
 	void collision();
+	void preload();
 };
 
 

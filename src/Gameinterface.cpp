@@ -229,6 +229,55 @@ void GameInterface::collision(){
 	}
 }
 
+void GameInterface::preload(){
+
+	float x1, y1;
+		int i =0;
+
+		while(i<50){
+			x1 = rand() % 1280;
+			y1 = rand() % 720;	
+
+			while(sqrt(pow(Player.Body.getPosition().x - x1, 2) + pow(Player.Body.getPosition().y - y1, 2) ) < 300.f){
+				x1 = rand() % 1280;
+				y1 = rand() % 720;
+			}
+
+			int cor = static_cast<int>(x1) % 6;
+
+			switch(cor)
+			{
+				case 0:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,255,0));				
+					break;
+				case 1:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,255));				
+					break;
+				case 2:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,255));				
+					break;
+				case 3:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,0));				
+					break;
+				case 4:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,0));				
+					break;
+				case 5:
+					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(50,50,255));				
+					break;
+				
+
+
+
+			}
+
+			i++;
+
+		}
+
+}
+
+
 void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu){
 
 	sf::Time watch = timer.getElapsedTime();
@@ -301,54 +350,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	if (ShipList.empty())
 	{
-		
-		float x1, y1;
-		int i =0;
-
-		while(i<50){
-			x1 = rand() % 1280;
-			y1 = rand() % 720;	
-
-			if (Player.Body.getPosition().x - x1 < 10.f)
-			{
-				x1 += 10.f;
-			}
-			if (Player.Body.getPosition().y - y1 < 10.f)
-			{
-				y1 += 10.f;
-			}
-
-			int cor = static_cast<int>(x1) % 6;
-
-			switch(cor)
-			{
-				case 0:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,255,0));				
-					break;
-				case 1:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,255));				
-					break;
-				case 2:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,255));				
-					break;
-				case 3:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(255,0,0));				
-					break;
-				case 4:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(0,255,0));				
-					break;
-				case 5:
-					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(50,50,255));				
-					break;
-				
-
-
-
-			}
-
-			i++;
-
-		}
+		preload();	
 	}	
 
 
