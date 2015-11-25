@@ -188,7 +188,7 @@ void GameInterface::collision(){
 
 		ShootPaint::Shootnode *auShoot;
 		auShoot=Player.gun.S_head;
-
+		sf::Time FaseTime = GameTime.getElapsedTime();
 		Shipnode * auShip;
 		auShip = ShipList.S_head;
 
@@ -211,7 +211,9 @@ void GameInterface::collision(){
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot, auShoot->next);
 						ShipList.ShipsRemove(auShip->next);
-						Player.updateScore(100);
+						
+						Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
+
 						break;
 					}
 
@@ -234,7 +236,7 @@ void GameInterface::collision(){
 void GameInterface::preload(int enemys){
 
 	float x1, y1;
-		int i =0;
+	int i =0;
 
 		while(i<enemys){
 			x1 = rand() % 1280;
@@ -277,6 +279,7 @@ void GameInterface::preload(int enemys){
 
 		}
 
+		GameTime.restart();
 }
 
 

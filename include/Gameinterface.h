@@ -37,6 +37,8 @@ class GameInterface
 	sf::Font fonte;
 	void collision();
 	void preload(int enemys);
+
+	sf::Clock GameTime;
 };
 
 
