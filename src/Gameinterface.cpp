@@ -16,6 +16,8 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 
 	Camera.setSize(sf::Vector2f(800,600));
+
+	preload(10);
 }
 
 void GameInterface::Start()
@@ -229,12 +231,12 @@ void GameInterface::collision(){
 	}
 }
 
-void GameInterface::preload(){
+void GameInterface::preload(int enemys){
 
 	float x1, y1;
 		int i =0;
 
-		while(i<50){
+		while(i<enemys){
 			x1 = rand() % 1280;
 			y1 = rand() % 720;	
 
@@ -350,7 +352,9 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 
 	if (ShipList.empty())
 	{
-		preload();	
+
+		preload(2 * Player.Score/100);
+
 	}	
 
 

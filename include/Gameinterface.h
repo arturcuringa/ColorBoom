@@ -36,7 +36,7 @@ class GameInterface
 	sf::Text texto;
 	sf::Font fonte;
 	void collision();
-	void preload();
+	void preload(int enemys);
 };
 
 
