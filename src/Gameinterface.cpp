@@ -4,12 +4,8 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
 	Configuration::initialize();
 	
-	if (!fonte.loadFromFile("ARCADE_N.TTF"))
-	{
-		std::cout<<"Deu ruim!";
-	}
 		
-	texto.setFont(fonte);
+	texto.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
 	texto.setCharacterSize(20);
 	texto.setStyle(sf::Text::Bold);
 	texto.setColor(sf::Color::White);

@@ -11,11 +11,15 @@ class Configuration
 	
 		enum Textures : int {Ships,Shoots};
 		static ResourceManager<sf::Texture,int> textures;
+		
+		enum Fonts : int {Arcade};
+		static ResourceManager<sf::Font,int>fonts;
 
 		
 		static void initialize();
 	
 	private:
+		static void initFonts();
 		static void initTextures();
 
 };

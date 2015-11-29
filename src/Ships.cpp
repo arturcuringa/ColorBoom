@@ -14,6 +14,7 @@ ShipsPaint::ShipsPaint(){
 	S_tail->next = nullptr;
 	
 }
+
 ShipsPaint::~ShipsPaint(){
 	if(S_head->next==S_tail){
 			delete S_head;
