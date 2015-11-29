@@ -23,7 +23,7 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 void GameInterface::Start()
 {
-
+	sf::Clock shoottime;
 	sf::Clock clock;
 	sf::Clock timer;
 	sf::Clock tiemu;
@@ -38,7 +38,7 @@ void GameInterface::Start()
 		{
 			SinceLastTry -= PerFrame;
 			EventInput();
-			update(PerFrame,timer,tiemu);
+			update(PerFrame,timer,tiemu,shoottime);
 			
 		}
 		render();
@@ -199,6 +199,7 @@ void GameInterface::collision(){
 			if( Player.Body.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip->next);
 				Player.Die();
+				//Player.updateScore(100);
 			}
 
 			if(Player.gun.S_head->next!=nullptr){
@@ -285,7 +286,7 @@ void GameInterface::preload(int enemys){
 }
 
 
-void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime){
 
 	sf::Time watch = timer.getElapsedTime();
 	sf::Time hourglass = tiemu.getElapsedTime();
@@ -348,7 +349,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 			texto.move(movement * deltaTime.asSeconds());
 			Player.snipe.move(movement * deltaTime.asSeconds());
 	}
-	Player.gun.ShootUpdate(deltaTime);
+	Player.gun.ShootUpdate(deltaTime,shoottime);
 
 	Camera.setCenter(Player.Body.getPosition());
 

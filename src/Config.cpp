@@ -10,4 +10,6 @@ void Configuration::initialize()
 void Configuration::initTextures()
 {
 	textures.load(Textures::Ships,"ENEMY SHIPS2.png");
+	textures.load(Textures::Shoots,"Shoot2.png");
+
 }

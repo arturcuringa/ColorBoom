@@ -24,7 +24,7 @@ class GameInterface
 	private:
 
 	void render();
-	void update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu);
+	void update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime);
 	void EventInput();
 	void PlayerInput();
 	void PlayerMove();

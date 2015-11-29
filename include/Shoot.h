@@ -3,12 +3,14 @@
 
 #include <math.h>
 #include <SFML/Graphics.hpp>
+#include "Config.h"
 
 
 class ShootPaint{
 	public:
 		struct Shootnode
 		{	
+			int ani;
 			double tang;
 			sf::Vector2f total;
 			sf::CircleShape ammo;
@@ -20,7 +22,7 @@ class ShootPaint{
 		Shootnode * S_tail;
 		ShootPaint();
 		~ShootPaint();
-		void ShootUpdate(sf::Time& deltaTime);
+		void ShootUpdate(sf::Time& deltaTime,sf::Clock &shoottime);
 		void ShootDraw(sf::RenderWindow &myWindow);
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
 		void ShootRemove(Shootnode* prev,Shootnode* rem);

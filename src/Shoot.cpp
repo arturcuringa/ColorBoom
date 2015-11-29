@@ -23,17 +23,26 @@ ShootPaint::~ShootPaint(){
 	}
 }
 
-void ShootPaint::ShootUpdate(sf::Time& deltaTime){
-		
+void ShootPaint::ShootUpdate(sf::Time& deltaTime,sf::Clock &shoottime){
 
 	if(S_head->next==nullptr){
 		return;
 	}
+
 	else{
+
+		sf::Time timer;
+		timer = shoottime.getElapsedTime();
 		Shootnode *aux;
 		aux=S_head;
 
 		while(aux!=S_tail){
+			if(timer.asSeconds()>0.01){
+				shoottime.restart();
+				aux->next->ammo.setTextureRect(sf::IntRect(aux->next->ani,0,21,21));
+				aux->next->ani = (aux->next->ani + 21) % (13*21);
+
+			}
 			
 			aux->next->ammo.move(500.f * cos(aux->next->tang)*deltaTime.asSeconds(), 500.f * sin(aux->next->tang)*deltaTime.asSeconds());
 			
@@ -91,24 +100,24 @@ void ShootPaint::ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor){
 	{
 		S_head->next= new Shootnode;
 		S_tail=S_head->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente),15.f * sin(tangente) ) );
-		S_head->next->ammo.setRadius(4);
-		S_head->next->ammo.setFillColor(cor);
-		S_head->next->total = sf::Vector2f(0.f,0.f);
-		S_head->next->tang =tangente;
-
 	}
 	else
 	{
 		S_tail->next= new Shootnode;
 		S_tail=S_tail->next;
-		S_tail->ammo.setPosition(origin+sf::Vector2f(15.f * cos(tangente), 15.f * sin(tangente) ) );
+	}
+		S_tail->ammo.setPosition(origin+sf::Vector2f(14.f * cos(tangente), 14.f * sin(tangente) ) );
 		S_tail->ammo.setRadius(4);
+		S_tail->ammo.setOutlineThickness(1);
 		S_tail->ammo.setFillColor(cor);
+		S_tail->ammo.setOutlineColor(cor);
+		S_tail->ammo.setTexture(&Configuration::textures.get(Configuration::Textures::Shoots));
+		S_tail->ammo.setTextureRect(sf::IntRect(S_tail->ani,0,21,21));
+
 		S_tail->total = sf::Vector2f(0.f,0.f);
 		S_tail->tang =tangente;
+		S_tail->ani = 0;
 
-	}
 	return;
 
 }

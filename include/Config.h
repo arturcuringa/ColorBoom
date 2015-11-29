@@ -9,8 +9,9 @@ class Configuration
 		Configuration(const Configuration&) = delete;
 		Configuration& operator=(const Configuration&) = delete;
 	
-		enum Textures : int {Ships};
+		enum Textures : int {Ships,Shoots};
 		static ResourceManager<sf::Texture,int> textures;
+
 		
 		static void initialize();
 	
