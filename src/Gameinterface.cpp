@@ -356,7 +356,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu)
 	if (ShipList.empty())
 	{
 
-		preload(2 * Player.Score/100);
+		preload(Player.Score/100);
 
 	}	
 
