@@ -4,6 +4,7 @@
 ResourceManager<sf::Texture,int> Configuration::textures;
 void Configuration::initialize()
 {
+
 	initTextures();
 }
 void Configuration::initTextures()

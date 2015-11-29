@@ -3,19 +3,17 @@
 
 #include <math.h>
 #include <SFML/Graphics.hpp>
-
+#include "Config.h"
 
 class Shipnode{
 public:
 	Shipnode(){
-		body.setSize(sf::Vector2f(22.f,22.f));
-		sprite.loadFromFile("ENEMY SHIPS2.png");
-		body.setTexture(&sprite);
+		//body.setSize(sf::Vector2f(22.f,22.f));
+		body.setTexture(Configuration::textures.get(Configuration::Textures::Ships));
 		body.setTextureRect(sf::IntRect(0,0,22,22));
 	}
 	
-	sf::RectangleShape body;
-	sf::Texture sprite;
+	sf::Sprite body;
 	
 	Shipnode *next;
 	Shipnode *prev;

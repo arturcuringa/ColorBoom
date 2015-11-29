@@ -2,7 +2,6 @@
 #define __Config__
 
 #include "Resource.h"
-
 class Configuration
 {
 	public:

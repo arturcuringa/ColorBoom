@@ -3,6 +3,7 @@
 
 #include "Shoot.h"
 
+
 class PlayerGuy{
 	public:
 	sf::CircleShape Body;

@@ -2,6 +2,7 @@
 
 GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 {	
+	Configuration::initialize();
 	
 	if (!fonte.loadFromFile("ARCADE_N.TTF"))
 	{
@@ -22,6 +23,7 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 void GameInterface::Start()
 {
+
 	sf::Clock clock;
 	sf::Clock timer;
 	sf::Clock tiemu;
@@ -202,7 +204,7 @@ void GameInterface::collision(){
 			if(Player.gun.S_head->next!=nullptr){
 				while(auShoot != Player.gun.S_tail){
 					
-					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->next->body.getFillColor()){
+					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->next->body.getColor()){
 
 						if(auShoot->next == Player.gun.S_tail)
 						{

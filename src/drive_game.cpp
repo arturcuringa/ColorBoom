@@ -2,9 +2,10 @@
 #include "Gameinterface.h"
 #include <iostream>
 #include <math.h>
-
+#include "Config.h"
 
 int main (){
+	Configuration::initialize();
 	GameInterface Game;
 	
 	Game.Start();

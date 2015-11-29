@@ -12,6 +12,7 @@
 #include "pilha.h"
 #include <sstream>
 #include <string>
+#include "Config.h"
 
 class GameInterface
 {
