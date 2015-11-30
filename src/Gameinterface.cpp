@@ -94,8 +94,8 @@ void GameInterface::PlayerInput()
 		}
 		if(Player.cor!=sf::Color(0,0,0))
 		{
-			Player.Body.setFillColor(Player.cor);
-			Player.snipe.setFillColor(Player.cor);
+			Player.Body.setColor(Player.cor);
+			Player.snipe.setColor(Player.cor);
 		}
 	
 }

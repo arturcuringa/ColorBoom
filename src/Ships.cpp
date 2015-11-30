@@ -33,7 +33,7 @@ ShipsPaint::~ShipsPaint(){
 		}
 }
 
-void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::CircleShape target){
+void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::Sprite target){
 		
 
 	if(S_head->next==S_tail){

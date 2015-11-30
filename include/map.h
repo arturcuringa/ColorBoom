@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Config.h"
 class MAP{
 
 	public:
 	sf::RectangleShape Body;
-	sf::Texture sky;
 	int blink;
 	bool grow;
 	MAP();

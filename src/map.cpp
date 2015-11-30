@@ -9,8 +9,7 @@ MAP::MAP(){
 	Body.setOutlineThickness(10.f);
 	Body.setOutlineColor(sf::Color::White);
 
-	sky.loadFromFile("Sky.png");
-	Body.setTexture(&sky, false);
+	Body.setTexture(&Configuration::textures.get(Configuration::Textures::Mapa), false);
 	blink = 0;
 	grow = true;
 

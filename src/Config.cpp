@@ -11,11 +11,14 @@ void Configuration::initialize()
 }
 void Configuration::initFonts()
 {
-	fonts.load(Fonts::Arcade,"ARCADE_N.TTF");
+	fonts.load(Fonts::Arcade,"data/ARCADE_N.TTF");
 }
 void Configuration::initTextures()
 {
-	textures.load(Textures::Ships,"ENEMY SHIPS2.png");
-	textures.load(Textures::Shoots,"Shoot2.png");
+	textures.load(Textures::Ships,"data/ENEMY SHIPS2.png");
+	textures.load(Textures::Shoots,"data/Shoot2.png");
+	textures.load(Textures::Player, "data/LJ FINAL white.png");
+	textures.load(Textures::Gun, "data/ARROWS.png");
+	textures.load(Textures::Mapa, "data/Sky.png");
 
 }
