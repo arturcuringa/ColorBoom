@@ -13,8 +13,8 @@ MAP::MAP(){
 	colision.setPosition(sf::Vector2f(5, 5));
 
 
-	sky.loadFromFile("Sky.png");
-	Body.setTexture(&sky, false);
+	
+	Body.setTexture(&Configuration::textures.get(Configuration::Textures::Mapa), false);
 	blink = 0;
 	grow = true;
 

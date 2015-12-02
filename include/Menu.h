@@ -1,17 +1,21 @@
-#ifndef __Menu__
-#define __Menu__
+#ifndef __MENU__
+#define __MENU__
 
-#include "Gameinterface.h"
+#include <math.h>
 #include <SFML/Graphics.hpp>
+#include "Config.h"
+#include "Player.h"
+#include "Gameinterface.h"
 
 class Menu{
+	public:
+		Menu(const Menu&) = delete;
+		Menu& operator=(const Menu&) = delete;
+		Menu() = default;
 
-GameInterface Game;
-void menuinit();
-void mainmenu();
-void menuopt();
-void pausemenu();
+	static bool mainmenu(sf::RenderWindow& myWindow);
+	static void rainbow(sf::Color &cor,int &corsect);
+	static void menuinit(sf::RenderWindow& myWindow);
 };
-
 
 #endif

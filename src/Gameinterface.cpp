@@ -16,204 +16,14 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 	preload(10);
 }
-void GameInterface::rainbow(sf::Color &cor,int &corsect){
 
-			if(cor.r==255 && cor.g==0 && cor.b==0){
-				corsect = 0;
-			}
-			if(cor.r==0 && cor.g==255 && cor.b==0){
-				corsect = 2;
-			}
-			if(cor.r==0 && cor.g==0 && cor.b==255){
-				corsect = 4;
-			}
-			if(cor.r==255 && cor.g==255 && cor.b==0){
-				corsect = 1;
-			}			
-			if(cor.r==0 && cor.g==255 && cor.b==255){
-				corsect = 3;
-			}			
-			if(cor.r==255 && cor.g==0 && cor.b==255){
-				corsect = 5;
-			}
-
-
-			switch(corsect)
-			{
-				case 0:
-					cor.g+=5;	
-					break;
-				case 1:
-					cor.r-=5;		
-					break;
-				case 2:
-					cor.b+=5;	
-					break;
-				case 3:
-					cor.g-=5;	
-					break;
-				case 4:
-					cor.r+=5;	
-					break;
-				case 5:
-					cor.b-=5;		
-					break;
-			}
-}
-void GameInterface::menuinit(){
-	sf::Color cor(255,0,0);
-	sf::Clock timer;
-	sf::Time hourglass;
-
-	int corsect = 0;
-	myWindow.clear();
-
-	sf::Text choice;
-	choice.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
-	choice.setCharacterSize(20);
-	choice.setStyle(sf::Text::Bold);
-	choice.setColor(sf::Color::White);
-	choice.setString("PRESS START");
-	choice.setColor(cor);
-	choice.setPosition(sf::Vector2f(290,290));
-
-	bool start=false;
-
-	while(start == false && myWindow.isOpen()){
-
-		hourglass = timer.getElapsedTime();
-
-		if(hourglass.asSeconds()>0.005){
-			timer.restart();
-			rainbow(cor,corsect);
-
-			choice.setColor(cor);
-		}
-		myWindow.clear();
-		myWindow.draw(choice);
-		myWindow.display();
-		EventInput();
-		if (Inp.start == true)
-			{
-				Inp.start = false;
-				if(mainmenu()){
-					return;
-				}
-			}
-	}
-
-}
-bool GameInterface::mainmenu(){
-	sf::Color cor(255,0,0);
-	sf::Color cor2(0,255,0);
-	sf::Clock timer;
-	sf::Clock tiemu;
-	sf::Time warudo;
-	sf::Time hourglass;
-
-	int corsect = 0;
-	int corsect2 = 0;
-	int selection = 0;
-
-	sf::RectangleShape opt;
-	opt.setOutlineThickness(3);
-
-	sf::Text choice;
-	choice.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
-	choice.setCharacterSize(20);
-	choice.setStyle(sf::Text::Bold);
-	choice.setColor(sf::Color::White);
-	//choice.setString("PRESS START");
-	//choice.setColor();
-	//choice.setPosition(sf::Vector2f(290,290));
-
-	bool start=false;
-
-	while(start == false && myWindow.isOpen()){
-		hourglass = timer.getElapsedTime();
-		warudo = tiemu.getElapsedTime();
-
-
-		if(hourglass.asSeconds()>0.005){
-			timer.restart();
-
-			rainbow(cor,corsect);
-			rainbow(cor2,corsect2);
-			opt.setOutlineColor(cor2);
-			opt.setFillColor(cor);
-		}
-
-		PlayerMove();
-
-		if(Inp.y>50 && warudo.asSeconds()>0.2){
-			warudo = tiemu.restart();
-			selection++;
-			selection = selection % 3;
-		}
-		if(Inp.y<-50 && warudo.asSeconds()>0.2){
-			warudo = tiemu.restart();
-			selection--;
-			if(selection<0){
-				selection = 2;
-			}
-		}
-		Inp.stateClear();
-		EventInput();
-		myWindow.clear();
-		if(Inp.B){
-			return false;
-		}
-		
-		switch(selection)
-			{
-				case 0:
-					opt.setPosition(sf::Vector2f(330,120));
-					opt.setSize(sf::Vector2f(140,60));
-					myWindow.draw(opt);
-					if(Inp.A){
-						return true;
-					}
-					break;
-				case 1:
-					opt.setPosition(sf::Vector2f(310,270));
-					opt.setSize(sf::Vector2f(180,60));
-					myWindow.draw(opt);
-					if(Inp.A){
-						myWindow.close();
-					}
-					break;
-				case 2:
-					opt.setPosition(sf::Vector2f(340,420));
-					opt.setSize(sf::Vector2f(120,60));
-					myWindow.draw(opt);
-					if(Inp.A){
-						myWindow.close();
-					}
-					break;
-			}
-		choice.setString("START");
-		choice.setPosition(sf::Vector2f(350,140));
-		myWindow.draw(choice);
-		choice.setString("OPTIONS");
-		choice.setPosition(sf::Vector2f(330,290));
-		myWindow.draw(choice);
-		choice.setString("EXIT");
-		choice.setPosition(sf::Vector2f(360,440));
-		myWindow.draw(choice);
-		myWindow.display();
-
-
-	}
-}
 void GameInterface::menuopt(bool ingame){
 	
 }
-void GameInterface::pausemenu(){
-	
-}
+
 void GameInterface::Start()
 {
-	menuinit();
+	Menu::menuinit(myWindow);
 	sf::Clock shoottime;
 	sf::Clock clock;
 	sf::Clock timer;
@@ -410,12 +220,12 @@ void GameInterface::collision(){
 		auShoot=Player.gun.S_head;
 		sf::Time FaseTime = GameTime.getElapsedTime();
 		Shipnode * auShip;
-		auShip = ShipList.S_head;
+		auShip = ShipList.S_head->next;
 
 		while(auShip != ShipList.S_tail){
 
-			if( Player.Body.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds())){
-				ShipList.ShipsRemove(auShip->next);
+			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
+				ShipList.ShipsRemove(auShip);
 				Player.Die();
 				//Player.updateScore(100);
 			}
@@ -423,7 +233,7 @@ void GameInterface::collision(){
 			if(Player.gun.S_head->next!=nullptr){
 				while(auShoot != Player.gun.S_tail){
 					
-					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->next->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->next->body.getColor()){
+					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->body.getColor()){
 
 						if(auShoot->next == Player.gun.S_tail)
 						{
@@ -431,7 +241,7 @@ void GameInterface::collision(){
 						}
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot, auShoot->next);
-						ShipList.ShipsRemove(auShip->next);
+						ShipList.ShipsRemove(auShip);
 						
 						Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
 

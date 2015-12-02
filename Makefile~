@@ -22,7 +22,7 @@ all: msg test
 msg:
 	@echo Gremlin_Alfa-estamos a compilar vosso codigo mestre
 test:
-	$(CXX) $(OP) -I $(DIRIN) $(DIRSRC)$(DRIVE) $(DIRSRC)Gameinterface.cpp $(DIRSRC)Shoot.cpp $(DIRSRC)map.cpp $(DIRSRC)Ships.cpp $(DIRSRC)Config.cpp -o bin/test $(SFMLOP)
+	$(CXX) $(OP) -I $(DIRIN) $(DIRSRC)$(DRIVE) $(DIRSRC)Gameinterface.cpp $(DIRSRC)Shoot.cpp $(DIRSRC)map.cpp $(DIRSRC)Ships.cpp $(DIRSRC)Config.cpp $(DIRSRC)Player.cpp -o bin/test $(SFMLOP)
 
 ########################################################Execução###################################################################
 roll:

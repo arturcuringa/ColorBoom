@@ -13,6 +13,8 @@
 #include <sstream>
 #include <string>
 #include "Config.h"
+#include "Menu.h"
+
 
 class GameInterface
 {
@@ -38,11 +40,7 @@ class GameInterface
 	sf::Font fonte;
 	void collision();
 	void preload(int enemys);
-	void pausemenu();
 	void menuopt(bool ingame);
-	bool mainmenu();
-	void menuinit();
-	void rainbow(sf::Color &cor,int &corsect);
 	sf::Clock GameTime;
 };
 

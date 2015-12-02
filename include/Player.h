@@ -44,7 +44,7 @@ class PlayerIn
 		B = false;
 		start = false;
 	}
-};
+
 };
 
 
