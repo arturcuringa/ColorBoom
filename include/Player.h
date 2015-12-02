@@ -30,12 +30,21 @@ class PlayerIn
 	bool r1 = false;
 	bool r2 = false;
 	bool dual = false;
+	bool start = false;
+	bool A = false;
+	bool B = false;
 
 	float x;
 	float y;
 	float z;
 	float r;
 
+	void stateClear(){
+		A = false;
+		B = false;
+		start = false;
+	}
+};
 };
 
 

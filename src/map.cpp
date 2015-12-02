@@ -9,7 +9,12 @@ MAP::MAP(){
 	Body.setOutlineThickness(10.f);
 	Body.setOutlineColor(sf::Color::White);
 
-	Body.setTexture(&Configuration::textures.get(Configuration::Textures::Mapa), false);
+	colision.setSize(sf::Vector2f(1270.f, 710.f));
+	colision.setPosition(sf::Vector2f(5, 5));
+
+
+	sky.loadFromFile("Sky.png");
+	Body.setTexture(&sky, false);
 	blink = 0;
 	grow = true;
 
@@ -48,7 +53,7 @@ void
 MAP::outside(sf::Vector2f Position, sf::FloatRect TestSub, sf::Vector2f& Correct){
 	sf::FloatRect Result;
 
-	Body.getGlobalBounds().intersects(TestSub, Result);
+	colision.getGlobalBounds().intersects(TestSub, Result);
 
 
 

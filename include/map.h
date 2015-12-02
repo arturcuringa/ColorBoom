@@ -3,11 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Config.h"
 class MAP{
 
 	public:
 	sf::RectangleShape Body;
+	sf::RectangleShape colision;
+	sf::Texture sky;
 	int blink;
 	bool grow;
 	MAP();
