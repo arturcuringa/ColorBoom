@@ -113,6 +113,7 @@ void ShipsPaint::ShipsAdd(sf::Vector2f origin,sf::Color cor){
 	aux->prev = S_head;
 
 	aux->body.setPosition(origin);
+	//aux->body.setScale(2);
 	aux->body.setOrigin(sf::Vector2f(11.f, 0));
 	//aux->body.rotate( static_cast<int>(origin.x + origin.y) % 360 );
 	aux->body.setColor(cor);

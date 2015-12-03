@@ -217,7 +217,7 @@ void GameInterface::collision(){
 		int c=0;
 
 		ShootPaint::Shootnode *auShoot;
-		auShoot=Player.gun.S_head;
+		auShoot=Player.gun.S_head->next;
 		sf::Time FaseTime = GameTime.getElapsedTime();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
@@ -233,14 +233,14 @@ void GameInterface::collision(){
 			if(Player.gun.S_head->next!=nullptr){
 				while(auShoot != Player.gun.S_tail){
 					
-					if( auShoot->next->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->next->ammo.getFillColor() == auShip->body.getColor()){
+					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
-						if(auShoot->next == Player.gun.S_tail)
+						if(auShoot == Player.gun.S_tail)
 						{
 							Player.gun.S_tail = auShoot;
 						}
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
-						Player.gun.ShootRemove(auShoot, auShoot->next);
+						Player.gun.ShootRemove(auShoot);
 						ShipList.ShipsRemove(auShip);
 						
 						Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
@@ -356,7 +356,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 		if(Player.cor!=sf::Color(0,0,0)&& watch.asSeconds()>0.1)
 		{
 			timer.restart();
-			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() + sf::Vector2f(5.f, 5.f) ,  Player.cor);
+			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() ,  Player.cor);
 		}
 
 

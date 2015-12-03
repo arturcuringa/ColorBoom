@@ -1,23 +1,24 @@
-#ifndef __Shoot__
-#define __Shoot__
+#ifndef __SHOOT__
+#define __SHOOT__
 
 #include <math.h>
 #include <SFML/Graphics.hpp>
 #include "Config.h"
 
-
-class ShootPaint{
-	public:
-		struct Shootnode
-		{	
+class Shootnode{
+public:
 			int ani;
 			double tang;
 			sf::Vector2f total;
 			sf::CircleShape ammo;
 			Shootnode *next;
-			
-		};
-		unsigned int count = 0;
+			Shootnode *prev;
+};
+
+
+class ShootPaint : public  Shootnode{
+	public:
+	
 		Shootnode * S_head;
 		Shootnode * S_tail;
 		ShootPaint();
@@ -25,9 +26,11 @@ class ShootPaint{
 		void ShootUpdate(sf::Time& deltaTime,sf::Clock &shoottime);
 		void ShootDraw(sf::RenderWindow &myWindow);
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
-		void ShootRemove(Shootnode* prev,Shootnode* rem);
-
+		void ShootRemove(Shootnode* rem);
+		bool empty();
 
 };
+
+
 
 #endif
