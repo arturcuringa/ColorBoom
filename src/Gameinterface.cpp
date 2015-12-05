@@ -1,8 +1,11 @@
 #include "Gameinterface.h"
 
-GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
+GameInterface::GameInterface()
 {	
-	Configuration::initialize();
+
+	std::vector<sf::VideoMode> ResolutionList = sf::VideoMode::getFullscreenModes() ;
+
+	myWindow.create(ResolutionList[0], "COLOR BOOOM", sf::Style::Fullscreen);
 	
 		
 	texto.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));

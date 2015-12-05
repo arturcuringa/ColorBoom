@@ -15,6 +15,7 @@
 #include "Config.h"
 #include "Menu.h"
 #include "Score.h"
+#include <vector>
 
 class GameInterface
 {
