@@ -176,6 +176,8 @@ void GameInterface::EventInput()
 
 void GameInterface::collision(){
 
+	bool brek = false;
+
 	if(ShipList.S_head->next == ShipList.S_tail){
 		return;
 	}
@@ -188,7 +190,7 @@ void GameInterface::collision(){
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
 
-		while(auShip != ShipList.S_tail){
+		while(auShip != ShipList.S_tail && !brek){
 
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
@@ -199,6 +201,8 @@ void GameInterface::collision(){
 					ShipList.clear();
 					Player.gun.clear();
 					ingame = false;
+					FaseTime = sf::Time::Zero;
+					brek = true;
 
 				}
 			}
@@ -216,7 +220,12 @@ void GameInterface::collision(){
 						Player.gun.ShootRemove(auShoot);
 						ShipList.ShipsRemove(auShip);
 						
-						Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
+						if (FaseTime.asSeconds() < 100)
+						{
+							Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
+						}
+						else
+							Player.updateScore(5);
 
 						break;
 					}
@@ -273,10 +282,7 @@ void GameInterface::preload(int enemys){
 				case 5:
 					ShipList.ShipsAdd(sf::Vector2f(x1,y1),sf::Color(50,50,255));				
 					break;
-				
-
-
-
+		
 			}
 
 			i++;

@@ -277,7 +277,7 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 	//choice.setColor();
 	//choice.setPosition(sf::Vector2f(290,290));
 
-	bool start=false;
+	bool start= false;
 
 	while(start == false && myWindow.isOpen()){
 
