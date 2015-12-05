@@ -17,7 +17,8 @@ class Menu{
 	static int pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto);
 	static void rainbow(sf::Color &cor,int &corsect);
 	static void menuinit(sf::RenderWindow& myWindow);
-	static void gameover(sf::RenderWindow& myWindow);
+	static void gameover(sf::RenderWindow& myWindow, sf::View& camera);
+	static void highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score);
 };
 
 #endif

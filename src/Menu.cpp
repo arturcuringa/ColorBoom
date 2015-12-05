@@ -420,3 +420,59 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 	}
 	return 0;
 }
+
+void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
+
+	PlayerIn control;
+
+
+
+	sf::Text over;
+	over.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	over.setCharacterSize(40);
+	over.setStyle(sf::Text::Bold);
+	over.setColor(sf::Color::White);
+	over.setString("GAME OVER");
+	over.setPosition(camera.getCenter());
+	myWindow.draw(over);
+	myWindow.display();
+
+	while(!control.start)
+	{
+		sf::Joystick::update();
+		control.InputUpdate();
+
+	}
+
+}
+void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score){
+
+	PlayerIn control;
+
+	sf::RectangleShape screen;
+	screen.setSize(sf::Vector2f(800,600));
+	screen.setPosition(camera.getCenter() -sf::Vector2f(400,300));
+	screen.setFillColor(sf::Color::Black);
+
+	sf::Text High;
+	High.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	High.setCharacterSize(40);
+	High.setStyle(sf::Text::Bold);
+	High.setColor(sf::Color::White);
+	High.setString("NEW HIGH SCORE\n");
+	High.setPosition(camera.getCenter());
+
+	myWindow.draw(screen);
+	myWindow.draw(High);
+	myWindow.display();
+
+
+	while(!control.start)
+	{
+		sf::Joystick::update();
+		control.InputUpdate();
+
+	}
+
+
+}

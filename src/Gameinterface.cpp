@@ -197,12 +197,18 @@ void GameInterface::collision(){
 				if (Player.Die())
 				{
 					Camera = myWindow.getDefaultView();
-					Score::checkScore(Player.Score);
+					
 					ShipList.clear();
 					Player.gun.clear();
 					ingame = false;
 					FaseTime = sf::Time::Zero;
 					brek = true;
+					if (Score::checkScore(Player.Score))
+					{
+						Menu::highScore(myWindow,Camera, Player.Score);
+					}
+					else 
+						Menu::gameover(myWindow, Camera);
 
 				}
 			}
