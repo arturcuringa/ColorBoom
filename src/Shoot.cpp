@@ -136,3 +136,22 @@ bool ShootPaint::empty()
 	}
 	return false;
 }
+
+void ShootPaint::clear()
+{
+
+	if(S_head->next==S_tail){
+			return;
+		}
+		else{
+			Shootnode *aux,*aux2;
+			aux=S_head->next;
+			while(aux!=S_tail){
+				aux2=aux->next;
+				ShootRemove(aux);
+				aux=aux2;
+			}
+
+			
+		}
+}

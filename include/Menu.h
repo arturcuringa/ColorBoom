@@ -13,9 +13,11 @@ class Menu{
 		Menu& operator=(const Menu&) = delete;
 		Menu() = default;
 
-	static bool mainmenu(sf::RenderWindow& myWindow);
+	static int mainmenu(sf::RenderWindow& myWindow);
+	static int pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto);
 	static void rainbow(sf::Color &cor,int &corsect);
 	static void menuinit(sf::RenderWindow& myWindow);
+	static void gameover(sf::RenderWindow& myWindow);
 };
 
 #endif

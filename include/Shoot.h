@@ -28,6 +28,7 @@ class ShootPaint : public  Shootnode{
 		void ShootAdd(double tangente,sf::Vector2f origin,sf::Color cor);
 		void ShootRemove(Shootnode* rem);
 		bool empty();
+		void clear();
 
 };
 

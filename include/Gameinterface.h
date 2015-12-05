@@ -14,17 +14,18 @@
 #include <string>
 #include "Config.h"
 #include "Menu.h"
-
+#include "Score.h"
 
 class GameInterface
 {
 
 	public:
 		GameInterface();
-		void Start();
-	
+		void GameLoop();
+		static void GameOver();
 	private:
 
+	void Start();
 	void render();
 	void update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime);
 	void EventInput();
@@ -38,10 +39,13 @@ class GameInterface
 	ShipsPaint ShipList;
 	sf::Text texto;
 	sf::Font fonte;
+	bool ingame;
+	void clear();
 	void collision();
 	void preload(int enemys);
 	void menuopt(bool ingame);
 	sf::Clock GameTime;
+	sf::Time FaseTime;
 };
 
 

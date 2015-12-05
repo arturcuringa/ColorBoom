@@ -26,14 +26,38 @@ void PlayerGuy::animateBody()
 	x = (x + 21) % (13*21);
 
 }
+void PlayerGuy::clear()
+{
+	Body.setPosition(380.f, 280.f);
+	Body.setColor(sf::Color(255,255,255));
+
+	Body.setTextureRect(sf::IntRect(0,0,22,22));
+
+	snipe.setTextureRect(sf::IntRect(0,0,11,11));
+
+	gun.clear();
+
+	snipe.setPosition(Body.getPosition() + sf::Vector2f(20.f,10.f));
+	snipe.setOrigin(0.f , 5.f);
+	x = 0;
+	Life = 3;
+	Score = 0;
+
+}
 
 
-void PlayerGuy::Die()
+bool PlayerGuy::Die()
 {
 	sf::Color cor = Body.getColor();
 	cor.a = 0;
 	Body.setColor(cor);
 	snipe.setColor(cor);
+	Life--;
+	if (Life == 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 void PlayerGuy::updateScore(unsigned int points)

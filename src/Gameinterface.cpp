@@ -14,34 +14,73 @@ GameInterface::GameInterface() : myWindow(sf::VideoMode(800,600), "COLOR BOOOM")
 
 	Camera.setSize(sf::Vector2f(800,600));
 
-	preload(10);
+}
+void GameInterface::clear(){
+	Player.clear();
+	ShipList.clear();
+	Map.blink = 0;
+	Map.grow = true;
+	texto.setPosition(sf::Vector2f(0,0));
+	Camera.setCenter(sf::Vector2f(400,300));
+	myWindow.setView(Camera);
+	myWindow.clear();
+
 }
 
-void GameInterface::menuopt(bool ingame){
-	
+void GameInterface::GameLoop(){
+	while(myWindow.isOpen()){
+		Menu::menuinit(myWindow);
+		if(myWindow.isOpen()){
+			Start();
+		}
+		if(myWindow.isOpen()){
+			clear();
+		}
+	}
 }
 
 void GameInterface::Start()
-{
-	Menu::menuinit(myWindow);
+{	
+	ingame = true;
+	int opt;
 	sf::Clock shoottime;
 	sf::Clock clock;
 	sf::Clock timer;
 	sf::Clock tiemu;
 	sf::Time PerFrame = sf::seconds(1.f/60.f);
 	sf::Time SinceLastTry;
-	while(myWindow.isOpen()){
+	while(ingame){
 		
-		EventInput();
-		
+		Inp.stateClear();
 		SinceLastTry += clock.restart();
 		while(SinceLastTry > PerFrame)
 		{
 			SinceLastTry -= PerFrame;
 			EventInput();
 			update(PerFrame,timer,tiemu,shoottime);
-			
 		}
+		if(Inp.start){
+				
+				opt = Menu::pausemenu(myWindow,Camera,Player,Map,ShipList,texto);
+				if(opt == 1)
+				{
+					clear();
+				}
+				if(opt == 2)
+				{
+					ingame = false;
+				}
+				if(opt == 3)
+				{
+					ingame = false;
+					myWindow.close();
+				}
+				clock.restart();
+				shoottime.restart();
+				GameTime.restart();
+				timer.restart();
+				tiemu.restart();
+			}
 		render();
 
 	}
@@ -59,7 +98,7 @@ void GameInterface::render()
 	myWindow.draw(Player.Body);
 	myWindow.draw(Player.snipe);
 
-		myWindow.draw(texto);
+	myWindow.draw(texto);
 	myWindow.display();
 }
 
@@ -105,21 +144,6 @@ void GameInterface::PlayerInput()
 	
 }
 
-void GameInterface::PlayerMove(){
-
-	Inp.x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-	Inp.y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-	Inp.z = sf::Joystick::getAxisPosition(1, sf::Joystick::U);
-	Inp.r = sf::Joystick::getAxisPosition(1, sf::Joystick::V);
-
-	Inp.x += sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	Inp.y += sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-	Inp.z += sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-	Inp.r += sf::Joystick::getAxisPosition(0, sf::Joystick::R);
-	Inp.z += sf::Joystick::getAxisPosition(0, sf::Joystick::U);
-	Inp.r += sf::Joystick::getAxisPosition(0, sf::Joystick::V);
-}
-
 
 void GameInterface::EventInput()
 {
@@ -139,70 +163,12 @@ void GameInterface::EventInput()
 				break;
 		}
 
-		if (sf::Joystick::isButtonPressed(1,5))
-		{
-			Inp.r1 = true;
-		}
-		if (sf::Joystick::isButtonPressed(1,4))
-		{
-			Inp.l1 = true;
-		}
-		if (sf::Joystick::isButtonPressed(1,7))
-		{
-			Inp.r2 = true;
-		}
-		if (sf::Joystick::isButtonPressed(1,6))
-		{
-			Inp.l2 = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,5))
-		{
-			Inp.r1 = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,4))
-		{
-			Inp.l1 = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,7))
-		{
-			Inp.r2 = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,6))
-		{
-			Inp.l2 = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,9))
-		{
-			Inp.start = true;
-		}
-
-		if (sf::Joystick::isButtonPressed(1,9))
-		{
-			Inp.start = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,0))
-		{
-			Inp.A = true;
-		}
-
-		if (sf::Joystick::isButtonPressed(1,0))
-		{
-			Inp.A = true;
-		}
-		if (sf::Joystick::isButtonPressed(0,1))
-		{
-			Inp.B = true;
-		}
-
-		if (sf::Joystick::isButtonPressed(1,1))
-		{
-			Inp.B = true;
-		}
+		Inp.InputUpdate();
 
 		PlayerInput();
 	
 	
-		PlayerMove();
+		Inp.PlayerMove();
 
 	}
 
@@ -218,7 +184,7 @@ void GameInterface::collision(){
 
 		ShootPaint::Shootnode *auShoot;
 		auShoot=Player.gun.S_head->next;
-		sf::Time FaseTime = GameTime.getElapsedTime();
+		FaseTime += GameTime.restart();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
 
@@ -226,8 +192,15 @@ void GameInterface::collision(){
 
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
-				Player.Die();
-				//Player.updateScore(100);
+				if (Player.Die())
+				{
+					Camera = myWindow.getDefaultView();
+					Score::checkScore(Player.Score);
+					ShipList.clear();
+					Player.gun.clear();
+					ingame = false;
+
+				}
 			}
 
 			if(Player.gun.S_head->next!=nullptr){
@@ -382,14 +355,13 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	Camera.setCenter(Player.Body.getPosition());
 
 
-	collision();
-
 	if (ShipList.empty())
 	{
 
-		preload(Player.Score/100);
+		preload(Player.Score/100 + 5);
 
 	}	
+		collision();
 
 
 }	

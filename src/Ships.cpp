@@ -132,3 +132,20 @@ bool ShipsPaint::empty()
 	}
 	return false;
 }
+void ShipsPaint::clear()
+{
+	if(S_head->next==S_tail){
+			return;
+		}
+		else{
+			Shipnode *aux,*aux2;
+			aux=S_head->next;
+			while(aux!=S_tail){
+				aux2=aux->next;
+				ShipsRemove(aux);
+				aux=aux2;
+			}
+
+			
+		}
+}

@@ -8,7 +8,7 @@ int main (){
 	Configuration::initialize();
 	GameInterface Game;
 	
-	Game.Start();
+	Game.GameLoop();
 	/*float x =0;
 	float y =0;
 	float z = 0;
