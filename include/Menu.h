@@ -13,10 +13,11 @@ class Menu{
 		Menu& operator=(const Menu&) = delete;
 		Menu() = default;
 
-	static int mainmenu(sf::RenderWindow& myWindow);
+	static int mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen);
 	static int pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto);
 	static void rainbow(sf::Color &cor,int &corsect);
-	static void menuinit(sf::RenderWindow& myWindow);
+	static void menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen);
+	static void menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen);
 	static void gameover(sf::RenderWindow& myWindow, sf::View& camera);
 	static void highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score);
 };

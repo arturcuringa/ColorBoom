@@ -2,20 +2,54 @@
 
 GameInterface::GameInterface()
 {	
+	ResolutionList = sf::VideoMode::getFullscreenModes() ;
 
-	std::vector<sf::VideoMode> ResolutionList = sf::VideoMode::getFullscreenModes() ;
+	std::ifstream myfile("data/Conf");
 
-	myWindow.create(ResolutionList[0], "COLOR BOOOM", sf::Style::Fullscreen);
-	
+	if (myfile.is_open())
+	{
+		std::string line;
+		std::string::size_type sz;
+		std::getline(myfile,line);
+		i =	std::stoi(line, &sz);
+		std::getline(myfile,line);
+		fullscreen = std::stoi(line, &sz);
+		myfile.close();
+	}
+	/*while(i<ResolutionList.size()-1){
+		if(ResolutionList[i].width >= 800 && ResolutionList[i].height >= 600 ){
+			std::cout<<i<<" "<<ResolutionList[i].width<<" "<<ResolutionList[i].height<<std::endl;
+		}
+		i++;
+	}*/
+	if(fullscreen==0){
+		myWindow.create(ResolutionList[i], "COLOR BOOOM", sf::Style::Fullscreen);
+	}
+	else{
+		myWindow.create(ResolutionList[i], "COLOR BOOOM");
+	}
 		
 	texto.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
 	texto.setCharacterSize(20);
 	texto.setStyle(sf::Text::Bold);
 	texto.setColor(sf::Color::White);
-	texto.setPosition(sf::Vector2f(0,0));
 
-
-	Camera.setSize(sf::Vector2f(800,600));
+	if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(800,600));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+	}
+	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(1024,640));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+	}
+	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(1024,600));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+	}
+	myWindow.setView(Camera);
 
 }
 void GameInterface::clear(){
@@ -23,8 +57,23 @@ void GameInterface::clear(){
 	ShipList.clear();
 	Map.blink = 0;
 	Map.grow = true;
-	texto.setPosition(sf::Vector2f(0,0));
-	Camera.setCenter(sf::Vector2f(400,300));
+
+	if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(800,600));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+	}
+	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(1024,640));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+	}
+	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8){
+		Camera.setCenter(sf::Vector2f(400,300));
+		Camera.setSize(sf::Vector2f(1024,600));
+		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+	}
+
 	myWindow.setView(Camera);
 	myWindow.clear();
 
@@ -32,12 +81,15 @@ void GameInterface::clear(){
 
 void GameInterface::GameLoop(){
 	while(myWindow.isOpen()){
-		Menu::menuinit(myWindow);
-		if(myWindow.isOpen()){
-			Start();
-		}
+		clear();
+		Menu::menuinit(myWindow,ResolutionList,Camera,i,fullscreen);
+
 		if(myWindow.isOpen()){
 			clear();
+		}
+
+		if(myWindow.isOpen()){
+			Start();
 		}
 	}
 }

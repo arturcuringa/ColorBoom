@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
+#include <fstream>
+#include <string>
 #include "Shoot.h"
 #include "Player.h"
 #include <math.h>
@@ -32,6 +34,7 @@ class GameInterface
 	void EventInput();
 	void PlayerInput();
 	void PlayerMove();
+	std::vector<sf::VideoMode> ResolutionList;
 	sf::RenderWindow myWindow;
 	PlayerGuy Player;
 	PlayerIn Inp;
@@ -40,7 +43,9 @@ class GameInterface
 	ShipsPaint ShipList;
 	sf::Text texto;
 	sf::Font fonte;
+	int i;
 	bool ingame;
+	int fullscreen;
 	void clear();
 	void collision();
 	void preload(int enemys);

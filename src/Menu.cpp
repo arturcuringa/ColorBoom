@@ -45,7 +45,7 @@ void Menu::rainbow(sf::Color &cor,int &corsect){
 			}
 }
 
-void Menu::menuinit(sf::RenderWindow& myWindow){
+void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen){
 	sf::Color cor(255,0,0);
 	sf::Clock timer;
 	sf::Time hourglass;
@@ -105,7 +105,7 @@ void Menu::menuinit(sf::RenderWindow& myWindow){
 		if (Inp.start == true)
 			{
 				Inp.start = false;
-				opt = Menu::mainmenu(myWindow);
+				opt = Menu::mainmenu(myWindow,ResolutionList,camera,i,fullscreen);
 				if(opt == 0)
 				{
 					return;
@@ -121,10 +121,13 @@ void Menu::menuinit(sf::RenderWindow& myWindow){
 
 }
 
-int Menu::mainmenu(sf::RenderWindow& myWindow){
+int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen){
 	sf::Color cor2(0,255,0);
 	sf::Clock timer;
 	sf::Clock tiemu;
+	sf::Clock after;
+
+	sf::Time burn;
 	sf::Time warudo;
 	sf::Time hourglass;
 
@@ -132,6 +135,7 @@ int Menu::mainmenu(sf::RenderWindow& myWindow){
 
 	int corsect2 = 0;
 	int selection = 0;
+	int i2, fullscreen2;
 
 	sf::RectangleShape opt;
 	opt.setOutlineThickness(3);
@@ -152,6 +156,164 @@ int Menu::mainmenu(sf::RenderWindow& myWindow){
 	while(start == false && myWindow.isOpen()){
 		hourglass = timer.getElapsedTime();
 		warudo = tiemu.getElapsedTime();
+		burn = after.getElapsedTime();
+
+		while(myWindow.pollEvent(ev)){
+			switch(ev.type){
+			
+			case sf::Event::JoystickConnected:
+				std::cout<<"\nJoystickConnected!!\n";
+				break;
+			case sf::Event::Closed:
+				myWindow.close();
+				break;
+			default:
+					break;
+			}
+		}
+
+		if(hourglass.asSeconds()>0.005){
+			timer.restart();
+
+			Menu::rainbow(cor2,corsect2);
+			opt.setOutlineColor(cor2);
+			opt.setFillColor(sf::Color(0,0,0,0));
+		}
+		Inp.stateClear();
+		sf::Joystick::update();
+		Inp.PlayerMove();
+		Inp.InputUpdate();
+
+
+
+		if(Inp.y>50 && warudo.asSeconds()>0.2){
+			warudo = tiemu.restart();
+			selection++;
+			selection = selection % 3;
+		}
+		if(Inp.y<-50 && warudo.asSeconds()>0.2){
+			warudo = tiemu.restart();
+			selection--;
+			if(selection<0){
+				selection = 2;
+			}
+		}
+
+		
+
+
+		myWindow.clear();
+		if(Inp.B && burn.asSeconds()>0.2){
+			return 1;
+		}
+		
+		switch(selection)
+			{
+				case 0:
+					opt.setPosition(sf::Vector2f(330,120));
+					opt.setSize(sf::Vector2f(140,60));
+					myWindow.draw(opt);
+					if(Inp.A){
+						return selection;
+					}
+					break;
+				case 1:
+					opt.setPosition(sf::Vector2f(310,270));
+					opt.setSize(sf::Vector2f(180,60));
+					myWindow.draw(opt);
+					if(Inp.A && burn.asSeconds()>0.2){
+						i2=i;
+						fullscreen2 = fullscreen;
+						Menu::menuopt(myWindow,ResolutionList,camera,i,fullscreen);
+						if(i!=i2 || fullscreen != fullscreen2){
+							if(fullscreen == 0){
+								myWindow.create(ResolutionList[i], "COLOR BOOOM", sf::Style::Fullscreen);
+
+							}
+							else{
+								myWindow.create(ResolutionList[i], "COLOR BOOOM");
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4){
+								camera.setCenter(sf::Vector2f(400,300));
+								camera.setSize(sf::Vector2f(800,600));
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7){
+								camera.setCenter(sf::Vector2f(400,300));
+								camera.setSize(sf::Vector2f(1024,640));
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8){
+								camera.setCenter(sf::Vector2f(400,300));
+								camera.setSize(sf::Vector2f(1024,600));
+							}
+						}
+						myWindow.setView(camera);
+						burn = after.restart();
+					}
+					break;
+				case 2:
+					opt.setPosition(sf::Vector2f(340,420));
+					opt.setSize(sf::Vector2f(120,60));
+					myWindow.draw(opt);
+					if(Inp.A){
+						return selection;
+					}
+					break;
+			}
+		choice.setString("START");
+		choice.setPosition(sf::Vector2f(350,140));
+		myWindow.draw(choice);
+		choice.setString("OPTIONS");
+		choice.setPosition(sf::Vector2f(330,290));
+		myWindow.draw(choice);
+		choice.setString("EXIT");
+		choice.setPosition(sf::Vector2f(360,440));
+		myWindow.draw(choice);
+		myWindow.display();
+
+
+	}
+	return false;
+}
+void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen){
+	sf::Color cor2(0,255,0);
+	sf::Clock timer;
+	sf::Clock tiemu;
+	sf::Clock runner;
+	sf::Time run;
+	sf::Time warudo;
+	sf::Time hourglass;
+
+	PlayerIn Inp;
+
+	std::string res;
+
+	int corsect2 = 0;
+	int selection = 0;
+	int c=1;
+
+	sf::RectangleShape opt;
+	opt.setOutlineThickness(3);
+
+	sf::Event ev;
+
+	sf::Text choice;
+	choice.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	choice.setCharacterSize(20);
+	choice.setStyle(sf::Text::Bold);
+	choice.setColor(sf::Color::White);
+	//choice.setString("PRESS START");
+	//choice.setColor();
+	//choice.setPosition(sf::Vector2f(290,290));
+
+	bool start=false;
+	while(ResolutionList[0].width!=ResolutionList[c].width && ResolutionList[0].height != ResolutionList[c].height){
+		c++;
+	}
+
+	while(start == false && myWindow.isOpen()){
+		hourglass = timer.getElapsedTime();
+		warudo = tiemu.getElapsedTime();
+		run = runner.getElapsedTime();
 
 		while(myWindow.pollEvent(ev)){
 			switch(ev.type){
@@ -199,50 +361,110 @@ int Menu::mainmenu(sf::RenderWindow& myWindow){
 
 		myWindow.clear();
 		if(Inp.B){
-			return 1;
+			return;
 		}
 		
 		switch(selection)
 			{
 				case 0:
-					opt.setPosition(sf::Vector2f(330,120));
-					opt.setSize(sf::Vector2f(140,60));
+					opt.setPosition(sf::Vector2f(30,130));
+					opt.setSize(sf::Vector2f(240,40));
 					myWindow.draw(opt);
-					if(Inp.A){
-						return selection;
+					if(Inp.x>50 && run.asSeconds()>0.2){
+						while(myWindow.isOpen()){
+							i--;
+							if(i<0){
+							i = c - 1;
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+						}
+						run = runner.restart();
+					}
+					if(Inp.x<-50 && run.asSeconds()>0.2){
+						while(myWindow.isOpen()){
+							i++;
+							i = i%c;
+							if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+							if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8 && ResolutionList[i].width>=800 && ResolutionList[i].height>=600){
+								break;
+							}
+						}
+						run = runner.restart();
 					}
 					break;
 				case 1:
-					opt.setPosition(sf::Vector2f(310,270));
-					opt.setSize(sf::Vector2f(180,60));
+					opt.setPosition(sf::Vector2f(30,280));
+					opt.setSize(sf::Vector2f(240,40));
 					myWindow.draw(opt);
-					if(Inp.A){
-						myWindow.close();
+					if(Inp.x>50 && run.asSeconds()>0.2){
+						run = runner.restart();
+						fullscreen++;
+						fullscreen = fullscreen % 2;
+					}
+					if(Inp.x<-50 && run.asSeconds()>0.2){
+						run = runner.restart();
+						fullscreen++;
+						fullscreen = fullscreen % 2;
 					}
 					break;
 				case 2:
-					opt.setPosition(sf::Vector2f(340,420));
-					opt.setSize(sf::Vector2f(120,60));
+					opt.setPosition(sf::Vector2f(350,430));
+					opt.setSize(sf::Vector2f(120,40));
 					myWindow.draw(opt);
 					if(Inp.A){
-						return selection;
+						return;
 					}
 					break;
 			}
-		choice.setString("START");
-		choice.setPosition(sf::Vector2f(350,140));
+		choice.setString("Resolution:");
+		choice.setPosition(sf::Vector2f(40,140));
 		myWindow.draw(choice);
-		choice.setString("OPTIONS");
-		choice.setPosition(sf::Vector2f(330,290));
+		choice.setString("FullScreen:");
+		choice.setPosition(sf::Vector2f(40,290));
 		myWindow.draw(choice);
 		choice.setString("EXIT");
 		choice.setPosition(sf::Vector2f(360,440));
 		myWindow.draw(choice);
+
+		res+=static_cast<std::stringstream*>( &(std::stringstream() << ResolutionList[i].width) )->str();
+		res+=" x ";
+		res+=static_cast<std::stringstream*>( &(std::stringstream() << ResolutionList[i].height) )->str();
+
+		choice.setString(res);
+		choice.setPosition(sf::Vector2f(500,140));
+		myWindow.draw(choice);
+
+		res="";
+
+		if(fullscreen == 0){
+			choice.setString("ON");
+			choice.setPosition(sf::Vector2f(500,290));
+		}
+		else{
+			choice.setString("OFF");
+			choice.setPosition(sf::Vector2f(500,290));
+		}
+		myWindow.draw(choice);
+		//texto.setString( static_cast<std::stringstream*>( &(std::stringstream() << Player.Score) )->str() );
+
+
 		myWindow.display();
 
 
 	}
-	return false;
 }
 int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto){
 	sf::Color cor(255,0,0,0);
@@ -259,8 +481,8 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 	int selection = 0;
 
 	sf::RectangleShape screen;
-	screen.setSize(sf::Vector2f(800,600));
-	screen.setPosition(camera.getCenter()-sf::Vector2f(400,300));
+	screen.setSize(sf::Vector2f(1024,640));
+	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
 	screen.setFillColor(cor);
 
 	sf::RectangleShape opt;
@@ -434,6 +656,7 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 	over.setColor(sf::Color::White);
 	over.setString("GAME OVER");
 	over.setPosition(camera.getCenter());
+	myWindow.clear();
 	myWindow.draw(over);
 	myWindow.display();
 

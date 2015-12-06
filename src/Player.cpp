@@ -36,9 +36,9 @@ void PlayerGuy::clear()
 	snipe.setTextureRect(sf::IntRect(0,0,11,11));
 
 	gun.clear();
-
+ 
 	snipe.setPosition(Body.getPosition() + sf::Vector2f(20.f,10.f));
-	snipe.setOrigin(0.f , 5.f);
+	snipe.setRotation(0);
 	x = 0;
 	Life = 3;
 	Score = 0;
