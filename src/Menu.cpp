@@ -226,6 +226,11 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 						fullscreen2 = fullscreen;
 						Menu::menuopt(myWindow,ResolutionList,camera,i,fullscreen);
 						if(i!=i2 || fullscreen != fullscreen2){
+							std::ofstream myfile("data/Conf");
+							if (myfile.is_open()){
+								myfile <<i<<"\n"<<fullscreen;
+								myfile.close();
+							}
 							if(fullscreen == 0){
 								myWindow.create(ResolutionList[i], "COLOR BOOOM", sf::Style::Fullscreen);
 
