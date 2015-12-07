@@ -36,4 +36,5 @@ void Configuration::initSounds()
 	SoundEffects.load(Sounds::shot, "data/Paste.wav");
 	SoundEffects.load(Sounds::PExplo, "data/death.wav");
 	SoundEffects.load(Sounds::Menu, "data/Change Menu Op.wav");
+	SoundEffects.load(Sounds::select, "data/menuenter.wav");
 }

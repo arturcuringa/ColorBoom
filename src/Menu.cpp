@@ -54,13 +54,9 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 	sf::Clock title;
 	sf::Time titleTime;
 
-	sf::Music Song;
-	if (!Song.openFromFile("data/Lyvo - Tell Me.ogg"))
-	{
-		std::cout<<"DAFUQ?!"<<std::endl;
-	}
-	Song.play();
-	Song.setLoop(true);
+	sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 	int corsect = 0;
 	int corsect1 = 1;
 
@@ -166,15 +162,21 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 
 		if (Inp.start == true)
 			{
+				Enter.play();
 				Inp.start = false;
 				opt = Menu::mainmenu(myWindow,ResolutionList,camera,i,fullscreen);
-				Song.stop();
+
+
+				Tick.play();
+
 				if(opt == 0)
 				{
 					return;
 				}
+
 				if(opt == 2)
 				{
+
 					myWindow.close();
 					return;
 				}
@@ -191,6 +193,7 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 	sf::Clock after;
 
 	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+	sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
 
 	sf::Time burn;
 	sf::Time warudo;
@@ -272,6 +275,7 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 
 		myWindow.clear();
 		if(Inp.B && burn.asSeconds()>0.2){
+			Tick.play();
 			return 1;
 		}
 		
@@ -290,9 +294,11 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					opt.setSize(sf::Vector2f(180,60));
 					myWindow.draw(opt);
 					if(Inp.A && burn.asSeconds()>0.2){
+						Enter.play();
 						i2=i;
 						fullscreen2 = fullscreen;
 						Menu::menuopt(myWindow,ResolutionList,camera,i,fullscreen);
+						Tick.play();
 						if(i!=i2 || fullscreen != fullscreen2){
 							std::ofstream myfile("data/Conf");
 							if (myfile.is_open()){
@@ -328,7 +334,9 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					opt.setSize(sf::Vector2f(330,60));
 					myWindow.draw(opt);
 					if(Inp.A && burn.asSeconds()>0.2){
+						Enter.play();
 						Menu::credits(myWindow,camera);
+						Tick.play();
 						burn = after.restart();
 					}
 					break;
@@ -370,6 +378,8 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 	sf::Time hourglass;
 
 	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+	sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
+	Enter.play();
 
 	PlayerIn Inp;
 
@@ -462,6 +472,7 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					opt.setSize(sf::Vector2f(240,40));
 					myWindow.draw(opt);
 					if(Inp.x>50 && run.asSeconds()>0.2){
+						Tick.play();
 						while(myWindow.isOpen()){
 							i--;
 							if(i<0){
@@ -480,6 +491,7 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 						run = runner.restart();
 					}
 					if(Inp.x<-50 && run.asSeconds()>0.2){
+						Tick.play();
 						while(myWindow.isOpen()){
 							i++;
 							i = i%c;
@@ -501,11 +513,13 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					opt.setSize(sf::Vector2f(240,40));
 					myWindow.draw(opt);
 					if(Inp.x>50 && run.asSeconds()>0.2){
+						Tick.play();
 						run = runner.restart();
 						fullscreen++;
 						fullscreen = fullscreen % 2;
 					}
 					if(Inp.x<-50 && run.asSeconds()>0.2){
+						Tick.play();
 						run = runner.restart();
 						fullscreen++;
 						fullscreen = fullscreen % 2;
@@ -561,6 +575,7 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 	sf::Color cor(255,0,0,0);
 
 	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 
 	sf::Clock clocker;
 	sf::Clock timer;
@@ -756,6 +771,8 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
 	screen.setFillColor(sf::Color::Black);
 
+	sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
+
 	sf::Text over;
 	over.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
 	over.setCharacterSize(40);
@@ -774,23 +791,24 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 		control.InputUpdate();
 
 		while(myWindow.pollEvent(ev)){
-		switch(ev.type){
-		
-		case sf::Event::JoystickConnected:
-			std::cout<<"\nJoystickConnected!!\n";
-			break;
-		case sf::Event::Closed:
-			myWindow.close();
-			return;
-			break;
-		default:
+			switch(ev.type){
+			
+			case sf::Event::JoystickConnected:
+				std::cout<<"\nJoystickConnected!!\n";
 				break;
+			case sf::Event::Closed:
+				myWindow.close();
+				return;
+				break;
+			default:
+					break;
+			}
 		}
-	}
 
 
 
 	}
+	Enter.play();
 
 }
 void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score){
@@ -830,6 +848,8 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	sf::Event ev;
 
 	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+	sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
+
 
 short int x = 0;
 	while(!control.start)
@@ -918,6 +938,7 @@ short int x = 0;
 	}
 
 	Score::InputScore(score, AAA);
+	Enter.play();
 
 }
 
@@ -927,6 +948,8 @@ void Menu::credits(sf::RenderWindow& myWindow, sf::View& camera){
 
 	sf::Time watch;
 	sf::Time warudo;
+
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
 
 	PlayerIn Inp;
 
@@ -983,6 +1006,7 @@ void Menu::credits(sf::RenderWindow& myWindow, sf::View& camera){
 		}
 
 		if(warudo.asSeconds()>0.2 && (Inp.start || Inp.B || Inp.A)){
+			Tick.play();
 			return;
 		}
 
@@ -1002,7 +1026,7 @@ void Menu::credits(sf::RenderWindow& myWindow, sf::View& camera){
 				return;
 				break;
 			default:
-					break;
+				break;
 			}
 
 		}

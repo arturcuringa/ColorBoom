@@ -96,16 +96,33 @@ void GameInterface::clear(){
 void GameInterface::GameLoop(){
 	while(myWindow.isOpen()){
 		clear();
+
+		sf::Music Song;
+
+		if (!Song.openFromFile("data/Lyvo - Tell Me.ogg"))
+		{
+			std::cout<<"DAFUQ?!"<<std::endl;
+		}
+
+		Song.play();
+		Song.setLoop(true);
+
 		Menu::menuinit(myWindow,ResolutionList,Camera,i,fullscreen);
+
+		Song.stop();
 
 		if(myWindow.isOpen()){
 			clear();
 		}
 
 		if(myWindow.isOpen()){
+			sf::Sound Enter(Configuration::SoundEffects.get(Configuration::Sounds::select) );
+			Enter.play();
 			Start();
 		}
 		if(myWindow.isOpen()){
+			sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+			Tick.play();
 			if (Score::checkScore(Player.Score))
 			{
 				Menu::highScore(myWindow,Camera, Player.Score);
@@ -119,6 +136,7 @@ void GameInterface::GameLoop(){
 
 void GameInterface::Start()
 {	
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
 	ingame = true;
 	int opt;
 	sf::Clock shoottime;
@@ -150,6 +168,7 @@ void GameInterface::Start()
 		if(Inp.start){
 				
 				opt = Menu::pausemenu(myWindow,Camera,Player,Map,ShipList,Score);
+				Tick.play();
 				if(opt == 1)
 				{
 					clear();
@@ -288,10 +307,10 @@ void GameInterface::collision(){
 	}
 	else{
 
-		ShootPaint::Shootnode *auShoot,*auShoot2;
+		ShootPaint::Shootnode *auShoot;
 		auShoot=Player.gun.S_head->next;
 		FaseTime += GameTime.restart();
-		Shipnode * auShip,*auShip2;
+		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
 
 
@@ -315,18 +334,13 @@ void GameInterface::collision(){
 				}
 			}
 
-			if(Player.gun.S_head->next!=nullptr){
+			else if(Player.gun.S_head->next!=Player.gun.S_tail){
 				while(auShoot != Player.gun.S_tail){
 					
 					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
-						auShoot2 = auShoot->next;
 						Player.gun.ShootRemove(auShoot);
-						auShoot = auShoot2;
-
-						auShip2 = auShip;
 						ShipList.ShipsRemove(auShip);	
-						auShip = auShip2;
 						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::Explo) ) );
 						Sounds.back().setVolume(55);
 						Sounds.back().play();
@@ -349,19 +363,16 @@ void GameInterface::collision(){
 								Player.GrowSpecialBar();
 							}
 						}
-						break;
+						collision();
+						return;
 					}
 
-					else{			
-						if( auShoot == Player.gun.S_tail || auShip == ShipList.S_tail){
-							break;
-						}
-
+					else{
 						auShoot = auShoot->next;
 					}
 				}
 			}
-			if( auShip == ShipList.S_tail){
+			if(auShip->next == nullptr){
 				break;
 			}
 			auShoot=Player.gun.S_head;
