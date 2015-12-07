@@ -301,6 +301,7 @@ void GameInterface::collision(){
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
 				Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
+				Sounds.back().setVolume(55);
 				Sounds.back().play();
 				ShipList.clear();
 				Player.gun.clear();
@@ -318,12 +319,12 @@ void GameInterface::collision(){
 					
 					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
-						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot);
 						ShipList.ShipsRemove(auShip);	
 						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
+						Sounds.back().setVolume(55);
 						Sounds.back().play();
-						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
+
 						if (FaseTime.asSeconds() < 100)
 						{
 
@@ -470,6 +471,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 		{
 			timer.restart();
 			Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::shot) ) );
+			Sounds.back().setVolume(55);
 			Sounds.back().play();
 			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() ,  Player.cor);
 		}

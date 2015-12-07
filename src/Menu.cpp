@@ -799,7 +799,6 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	AAA += a[1];
 	AAA += a[2];
 	Name.setString(AAA );
-	std::cout<< AAA <<std::endl;
 	Name.setPosition(High.getPosition() - sf::Vector2f(0, 80));
 
 	sf::Clock c;

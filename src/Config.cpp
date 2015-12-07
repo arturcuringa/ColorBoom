@@ -29,9 +29,10 @@ void Configuration::initTextures()
 	textures.load(Textures::R, "data/R.png");
 	textures.load(Textures::BOOM, "data/BOOM.png");
 }
+
 void Configuration::initSounds()
 {
-	SoundEffects.load(Sounds::Explo, "data/blow.wav");
-	SoundEffects.load(Sounds::shot, "data/2.wav");
-	SoundEffects.load(Sounds::PExplo, "data/blow.wav");
+	SoundEffects.load(Sounds::Explo, "data/Powerup3.wav");
+	SoundEffects.load(Sounds::shot, "data/Paste.wav");
+	SoundEffects.load(Sounds::PExplo, "data/Powerup3.wav");
 }
