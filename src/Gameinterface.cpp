@@ -288,11 +288,12 @@ void GameInterface::collision(){
 	}
 	else{
 
-		ShootPaint::Shootnode *auShoot;
+		ShootPaint::Shootnode *auShoot,*auShoot2;
 		auShoot=Player.gun.S_head->next;
 		FaseTime += GameTime.restart();
-		Shipnode * auShip;
+		Shipnode * auShip,*auShip2;
 		auShip = ShipList.S_head->next;
+
 
 
 		while(auShip != ShipList.S_tail ){
@@ -319,8 +320,13 @@ void GameInterface::collision(){
 					
 					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
+						auShoot2 = auShoot->next;
 						Player.gun.ShootRemove(auShoot);
+						auShoot = auShoot2;
+
+						auShip2 = auShip;
 						ShipList.ShipsRemove(auShip);	
+						auShip = auShip2;
 						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::Explo) ) );
 						Sounds.back().setVolume(55);
 						Sounds.back().play();
@@ -346,12 +352,16 @@ void GameInterface::collision(){
 						break;
 					}
 
-					else{
+					else{			
+						if( auShoot == Player.gun.S_tail || auShip == ShipList.S_tail){
+							break;
+						}
+
 						auShoot = auShoot->next;
 					}
 				}
 			}
-			if(auShip->next == nullptr){
+			if( auShip == ShipList.S_tail){
 				break;
 			}
 			auShoot=Player.gun.S_head;
