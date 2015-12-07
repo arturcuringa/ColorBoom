@@ -2,9 +2,9 @@
 CXX = g++
 DELETAR = bin/rm
 CVERSION = -std=c++11 #-std=c++0x
-AVISA =-Wall
+AVISA =-Wall -g
 
-OP = $(AVISA) $(CVERSION)
+OP = $(AVISA) $(CVERSION) -O3
 SFMLOP = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 #######################################################DIR############################################################
 

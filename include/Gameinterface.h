@@ -18,6 +18,7 @@
 #include "Menu.h"
 #include "Score.h"
 #include <vector>
+#include <list>
 
 class GameInterface
 {
@@ -43,8 +44,8 @@ class GameInterface
 	ShipsPaint ShipList;
 	sf::Text Score;
 	sf::Text Life;
-
-	
+	std::list<sf::Sound> Sounds;
+	static bool soundoff(const sf::Sound& test);
 	int i;
 	bool ingame;
 	int fullscreen;

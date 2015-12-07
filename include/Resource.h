@@ -2,6 +2,7 @@
 #define __Resource__
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <unordered_map>
 #include <iostream>
 #include <memory>

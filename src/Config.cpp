@@ -3,11 +3,13 @@
 
 ResourceManager<sf::Texture,int> Configuration::textures;
 ResourceManager<sf::Font,int> Configuration::fonts;
+ResourceManager<sf::SoundBuffer,int> Configuration::SoundEffects;
 
 void Configuration::initialize()
 {
 	initFonts();
 	initTextures();
+	initSounds();
 }
 void Configuration::initFonts()
 {
@@ -26,4 +28,10 @@ void Configuration::initTextures()
 	textures.load(Textures::O2, "data/O2.png");
 	textures.load(Textures::R, "data/R.png");
 	textures.load(Textures::BOOM, "data/BOOM.png");
+}
+void Configuration::initSounds()
+{
+	SoundEffects.load(Sounds::Explo, "data/blow.wav");
+	SoundEffects.load(Sounds::shot, "data/2.wav");
+	SoundEffects.load(Sounds::PExplo, "data/blow.wav");
 }

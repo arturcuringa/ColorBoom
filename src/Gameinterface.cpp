@@ -286,6 +286,8 @@ void GameInterface::collision(){
 
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
+				Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
+				Sounds.back().play();
 				if (Player.Die())
 				{
 					Camera = myWindow.getDefaultView();
@@ -316,10 +318,13 @@ void GameInterface::collision(){
 						}
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						Player.gun.ShootRemove(auShoot);
-						ShipList.ShipsRemove(auShip);
-						
+						ShipList.ShipsRemove(auShip);	
+						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
+						Sounds.back().play();
+						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
 						if (FaseTime.asSeconds() < 100)
 						{
+
 							Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
 							if (Player.PowerBar<100)
 							{
@@ -400,6 +405,8 @@ void GameInterface::preload(int enemys){
 		GameTime.restart();
 }
 
+bool GameInterface::soundoff(const sf::Sound& test){ return (test.getStatus() != sf::SoundSource::Status::Playing);}
+
 
 void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime,sf::Clock&  SpecialClock){
 
@@ -458,6 +465,8 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 		if(Player.cor!=sf::Color(0,0,0)&& watch.asSeconds()>0.1)
 		{
 			timer.restart();
+			Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::shot) ) );
+			Sounds.back().play();
 			Player.gun.ShootAdd(  tang  ,  Player.Body.getPosition() ,  Player.cor);
 		}
 
@@ -488,7 +497,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	if (ShipList.empty())
 	{
 
-		preload(Player.Score/100 + 5);
+		preload(Player.Score/100 + 1);
 
 	}	
 		collision();
@@ -498,6 +507,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	Player.SpecialBar.setPosition(Life.getPosition() + sf::Vector2f(-100, 30.f));
 
 	Player.SpecialFill.setSize(sf::Vector2f(Player.PowerBar,10.f));
-
+	Sounds.remove_if(GameInterface::soundoff);
+	//std::cout<<Sounds.size()<<std::endl;
 }	
 

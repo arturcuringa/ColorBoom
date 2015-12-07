@@ -15,12 +15,15 @@ class Configuration
 		enum Fonts : int {Arcade};
 		static ResourceManager<sf::Font,int>fonts;
 
+		enum Sounds : int{Explo, shot, PExplo};
+		static ResourceManager<sf::SoundBuffer,int> SoundEffects;
 		
 		static void initialize();
 	
 	private:
 		static void initFonts();
 		static void initTextures();
+		static void initSounds();
 
 };
 
