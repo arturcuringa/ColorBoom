@@ -332,6 +332,7 @@ void GameInterface::collision(){
 					FaseTime = sf::Time::Zero;
 
 				}
+				return;
 			}
 
 			else if(Player.gun.S_head->next!=Player.gun.S_tail){

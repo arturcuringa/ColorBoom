@@ -829,6 +829,20 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	std::string num = ( static_cast<std::stringstream*>( &(std::stringstream() << score) )->str() );
 	High.setString("NEW HIGH SCORE\n" + num);
 
+	sf::Text choice;
+	choice.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	choice.setCharacterSize(40);
+	choice.setStyle(sf::Text::Bold);
+
+	sf::Clock timeri;
+	sf::Time warudo;
+
+	std::string colorin;
+
+	sf::Color cor(255,0,0);
+
+	int corsect = 0;
+
 	High.setPosition(camera.getCenter() - sf::Vector2f(280,0));
 
 	char a[3] ={ 'A','A','A' };
@@ -854,6 +868,7 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 short int x = 0;
 	while(!control.start)
 	{
+		warudo = timeri.getElapsedTime();
 
 		while(myWindow.pollEvent(ev)){
 			switch(ev.type){
@@ -870,12 +885,23 @@ short int x = 0;
 			}
 		}
 
+		if(warudo.asSeconds()>0.01){
+			Menu::rainbow(cor,corsect);
+		}
+		colorin = "";
+		colorin += a[x];
+		choice.setString(colorin);
+		choice.setColor(cor);
+		choice.setPosition(High.getPosition() - sf::Vector2f(-(x*39), 80));
+
+
 		sf::Time t = c.getElapsedTime();
 
 		myWindow.clear();
 		myWindow.draw(screen);
 		myWindow.draw(High);
 		myWindow.draw(Name);
+		myWindow.draw(choice);
 		myWindow.display();
 
 		sf::Joystick::update();
