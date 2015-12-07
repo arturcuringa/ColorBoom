@@ -256,14 +256,14 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 			Tick.play();
 			warudo = tiemu.restart();
 			selection++;
-			selection = selection % 3;
+			selection = selection % 4;
 		}
 		if(Inp.y<-50 && warudo.asSeconds()>0.2){
 			Tick.play();
 			warudo = tiemu.restart();
 			selection--;
 			if(selection<0){
-				selection = 2;
+				selection = 3;
 			}
 		}
 
@@ -286,7 +286,7 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					}
 					break;
 				case 1:
-					opt.setPosition(sf::Vector2f(310,270));
+					opt.setPosition(sf::Vector2f(310,220));
 					opt.setSize(sf::Vector2f(180,60));
 					myWindow.draw(opt);
 					if(Inp.A && burn.asSeconds()>0.2){
@@ -324,19 +324,32 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 					}
 					break;
 				case 2:
+					opt.setPosition(sf::Vector2f(240,320));
+					opt.setSize(sf::Vector2f(330,60));
+					myWindow.draw(opt);
+					if(Inp.A && burn.asSeconds()>0.2){
+						Menu::credits(myWindow,camera);
+						burn = after.restart();
+					}
+					break;
+				case 3:
 					opt.setPosition(sf::Vector2f(340,420));
 					opt.setSize(sf::Vector2f(120,60));
 					myWindow.draw(opt);
 					if(Inp.A){
-						return selection;
+						return 2;
 					}
 					break;
 			}
+
 		choice.setString("START");
 		choice.setPosition(sf::Vector2f(350,140));
 		myWindow.draw(choice);
 		choice.setString("OPTIONS");
-		choice.setPosition(sf::Vector2f(330,290));
+		choice.setPosition(sf::Vector2f(330,240));
+		myWindow.draw(choice);
+		choice.setString("CREDITS-SCORES");
+		choice.setPosition(sf::Vector2f(260.5,340));
 		myWindow.draw(choice);
 		choice.setString("EXIT");
 		choice.setPosition(sf::Vector2f(360,440));
@@ -836,6 +849,7 @@ short int x = 0;
 					break;
 			}
 		}
+
 		sf::Time t = c.getElapsedTime();
 
 		myWindow.clear();
@@ -904,5 +918,96 @@ short int x = 0;
 	}
 
 	Score::InputScore(score, AAA);
+
+}
+
+void Menu::credits(sf::RenderWindow& myWindow, sf::View& camera){
+	sf::Clock timer;
+	sf::Clock tiemu;
+
+	sf::Time watch;
+	sf::Time warudo;
+
+	PlayerIn Inp;
+
+	sf::Event ev;
+
+	int up = 320;
+
+	sf::Text choice;
+	choice.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	choice.setCharacterSize(30);
+	choice.setStyle(sf::Text::Bold);
+	choice.setColor(sf::Color::White);
+
+	std::ifstream myfile("data/Names");
+	std::ifstream myfile2("data/Scores");
+
+	std::string text;
+	std::string lineS;
+	std::string lineN;
+
+	text = "Creators:\nLucas De Medeiros Ferreira\nArtur Maricato Curinga\n\nAlmost Beaten By:\n";
+
+	while(std::getline(myfile,lineS)){
+		std::getline(myfile2,lineN);
+		text+=lineS;
+		text+="-";
+		text+=lineN;
+		text+="\n";
+	}
+
+	myfile.close();
+	myfile2.close();
+
+	choice.setString(text);
+
+	while(myWindow.isOpen()){
+
+		watch = timer.getElapsedTime();
+		warudo = tiemu.getElapsedTime();
+
+		Inp.stateClear();
+		sf::Joystick::update();
+		Inp.InputUpdate();
+
+		choice.setPosition(camera.getCenter() + sf::Vector2f(-380,up));
+
+		if(watch.asSeconds()>0.01){
+			timer.restart();
+			up--;
+		}
+
+		if(up<-1020){
+			return;
+		}
+
+		if(warudo.asSeconds()>0.2 && (Inp.start || Inp.B || Inp.A)){
+			return;
+		}
+
+		myWindow.clear();
+		myWindow.draw(choice);
+
+		myWindow.display();
+
+		while(myWindow.pollEvent(ev)){
+			switch(ev.type){
+			
+			case sf::Event::JoystickConnected:
+				std::cout<<"\nJoystickConnected!!\n";
+				break;
+			case sf::Event::Closed:
+				myWindow.close();
+				return;
+				break;
+			default:
+					break;
+			}
+
+		}
+
+
+	}
 
 }
