@@ -105,12 +105,14 @@ void GameInterface::GameLoop(){
 		if(myWindow.isOpen()){
 			Start();
 		}
-		if (Score::checkScore(Player.Score))
-		{
-			Menu::highScore(myWindow,Camera, Player.Score);
-		}
-		else{
-			Menu::gameover(myWindow, Camera);
+		if(myWindow.isOpen()){
+			if (Score::checkScore(Player.Score))
+			{
+				Menu::highScore(myWindow,Camera, Player.Score);
+			}
+			else{
+				Menu::gameover(myWindow, Camera);
+			}
 		}
 	}
 }
@@ -144,6 +146,7 @@ void GameInterface::Start()
 			EventInput();
 			update(PerFrame,timer,tiemu,shoottime, SpecialClock);
 		}
+
 		if(Inp.start){
 				
 				opt = Menu::pausemenu(myWindow,Camera,Player,Map,ShipList,Score);
@@ -167,6 +170,9 @@ void GameInterface::Start()
 				tiemu.restart();
 			}
 		render();
+		if(!myWindow.isOpen()){
+			ingame = false;
+		}
 
 	}
 	Song.stop();

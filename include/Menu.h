@@ -19,6 +19,7 @@ class Menu{
 	static void rainbow(sf::Color &cor,int &corsect);
 	static void menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen);
 	static void menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen);
+	static void credits(sf::RenderWindow& myWindow, sf::View& camera);
 	static void gameover(sf::RenderWindow& myWindow, sf::View& camera);
 	static void highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score);
 };

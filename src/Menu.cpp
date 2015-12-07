@@ -117,6 +117,7 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 				break;
 			case sf::Event::Closed:
 				myWindow.close();
+				return;
 				break;
 			default:
 					break;
@@ -228,6 +229,7 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 				break;
 			case sf::Event::Closed:
 				myWindow.close();
+				return 2;
 				break;
 			default:
 					break;
@@ -390,6 +392,7 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 				break;
 			case sf::Event::Closed:
 				myWindow.close();
+				return;
 				break;
 			default:
 					break;
@@ -578,6 +581,7 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 				break;
 			case sf::Event::Closed:
 				myWindow.close();
+				return 3;
 				break;
 			default:
 					break;
@@ -744,6 +748,7 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 			break;
 		case sf::Event::Closed:
 			myWindow.close();
+			return;
 			break;
 		default:
 				break;
@@ -804,6 +809,7 @@ short int x = 0;
 				break;
 			case sf::Event::Closed:
 				myWindow.close();
+				return;
 				break;
 			default:
 					break;
