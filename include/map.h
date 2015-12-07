@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Config.h" 
+// \class Map Game Map woth borders 
 class MAP{
 
 	public:
