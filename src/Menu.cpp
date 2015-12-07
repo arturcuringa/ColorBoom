@@ -730,10 +730,27 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 	myWindow.draw(over);
 	myWindow.display();
 
+	sf::Event ev;
 	while(!control.start)
 	{
 		sf::Joystick::update();
 		control.InputUpdate();
+
+		while(myWindow.pollEvent(ev)){
+		switch(ev.type){
+		
+		case sf::Event::JoystickConnected:
+			std::cout<<"\nJoystickConnected!!\n";
+			break;
+		case sf::Event::Closed:
+			myWindow.close();
+			break;
+		default:
+				break;
+		}
+	}
+
+
 
 	}
 
@@ -773,11 +790,25 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	Name.setPosition(High.getPosition() - sf::Vector2f(0, 80));
 
 	sf::Clock c;
-
+	sf::Event ev;
 
 short int x = 0;
 	while(!control.start)
 	{
+
+		while(myWindow.pollEvent(ev)){
+			switch(ev.type){
+			
+			case sf::Event::JoystickConnected:
+				std::cout<<"\nJoystickConnected!!\n";
+				break;
+			case sf::Event::Closed:
+				myWindow.close();
+				break;
+			default:
+					break;
+			}
+		}
 		sf::Time t = c.getElapsedTime();
 
 		myWindow.clear();

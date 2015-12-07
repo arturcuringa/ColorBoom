@@ -105,6 +105,13 @@ void GameInterface::GameLoop(){
 		if(myWindow.isOpen()){
 			Start();
 		}
+		if (Score::checkScore(Player.Score))
+		{
+			Menu::highScore(myWindow,Camera, Player.Score);
+		}
+		else{
+			Menu::gameover(myWindow, Camera);
+		}
 	}
 }
 
@@ -280,7 +287,7 @@ void GameInterface::collision(){
 		FaseTime += GameTime.restart();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
-		
+
 
 		while(auShip != ShipList.S_tail ){
 
@@ -293,17 +300,10 @@ void GameInterface::collision(){
 				Player.gun.clear();
 				if (Player.Die())
 				{
-					Camera = myWindow.getDefaultView();
 					
 					ingame = false;
 					FaseTime = sf::Time::Zero;
-					if (Score::checkScore(Player.Score))
-					{
-						Menu::highScore(myWindow,Camera, Player.Score);
-					}
-					else{
-						Menu::gameover(myWindow, Camera);
-					}
+
 				}
 			}
 
@@ -344,7 +344,9 @@ void GameInterface::collision(){
 					}
 				}
 			}
-
+			if(auShip->next == nullptr){
+				break;
+			}
 			auShoot=Player.gun.S_head;
 			//std::cout<<c<<std::endl;
 			auShip = auShip->next;
