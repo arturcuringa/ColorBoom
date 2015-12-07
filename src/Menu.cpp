@@ -713,7 +713,7 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 
 	PlayerIn control;
-
+	myWindow.setView(camera);
 	sf::RectangleShape screen;
 	screen.setSize(sf::Vector2f(1024,640));
 	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
@@ -725,7 +725,7 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 	over.setStyle(sf::Text::Bold);
 	over.setColor(sf::Color::White);
 	over.setString("GAME OVER");
-	over.setPosition(screen.getPosition() + sf::Vector2f(100,100));
+	over.setPosition(camera.getCenter()-sf::Vector2f(180,100));
 	myWindow.clear();
 	myWindow.draw(over);
 	myWindow.display();
@@ -742,7 +742,7 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 
 	
 	PlayerIn control;
-
+	myWindow.setView(camera);
 	sf::RectangleShape screen;
 	screen.setSize(sf::Vector2f(1024,640));
 	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
@@ -756,7 +756,7 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	std::string num = ( static_cast<std::stringstream*>( &(std::stringstream() << score) )->str() );
 	High.setString("NEW HIGH SCORE\n" + num);
 
-	High.setPosition(camera.getCenter());
+	High.setPosition(camera.getCenter() - sf::Vector2f(280,0));
 
 	char a[3] ={ 'A','A','A' };
 	sf::Text Name;

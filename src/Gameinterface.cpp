@@ -282,6 +282,8 @@ void GameInterface::collision(){
 		FaseTime += GameTime.restart();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
+								Shootnode * aux;
+						Shipnode * aux2;
 
 		while(auShip != ShipList.S_tail && !brek){
 
@@ -314,13 +316,13 @@ void GameInterface::collision(){
 					
 					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
-						if(auShoot == Player.gun.S_tail)
-						{
-							Player.gun.S_tail = auShoot;
-						}
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
+						aux = auShoot->next;
 						Player.gun.ShootRemove(auShoot);
-						ShipList.ShipsRemove(auShip);	
+						auShoot = aux;
+						aux2 = auShip->next;
+						ShipList.ShipsRemove(auShip);
+						auShip = aux2;	
 						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
 						Sounds.back().play();
 						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
@@ -437,14 +439,14 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 	
-	if (sf::Joystick::isButtonPressed(0,1) && Player.PowerBar >0 && SpecialTime.asSeconds() >0.05)
+	if ((sf::Joystick::isButtonPressed(0,1) || sf::Joystick::isButtonPressed(1,1) ) && Player.PowerBar >0 && SpecialTime.asSeconds() >0.05)
 	{
 		SpecialClock.restart();
 		Player.SpecialTrigger = true;
 		Player.DecraseSpecialBar();
 	}
 
-	if (!sf::Joystick::isButtonPressed(0,1) || !(Player.PowerBar >0) )
+	if (!(sf::Joystick::isButtonPressed(0,1) || sf::Joystick::isButtonPressed(1,1) ) || !(Player.PowerBar >0) )
 	{
 		Player.SpecialTrigger = false;
 	}
