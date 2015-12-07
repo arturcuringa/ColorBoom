@@ -6,6 +6,7 @@
 #include "Config.h"
 #include "Player.h"
 #include "Gameinterface.h"
+#include <SFML/Audio/Music.hpp>
 
 class Menu{
 	public:

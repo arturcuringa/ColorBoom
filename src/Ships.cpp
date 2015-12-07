@@ -33,7 +33,7 @@ ShipsPaint::~ShipsPaint(){
 		}
 }
 
-void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::Sprite target){
+void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::Sprite target, bool slow){
 		
 
 	if(S_head->next==S_tail){
@@ -50,7 +50,7 @@ void ShipsPaint::ShipsUpdate(sf::Time& deltaTime, sf::Sprite target){
 				double tang1 =  atan2(target.getPosition().y+10 - aux->body.getPosition().y  ,  target.getPosition().x+10 - aux->body.getPosition().x);
 				//double tang2 = atan2(aux->body.getPosition().x, aux->body.getPosition().y );
 				sf::Vector2f rot;
-				if(sf::Joystick::isButtonPressed(0,1) || sf::Joystick::isButtonPressed(1,1)){
+				if(slow){
 					rot= sf::Vector2f(10.f * cos(tang1), 10.f * sin(tang1) );
 				}
 				else{

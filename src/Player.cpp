@@ -16,6 +16,12 @@ PlayerGuy::PlayerGuy()
 	snipe.setPosition(Body.getPosition() + sf::Vector2f(20.f,10.f));
 	snipe.setOrigin(0.f , 5.f);
 
+	SpecialFill.setFillColor(sf::Color::Green);
+
+	SpecialBar.setFillColor(sf::Color::Transparent);
+	SpecialBar.setOutlineThickness(1.f);
+	SpecialBar.setOutlineColor(sf::Color::White);
+	SpecialBar.setSize(sf::Vector2f(100.f, 10.f));
 }
 
 
@@ -42,6 +48,7 @@ void PlayerGuy::clear()
 	x = 0;
 	Life = 3;
 	Score = 0;
+	PowerBar = 100;
 
 }
 
@@ -65,4 +72,14 @@ void PlayerGuy::updateScore(unsigned int points)
 
 	Score += points;
 
+}
+
+void PlayerGuy::GrowSpecialBar()
+{
+	PowerBar++;
+}
+
+void PlayerGuy::DecraseSpecialBar()
+{
+	PowerBar--;
 }

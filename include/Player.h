@@ -12,6 +12,11 @@ class PlayerGuy
 	//sf::Time shoot;
 	ShootPaint gun;
 	sf::Color cor;
+	sf::RectangleShape SpecialFill;
+	sf::RectangleShape SpecialBar;
+
+	int PowerBar = 100;
+	bool SpecialTrigger = false;
 
 	int x =0;
 	unsigned int Life = 3;
@@ -21,6 +26,8 @@ class PlayerGuy
 	bool Die();
 	PlayerGuy();
 	void updateScore(unsigned int points);
+	void GrowSpecialBar();
+	void DecraseSpecialBar();
 };
 
 class PlayerIn

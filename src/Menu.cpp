@@ -47,10 +47,23 @@ void Menu::rainbow(sf::Color &cor,int &corsect){
 
 void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& ResolutionList,sf::View& camera, int& i,int& fullscreen){
 	sf::Color cor(255,0,0);
+	sf::Color cor1(0,255,0);
 	sf::Clock timer;
 	sf::Time hourglass;
 
+	sf::Clock title;
+	sf::Time titleTime;
+
+	sf::Music Song;
+	if (!Song.openFromFile("data/Lyvo - Tell Me.ogg"))
+	{
+		std::cout<<"DAFUQ?!"<<std::endl;
+	}
+	Song.play();
+	Song.setLoop(true);
 	int corsect = 0;
+	int corsect1 = 1;
+
 	myWindow.clear();
 
 	PlayerIn Inp;
@@ -66,7 +79,32 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 	choice.setColor(sf::Color::White);
 	choice.setString("PRESS START");
 	choice.setColor(cor);
-	choice.setPosition(sf::Vector2f(290,290));
+	choice.setPosition(sf::Vector2f(290,490));
+
+	sf::Sprite C;
+	C.setTexture(Configuration::textures.get(Configuration::Textures::C), false);
+	C.setPosition(sf::Vector2f(130,30) );
+
+	sf::Sprite O;
+	O.setTexture(Configuration::textures.get(Configuration::Textures::O), false);
+	O.setPosition(sf::Vector2f(240,30) );
+
+	sf::Sprite L;
+	L.setTexture(Configuration::textures.get(Configuration::Textures::L), false);
+	L.setPosition(sf::Vector2f(350,30) );
+
+	sf::Sprite O2;
+	O2.setTexture(Configuration::textures.get(Configuration::Textures::O2), false);
+	O2.setPosition(sf::Vector2f(460,30) );
+
+	sf::Sprite R;
+	R.setTexture(Configuration::textures.get(Configuration::Textures::R), false);
+	R.setPosition(sf::Vector2f(570,30) );
+
+	sf::Sprite BOOM;
+	BOOM.setTexture(Configuration::textures.get(Configuration::Textures::BOOM), false);
+	BOOM.setScale(0.7,0.7);
+	BOOM.setPosition(sf::Vector2f(160,280) );
 
 	bool start=false;
 
@@ -86,15 +124,38 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 		}
 
 		hourglass = timer.getElapsedTime();
+		titleTime = title.getElapsedTime();
 
 		if(hourglass.asSeconds()>0.005){
 			timer.restart();
 			Menu::rainbow(cor,corsect);
-
 			choice.setColor(cor);
 		}
+
+		if (titleTime.asSeconds() > 0.05)
+		{
+			title.restart();
+			Menu::rainbow(cor1,corsect1);
+			C.setColor(cor1);
+			Menu::rainbow(cor1,corsect1);
+			O.setColor(cor1);
+			Menu::rainbow(cor1,corsect1);
+			L.setColor(cor1);
+			Menu::rainbow(cor1,corsect1);
+			O2.setColor(cor1);
+			Menu::rainbow(cor1,corsect1);
+			R.setColor(cor1);
+		}
+
+
 		myWindow.clear();
 		myWindow.draw(choice);
+		myWindow.draw(C);
+		myWindow.draw(O);
+		myWindow.draw(L);
+		myWindow.draw(O2);
+		myWindow.draw(R);
+		myWindow.draw(BOOM);
 		myWindow.display();
 		sf::Joystick::update();
 		if (sf::Joystick::isButtonPressed(0,9) || sf::Joystick::isButtonPressed(1,9))
@@ -652,7 +713,10 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 
 	PlayerIn control;
 
-
+	sf::RectangleShape screen;
+	screen.setSize(sf::Vector2f(1024,640));
+	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
+	screen.setFillColor(sf::Color::Black);
 
 	sf::Text over;
 	over.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
@@ -660,7 +724,7 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 	over.setStyle(sf::Text::Bold);
 	over.setColor(sf::Color::White);
 	over.setString("GAME OVER");
-	over.setPosition(camera.getCenter());
+	over.setPosition(screen.getPosition() + sf::Vector2f(100,100));
 	myWindow.clear();
 	myWindow.draw(over);
 	myWindow.display();
@@ -678,8 +742,8 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	PlayerIn control;
 
 	sf::RectangleShape screen;
-	screen.setSize(sf::Vector2f(800,600));
-	screen.setPosition(camera.getCenter() -sf::Vector2f(400,300));
+	screen.setSize(sf::Vector2f(1024,640));
+	screen.setPosition(camera.getCenter()-sf::Vector2f(512,320));
 	screen.setFillColor(sf::Color::Black);
 
 	sf::Text High;
@@ -688,7 +752,7 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	High.setStyle(sf::Text::Bold);
 	High.setColor(sf::Color::White);
 	High.setString("NEW HIGH SCORE\n");
-	High.setPosition(camera.getCenter());
+	High.setPosition(camera.getCenter()-sf::Vector2f(512,320));
 
 	myWindow.draw(screen);
 	myWindow.draw(High);

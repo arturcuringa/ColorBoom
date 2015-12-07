@@ -29,25 +29,36 @@ GameInterface::GameInterface()
 		myWindow.create(ResolutionList[i], "COLOR BOOOM");
 	}
 		
-	texto.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
-	texto.setCharacterSize(20);
-	texto.setStyle(sf::Text::Bold);
-	texto.setColor(sf::Color::White);
+	Score.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	Score.setCharacterSize(20);
+	Score.setStyle(sf::Text::Bold);
+	Score.setColor(sf::Color::White);
+
+	Life.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	Life.setCharacterSize(20);
+	Life.setStyle(sf::Text::Bold);
+	Life.setColor(sf::Color::White);
+
+
 
 	if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(800,600));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f( 360,-300));
 	}
 	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(1024,640));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f(472,-320));
 	}
 	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(1024,600));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f(472,-300));
+
 	}
 	myWindow.setView(Camera);
 
@@ -61,17 +72,20 @@ void GameInterface::clear(){
 	if(ResolutionList[i].width % ResolutionList[i].height == ResolutionList[i].width/4){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(800,600));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-400,-300));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f( 360,-300));
 	}
 	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*7){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(1024,640));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-512,-320));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f(472,-320));
 	}
 	if(ResolutionList[i].width % ResolutionList[i].height == (ResolutionList[i].width/16)*8){
 		Camera.setCenter(sf::Vector2f(400,300));
 		Camera.setSize(sf::Vector2f(1024,600));
-		texto.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+		Score.setPosition(Camera.getCenter() + sf::Vector2f(-512,-300));
+		Life.setPosition(Camera.getCenter() + sf::Vector2f(472,-300));
 	}
 
 	myWindow.setView(Camera);
@@ -104,6 +118,15 @@ void GameInterface::Start()
 	sf::Clock tiemu;
 	sf::Time PerFrame = sf::seconds(1.f/60.f);
 	sf::Time SinceLastTry;
+	sf::Clock SpecialClock;
+	sf::Music Song;
+	if (!Song.openFromFile("data/On the Run.ogg"))
+	{
+		std::cout<<"DAFUQ?!"<<std::endl;
+	}
+	Song.play();
+	Song.setLoop(true); 
+
 	while(ingame){
 		
 		Inp.stateClear();
@@ -112,11 +135,11 @@ void GameInterface::Start()
 		{
 			SinceLastTry -= PerFrame;
 			EventInput();
-			update(PerFrame,timer,tiemu,shoottime);
+			update(PerFrame,timer,tiemu,shoottime, SpecialClock);
 		}
 		if(Inp.start){
 				
-				opt = Menu::pausemenu(myWindow,Camera,Player,Map,ShipList,texto);
+				opt = Menu::pausemenu(myWindow,Camera,Player,Map,ShipList,Score);
 				if(opt == 1)
 				{
 					clear();
@@ -153,12 +176,24 @@ void GameInterface::render()
 	myWindow.draw(Player.Body);
 	myWindow.draw(Player.snipe);
 
-	myWindow.draw(texto);
+	myWindow.draw(Score);
+	myWindow.draw(Life);
+
+	myWindow.draw(Player.SpecialFill);
+	myWindow.draw(Player.SpecialBar);
 	myWindow.display();
 }
 
 void GameInterface::PlayerInput()
 {
+
+		if (Inp.l1 && Inp.l2 && Inp.r2)
+		{
+			Inp.l1 = false;
+			Inp.l2 = false;
+			Inp.r2 = false;
+			return ;
+		}
 
 		if (Inp.l1 && Inp.l2)
 		{
@@ -196,6 +231,11 @@ void GameInterface::PlayerInput()
 			Player.Body.setColor(Player.cor);
 			Player.snipe.setColor(Player.cor);
 		}
+
+		if (Inp.B)
+		{
+			Player.SpecialTrigger= true;
+		}
 	
 }
 
@@ -219,9 +259,6 @@ void GameInterface::EventInput()
 		}
 
 		Inp.InputUpdate();
-
-		PlayerInput();
-	
 	
 		Inp.PlayerMove();
 
@@ -262,9 +299,9 @@ void GameInterface::collision(){
 					{
 						Menu::highScore(myWindow,Camera, Player.Score);
 					}
-					else 
+					else{
 						Menu::gameover(myWindow, Camera);
-
+					}
 				}
 			}
 
@@ -284,10 +321,20 @@ void GameInterface::collision(){
 						if (FaseTime.asSeconds() < 100)
 						{
 							Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
+							if (Player.PowerBar<100)
+							{
+								Player.GrowSpecialBar();
+							}
+							
 						}
 						else
+						{
 							Player.updateScore(5);
-
+							if (Player.PowerBar<100)
+							{
+								Player.GrowSpecialBar();
+							}
+						}
 						break;
 					}
 
@@ -354,10 +401,14 @@ void GameInterface::preload(int enemys){
 }
 
 
-void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime){
+void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime,sf::Clock&  SpecialClock){
+
+
+	PlayerInput();
 
 	sf::Time watch = timer.getElapsedTime();
 	sf::Time hourglass = tiemu.getElapsedTime();
+	sf::Time SpecialTime = SpecialClock.getElapsedTime();
 
 	if (hourglass.asSeconds()>0.015)
 	{
@@ -371,11 +422,22 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	sf::Joystick::update();
 	
 	
-	texto.setString( static_cast<std::stringstream*>( &(std::stringstream() << Player.Score) )->str() );
-	
+	Score.setString( static_cast<std::stringstream*>( &(std::stringstream() << Player.Score) )->str() );
+	Life.setString(static_cast<std::stringstream*>( &(std::stringstream() << Player.Life) )->str() );
 	
 	sf::Vector2f center( Player.Body.getPosition() + sf::Vector2f(10.f, 10.f) );
 	
+	if (sf::Joystick::isButtonPressed(0,1) && Player.PowerBar >0 && SpecialTime.asSeconds() >0.05)
+	{
+		SpecialClock.restart();
+		Player.SpecialTrigger = true;
+		Player.DecraseSpecialBar();
+	}
+
+	if (!sf::Joystick::isButtonPressed(0,1) || !(Player.PowerBar >0) )
+	{
+		Player.SpecialTrigger = false;
+	}
 	
 
 	double tang =  atan2(Inp.r/100,  Inp.z/100);
@@ -383,7 +445,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	movement.x += 3* Inp.x/100;
 	movement.y += 3* Inp.y/100;
 
-	ShipList.ShipsUpdate(deltaTime, Player.Body);
+	ShipList.ShipsUpdate(deltaTime, Player.Body, Player.SpecialTrigger);
 
 	if (Inp.z <-50 || Inp.z>50 || Inp.r >50 || Inp.r<-50)
 	{
@@ -406,7 +468,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 		}
 		else
 		{
-				Player.snipe.setRotation( ( (90 * tang/(3.14159/2) )  )  );
+			Player.snipe.setRotation( ( (90 * tang/(3.14159/2) )  )  );
 		}
 	}
 
@@ -414,7 +476,8 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	{
 			Map.outside(Player.Body.getPosition() + movement, Player.Body.getGlobalBounds(), movement);
 			Player.Body.move(movement * deltaTime.asSeconds());
-			texto.move(movement * deltaTime.asSeconds());
+			Score.move(movement * deltaTime.asSeconds());
+			Life.move(movement * deltaTime.asSeconds());
 			Player.snipe.move(movement * deltaTime.asSeconds());
 	}
 	Player.gun.ShootUpdate(deltaTime,shoottime);
@@ -430,6 +493,11 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	}	
 		collision();
 
+	
+	Player.SpecialFill.setPosition(Life.getPosition() + sf::Vector2f(-100, 30.f));
+	Player.SpecialBar.setPosition(Life.getPosition() + sf::Vector2f(-100, 30.f));
+
+	Player.SpecialFill.setSize(sf::Vector2f(Player.PowerBar,10.f));
 
 }	
 

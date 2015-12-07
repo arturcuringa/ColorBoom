@@ -30,7 +30,7 @@ class GameInterface
 
 	void Start();
 	void render();
-	void update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime);
+	void update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,sf::Clock &shoottime, sf::Clock &SpecialClock);
 	void EventInput();
 	void PlayerInput();
 	void PlayerMove();
@@ -41,8 +41,10 @@ class GameInterface
 	sf::View Camera;
 	MAP Map;
 	ShipsPaint ShipList;
-	sf::Text texto;
-	sf::Font fonte;
+	sf::Text Score;
+	sf::Text Life;
+
+	
 	int i;
 	bool ingame;
 	int fullscreen;
