@@ -10,7 +10,7 @@
 class Score{
 public:
 	static bool checkScore(long unsigned int score );
-
+	static bool InputScore(long unsigned int score, std::string Name );
 
 };
 

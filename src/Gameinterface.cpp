@@ -162,6 +162,7 @@ void GameInterface::Start()
 		render();
 
 	}
+	Song.stop();
 	
 }
 
@@ -284,6 +285,7 @@ void GameInterface::collision(){
 
 		while(auShip != ShipList.S_tail && !brek){
 
+
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
 				Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
@@ -348,6 +350,7 @@ void GameInterface::collision(){
 					}
 				}
 			}
+
 			auShoot=Player.gun.S_head;
 			c++;
 			//std::cout<<c<<std::endl;

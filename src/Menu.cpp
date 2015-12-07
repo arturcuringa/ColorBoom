@@ -167,6 +167,7 @@ void Menu::menuinit(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resol
 			{
 				Inp.start = false;
 				opt = Menu::mainmenu(myWindow,ResolutionList,camera,i,fullscreen);
+				Song.stop();
 				if(opt == 0)
 				{
 					return;
@@ -739,6 +740,7 @@ void Menu::gameover(sf::RenderWindow& myWindow, sf::View& camera){
 }
 void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned int score){
 
+	
 	PlayerIn control;
 
 	sf::RectangleShape screen;
@@ -751,20 +753,94 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	High.setCharacterSize(40);
 	High.setStyle(sf::Text::Bold);
 	High.setColor(sf::Color::White);
-	High.setString("NEW HIGH SCORE\n");
-	High.setPosition(camera.getCenter()-sf::Vector2f(512,320));
+	std::string num = ( static_cast<std::stringstream*>( &(std::stringstream() << score) )->str() );
+	High.setString("NEW HIGH SCORE\n" + num);
 
-	myWindow.draw(screen);
-	myWindow.draw(High);
-	myWindow.display();
+	High.setPosition(camera.getCenter());
+
+	char a[3] ={ 'A','A','A' };
+	sf::Text Name;
+	Name.setFont(Configuration::fonts.get(Configuration::Fonts::Arcade));
+	Name.setCharacterSize(40);
+	Name.setStyle(sf::Text::Underlined);
+	Name.setColor(sf::Color::White);
+	std::string AAA;
+	AAA +=a[0];
+	AAA += a[1];
+	AAA += a[2];
+	Name.setString(AAA );
+	std::cout<< AAA <<std::endl;
+	Name.setPosition(High.getPosition() - sf::Vector2f(0, 80));
+
+	sf::Clock c;
 
 
+short int x = 0;
 	while(!control.start)
 	{
+		sf::Time t = c.getElapsedTime();
+
+		myWindow.clear();
+		myWindow.draw(screen);
+		myWindow.draw(High);
+		myWindow.draw(Name);
+		myWindow.display();
+
 		sf::Joystick::update();
 		control.InputUpdate();
+		control.PlayerMove();
+		
+		if (control.x > 50 && t.asSeconds()> 0.2)
+		{
+			c.restart();
+			x++;
+			x %= 3;
+		}
 
+		if (control.x < -50 && t.asSeconds()> 0.2)
+		{
+			c.restart();
+			x--;
+			if (x<0)
+			{
+				x = 2;
+			}
+		}
+
+		if(control.y>50 && t.asSeconds()> 0.2){
+			c.restart();
+			if (a[x] >= 'Z')
+			{
+				a[x] = 'A';
+				a[x]--;
+			}
+			a[x]++;
+
+			AAA.clear();
+			AAA +=a[0];
+			AAA += a[1];
+			AAA += a[2];
+			Name.setString(AAA );
+		}
+
+		if(control.y<-50 && t.asSeconds()> 0.2){
+			c.restart();
+			if (a[x] <= 'A')
+			{
+				a[x] = 'Z';
+				a[x]++;
+			}
+			a[x]--;
+
+			AAA.clear();
+			AAA +=a[0];
+			AAA += a[1];
+			AAA += a[2];
+			Name.setString(AAA );
+		}
+			
 	}
 
+	Score::InputScore(score, AAA);
 
 }
