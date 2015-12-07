@@ -321,7 +321,7 @@ void GameInterface::collision(){
 
 						Player.gun.ShootRemove(auShoot);
 						ShipList.ShipsRemove(auShip);	
-						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
+						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::Explo) ) );
 						Sounds.back().setVolume(55);
 						Sounds.back().play();
 

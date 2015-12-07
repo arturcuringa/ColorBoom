@@ -190,6 +190,8 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 	sf::Clock tiemu;
 	sf::Clock after;
 
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 	sf::Time burn;
 	sf::Time warudo;
 	sf::Time hourglass;
@@ -251,11 +253,13 @@ int Menu::mainmenu(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 
 
 		if(Inp.y>50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection++;
 			selection = selection % 3;
 		}
 		if(Inp.y<-50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection--;
 			if(selection<0){
@@ -352,6 +356,8 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 	sf::Time warudo;
 	sf::Time hourglass;
 
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 	PlayerIn Inp;
 
 	std::string res;
@@ -414,11 +420,13 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 
 
 		if(Inp.y>50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection++;
 			selection = selection % 3;
 		}
 		if(Inp.y<-50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection--;
 			if(selection<0){
@@ -539,6 +547,8 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto){
 	sf::Color cor(255,0,0,0);
 
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 	sf::Clock clocker;
 	sf::Clock timer;
 	sf::Clock tiemu;
@@ -634,11 +644,13 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 
 
 		if(Inp.y>50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection++;
 			selection = selection % 4;
 		}
 		if(Inp.y<-50 && warudo.asSeconds()>0.2){
+			Tick.play();
 			warudo = tiemu.restart();
 			selection--;
 			if(selection<0){
@@ -804,6 +816,8 @@ void Menu::highScore(sf::RenderWindow& myWindow, sf::View& camera, long unsigned
 	sf::Clock c;
 	sf::Event ev;
 
+	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
+
 short int x = 0;
 	while(!control.start)
 	{
@@ -839,10 +853,12 @@ short int x = 0;
 			c.restart();
 			x++;
 			x %= 3;
+			Tick.play();
 		}
 
 		if (control.x < -50 && t.asSeconds()> 0.2)
 		{
+			Tick.play();
 			c.restart();
 			x--;
 			if (x<0)
@@ -852,6 +868,7 @@ short int x = 0;
 		}
 
 		if(control.y>50 && t.asSeconds()> 0.2){
+			Tick.play();
 			c.restart();
 			if (a[x] >= 'Z')
 			{
@@ -868,6 +885,7 @@ short int x = 0;
 		}
 
 		if(control.y<-50 && t.asSeconds()> 0.2){
+			Tick.play();
 			c.restart();
 			if (a[x] <= 'A')
 			{
