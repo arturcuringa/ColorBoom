@@ -538,8 +538,12 @@ void Menu::menuopt(sf::RenderWindow& myWindow,std::vector<sf::VideoMode>& Resolu
 }
 int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Player,MAP& Map,ShipsPaint& ShipList,sf::Text& texto){
 	sf::Color cor(255,0,0,0);
+
+	sf::Clock clocker;
 	sf::Clock timer;
 	sf::Clock tiemu;
+
+	sf::Time watch;
 	sf::Time warudo;
 	sf::Time hourglass;
 
@@ -590,6 +594,8 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 
 		hourglass = timer.getElapsedTime();
 		warudo = tiemu.getElapsedTime();
+		watch = clocker.getElapsedTime();
+
 		while(cor.a<100){
 			hourglass = timer.getElapsedTime();
 			if(hourglass.asSeconds()>0.005){
@@ -650,10 +656,12 @@ int Menu::pausemenu(sf::RenderWindow& myWindow,sf::View& camera,PlayerGuy& Playe
 			myWindow.draw (texto);
 			myWindow.draw (screen);
 
-		if(Inp.B){
+		if(Inp.B && watch.asSeconds()>0.2){
+
 			return 0;
 		}
-		if(Inp.start){
+		if(Inp.start && watch.asSeconds()>0.2){
+
 			return 0;
 		}
 		
