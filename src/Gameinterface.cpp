@@ -269,38 +269,34 @@ void GameInterface::EventInput()
 
 void GameInterface::collision(){
 
-	bool brek = false;
 
 	if(ShipList.S_head->next == ShipList.S_tail){
 		return;
 	}
 	else{
-		int c=0;
 
 		ShootPaint::Shootnode *auShoot;
 		auShoot=Player.gun.S_head->next;
 		FaseTime += GameTime.restart();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
-								Shootnode * aux;
-						Shipnode * aux2;
+		
 
-		while(auShip != ShipList.S_tail && !brek){
+		while(auShip != ShipList.S_tail ){
 
 
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
 				ShipList.ShipsRemove(auShip);
 				Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
 				Sounds.back().play();
+				ShipList.clear();
+				Player.gun.clear();
 				if (Player.Die())
 				{
 					Camera = myWindow.getDefaultView();
 					
-					ShipList.clear();
-					Player.gun.clear();
 					ingame = false;
 					FaseTime = sf::Time::Zero;
-					brek = true;
 					if (Score::checkScore(Player.Score))
 					{
 						Menu::highScore(myWindow,Camera, Player.Score);
@@ -317,12 +313,8 @@ void GameInterface::collision(){
 					if( auShoot->ammo.getGlobalBounds().intersects(auShip->body.getGlobalBounds()) && auShoot->ammo.getFillColor() == auShip->body.getColor()){
 
 						//std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
-						aux = auShoot->next;
 						Player.gun.ShootRemove(auShoot);
-						auShoot = aux;
-						aux2 = auShip->next;
-						ShipList.ShipsRemove(auShip);
-						auShip = aux2;	
+						ShipList.ShipsRemove(auShip);	
 						Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
 						Sounds.back().play();
 						std::cout<<"AQUI SEU ANIMAL!"<<std::endl;
@@ -354,7 +346,6 @@ void GameInterface::collision(){
 			}
 
 			auShoot=Player.gun.S_head;
-			c++;
 			//std::cout<<c<<std::endl;
 			auShip = auShip->next;
 
