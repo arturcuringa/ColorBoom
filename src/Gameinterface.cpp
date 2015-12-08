@@ -166,7 +166,7 @@ void GameInterface::Start()
 
 		if(PointTime.asSeconds()>1){
 			GameTime.restart();
-			points = points - 3;
+			points = points - 5;
 			if(points<30){
 				points =30;
 			}
@@ -529,7 +529,7 @@ void GameInterface::update(sf::Time deltaTime,sf::Clock &timer,sf::Clock &tiemu,
 	if (ShipList.empty())
 	{
 
-		preload(Player.Score/100 + 1);
+		preload(Player.Score/200 + 3);
 
 	}	
 		collision();
