@@ -19,8 +19,11 @@ class PlayerGuy
 	bool SpecialTrigger = false;
 
 	int x =0;
+	
 	unsigned int Life = 3;
 	long unsigned int Score = 0;
+	unsigned int bonus = 1;
+
 	void animateBody();
 	void clear();
 	bool Die();

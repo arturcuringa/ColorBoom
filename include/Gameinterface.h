@@ -77,10 +77,8 @@ class GameInterface
 	void collision();
 	// \brief Preload Fase
 	void preload(int enemys);
-	// \brief Game Time since the begining
-	sf::Clock GameTime;
-	// \brief Time of every Fase
-	sf::Time FaseTime;
+	// \brief sets the points acording to the time:
+	int points;
 };
 
 

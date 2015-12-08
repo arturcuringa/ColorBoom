@@ -62,6 +62,8 @@ GameInterface::GameInterface()
 	}
 	myWindow.setView(Camera);
 
+	points = 100;
+
 }
 void GameInterface::clear(){
 	Player.clear();
@@ -139,13 +141,18 @@ void GameInterface::Start()
 	sf::Sound Tick(Configuration::SoundEffects.get(Configuration::Sounds::Menu) );
 	ingame = true;
 	int opt;
+
 	sf::Clock shoottime;
 	sf::Clock clock;
 	sf::Clock timer;
 	sf::Clock tiemu;
+	sf::Clock GameTime;
+
+	sf::Time PointTime;
 	sf::Time PerFrame = sf::seconds(1.f/60.f);
 	sf::Time SinceLastTry;
 	sf::Clock SpecialClock;
+
 	sf::Music Song;
 	if (!Song.openFromFile("data/On the Run.ogg"))
 	{
@@ -155,6 +162,15 @@ void GameInterface::Start()
 	Song.setLoop(true); 
 
 	while(ingame){
+		PointTime = GameTime.getElapsedTime();
+
+		if(PointTime.asSeconds()>1){
+			GameTime.restart();
+			points = points - 3;
+			if(points<30){
+				points =30;
+			}
+		}
 		
 		Inp.stateClear();
 		SinceLastTry += clock.restart();
@@ -309,7 +325,6 @@ void GameInterface::collision(){
 
 		ShootPaint::Shootnode *auShoot;
 		auShoot=Player.gun.S_head->next;
-		FaseTime += GameTime.restart();
 		Shipnode * auShip;
 		auShip = ShipList.S_head->next;
 
@@ -319,17 +334,18 @@ void GameInterface::collision(){
 
 
 			if( Player.Body.getGlobalBounds().intersects(auShip->body.getGlobalBounds())){
+
 				ShipList.ShipsRemove(auShip);
 				Sounds.push_back(sf::Sound(Configuration::SoundEffects.get(Configuration::Sounds::PExplo) ) );
 				Sounds.back().setVolume(55);
 				Sounds.back().play();
 				ShipList.clear();
 				Player.gun.clear();
+				Player.PowerBar = 100;
 				if (Player.Die())
 				{
 					
 					ingame = false;
-					FaseTime = sf::Time::Zero;
 
 				}
 				return;
@@ -346,24 +362,12 @@ void GameInterface::collision(){
 						Sounds.back().setVolume(55);
 						Sounds.back().play();
 
-						if (FaseTime.asSeconds() < 100)
+						Player.updateScore(points);
+						if (Player.PowerBar<100)
 						{
-
-							Player.updateScore(100 - (FaseTime.asSeconds() * 30 /60) );
-							if (Player.PowerBar<100)
-							{
-								Player.GrowSpecialBar();
-							}
+							Player.GrowSpecialBar();
+						}
 							
-						}
-						else
-						{
-							Player.updateScore(5);
-							if (Player.PowerBar<100)
-							{
-								Player.GrowSpecialBar();
-							}
-						}
 						collision();
 						return;
 					}
@@ -390,6 +394,7 @@ void GameInterface::preload(int enemys){
 
 	float x1, y1;
 	int i =0;
+	points = 100;
 
 		while(i<enemys){
 			x1 = rand() % 1280;
@@ -429,7 +434,6 @@ void GameInterface::preload(int enemys){
 
 		}
 
-		GameTime.restart();
 }
 
 bool GameInterface::soundoff(const sf::Sound& test){ return (test.getStatus() != sf::SoundSource::Status::Playing);}

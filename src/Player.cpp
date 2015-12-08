@@ -71,6 +71,11 @@ void PlayerGuy::updateScore(unsigned int points)
 {
 
 	Score += points;
+	if (Score >= 5000 * bonus )
+	{
+		Life++;
+		bonus++;
+	}
 
 }
 
