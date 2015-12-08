@@ -11,7 +11,6 @@
 #include <math.h>
 #include "map.h"
 #include "Ships.h"
-#include "pilha.h"
 #include <sstream>
 #include <string>
 #include "Config.h"
